@@ -59,7 +59,7 @@ BEGIN
 	-- In VARIABLES
 	VARIABLE vop1: 					std_logic_vector(15 downto 0);
 	VARIABLE vop2: 					std_logic_vector(15 downto 0);
-	VARIABLE vsel: 					std_logic_vector(2 downto 0);
+	VARIABLE vsel: 					std_logic_vector(1 downto 0);
 		
 	
 	-- check

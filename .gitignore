@@ -70,3 +70,4 @@ simulation/modelsim/rtl_work/
 simulation/modelsim/transcript
 simulation/modelsim/work/
 simulation/modelsim/sim_alu.cr.mti
+simulation/modelsim/vsim.wlf
