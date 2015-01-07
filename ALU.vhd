@@ -3,6 +3,8 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 use ieee.std_logic_arith.all;
 
+use work.proc_package.all;
+
 entity ALU is
 	port	(		
 				op1	:	in		std_logic_vector(data_width_c - 1 downto 0);
@@ -17,7 +19,6 @@ architecture ALU_structure of ALU is
   
 
 begin
- zero <= (others => '0');
  
  PROCESS (sel, op1, op2) is
  begin 

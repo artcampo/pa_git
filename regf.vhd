@@ -12,7 +12,7 @@ entity regf is
 		reset_I		 : in   std_logic;
 		
 		wb_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
-      of_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
+      of_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0)
 	);
 end regf;
 

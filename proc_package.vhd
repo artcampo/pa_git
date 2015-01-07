@@ -7,7 +7,7 @@ package proc_package is
 --		Constants
 constant data_width_c      : natural := 16;
 constant num_registers	   : natural := 8;
-constant ctrl_width_c      : natural := 56; -- control bus size
+constant ctrl_width_c      : natural := 16;
 
 constant alu_op_bits	      : natural := 2;
 

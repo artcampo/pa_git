@@ -5,6 +5,8 @@ library work;
 use IEEE.math_real.all;
 use ieee.numeric_std.all;
 
+use work.proc_package.all;
+
 entity mem is
 	port	(
 				-- Host Interface --
