@@ -27,7 +27,7 @@ begin
 		when "01" => res <= op1 - op2;
 		when "10" => res <= op2;
 		when "11" => res <= op1;
-		when others => res <= "XX";
+		when others => res <= "XXXXXXXXXXXXXXXX";
 	end case;
  END PROCESS;
 	
