@@ -19,6 +19,25 @@ constant alu_op_bits	      : natural := 2;
 constant alu_equal_c       : std_logic_vector(15 downto 0) := "0000000000000001"; 
 constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"; 
 
+-- Control word description ---------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+
+constant ctrl_nop_c         : natural := 0;
+
+constant ctrl_ra_pc_c       : natural := 1; -- use pc for ra
+constant ctrl_ra_0_c        : natural := 2;
+constant ctrl_ra_1_c        : natural := 3;
+constant ctrl_ra_2_c        : natural := 4;
+
+constant ctrl_rb_0_c        : natural := 5;
+constant ctrl_rb_1_c        : natural := 6;
+constant ctrl_rb_2_c        : natural := 7;
+
+constant ctrl_rd_wb_c       : natural := 8;	-- enable write back
+constant ctrl_rd_0_c        : natural := 9;
+constant ctrl_rd_1_c        : natural := 10;
+constant ctrl_rd_2_c        : natural := 11;
+
 -- ALU Function Select -----------------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------
 
