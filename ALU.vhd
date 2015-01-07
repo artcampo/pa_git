@@ -5,17 +5,16 @@ use ieee.std_logic_arith.all;
 
 entity ALU is
 	port	(		
-				op1	:	in		std_logic_vector(15 downto 0);
-				op2	:	in		std_logic_vector(15 downto 0);
-				sel	:	in		std_logic_vector(1 downto 0);
-				res	:	out	std_logic_vector(15 downto 0)  
+				op1	:	in		std_logic_vector(data_width_c - 1 downto 0);
+				op2	:	in		std_logic_vector(data_width_c - 1 downto 0);
+				sel	:	in		std_logic_vector(alu_op_bits - 1 downto 0);
+				res	:	out	std_logic_vector(data_width_c - 1 downto 0)  
 );
 
 end entity ALU;
  
 architecture ALU_structure of ALU is
   
-signal zero: std_logic_vector(14 downto 0);
 
 begin
  zero <= (others => '0');

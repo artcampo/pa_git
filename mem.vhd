@@ -9,9 +9,9 @@ entity mem is
 	port	(
 				-- Host Interface --
 				Clock_CI        : in   std_logic; 
-				Ins_Addr_DI     : in   std_logic_vector(15 downto 0); 
+				Ins_Addr_DI     : in   std_logic_vector(data_width_c - 1 downto 0); 
 				Ins_Enab_DI     : in   std_logic;
-				Ins_Data_DO     : out  std_logic_vector(15 downto 0) 
+				Ins_Data_DO     : out  std_logic_vector(data_width_c - 1 downto 0) 
 			);
 end mem;
 
@@ -20,7 +20,7 @@ architecture mem_structure of mem is
 	constant log2_mem_size 	: natural := 8;
 
 
-	type mem_ram_t is array (0 to (mem_size/2)-1) of std_logic_vector(15 downto 0);
+	type mem_ram_t is array (0 to (mem_size/2)-1) of std_logic_vector(data_width_c - 1 downto 0);
 
 	-- MEMORY IMAGE (Bootloader Program) --
 	------------------------------------------------------
