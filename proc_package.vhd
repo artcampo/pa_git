@@ -36,11 +36,10 @@ constant ctrl_rd_2_c        : natural := 11;
 -- ALU Function Select -----------------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------
 
-  -- Elementary ALU Operations --
-  constant alu_add_c        : std_logic_vector(1 downto 0) := "00"; -- add 
-  constant alu_sub_c        : std_logic_vector(1 downto 0) := "01"; -- subtract 
-  constant alu_comp_c       : std_logic_vector(1 downto 0) := "10"; -- compare (keep the biggest)
-  constant alu_op1_c        : std_logic_vector(1 downto 0) := "11"; -- result equal to op1
+constant alu_add_c        : std_logic_vector(1 downto 0) := "00"; -- add 
+constant alu_sub_c        : std_logic_vector(1 downto 0) := "01"; -- subtract 
+constant alu_comp_c       : std_logic_vector(1 downto 0) := "10"; -- compare (keep the biggest)
+constant alu_op1_c        : std_logic_vector(1 downto 0) := "11"; -- result equal to op1
 
 
 
