@@ -10,9 +10,14 @@ constant data_width_c      : natural := 16;
 constant num_registers	   : natural := 8;
 constant ctrl_width_c      : natural := 16;
 
+constant instr_length_c		: natural := 16;
+constant op_c					: natural := 3;
+constant registers_c			: natural := 3;
+constant inmediate_c			: natural := 7;
+
 constant alu_op_bits	      : natural := 2;
-constant alu_equal_c        	: std_logic_vector(15 downto 0) := "0000000000000001"; 
-constant alu_not_equal_c       : std_logic_vector(15 downto 0) := "0000000000000000"; 
+constant alu_equal_c       : std_logic_vector(15 downto 0) := "0000000000000001"; 
+constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"; 
 
 -- ALU Function Select -----------------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------
