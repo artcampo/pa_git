@@ -23,10 +23,15 @@ begin
  PROCESS (sel, op1, op2) is
  begin 
 	case sel is
-		when "00" => res <= op1 + op2;
-		when "01" => res <= op1 - op2;
-		when "10" => res <= op2;
-		when "11" => res <= op1;
+		when alu_add_c => res <= op1 + op2;
+		when alu_sub_c => res <= op1 - op2;
+		when alu_comp_c => 
+			if(op1=op2) then
+				res <= alu_equal_c; 			-- if op1 equals op2 res = TRUE
+			elsif(op1/=op2) then
+				res <= alu_not_equal_c;		-- if op1 != op2 res = FALSE
+			end if;
+		when alu_op1_c => res <= op1;
 		when others => res <= "XXXXXXXXXXXXXXXX";
 	end case;
  END PROCESS;
