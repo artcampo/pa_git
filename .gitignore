@@ -43,8 +43,6 @@ Temporary Items
 .apdisk
 
 db/
-*.qsf
-*.qws
 *.bak
 *.bak1
 incremental_db/
