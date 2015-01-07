@@ -45,3 +45,9 @@ Temporary Items
 db/
 *.qsf
 *.qws
+*.bak
+*.bak1
+incremental_db/
+output_files/
+proc_nativelink_simulation.rpt
+simulation/

@@ -25,7 +25,7 @@ begin
 	case sel is
 		when "00" => res <= op1 + op2;
 		when "01" => res <= op1 - op2;
-		when "10" => res <= zero & std_logic_vector(op1 >= op2);
+		when "10" => res <= op2;
 		when "11" => res <= op1;
 		when others => res <= "XX";
 	end case;

@@ -24,7 +24,7 @@ SIGNAL   VerifySignal:	std_logic := '0';
 -- In signals
 signal op1: 					std_logic_vector(15 downto 0) := (others => '0');
 signal op2: 					std_logic_vector(15 downto 0) := (others => '0');
-signal sel: 					std_logic_vector(2 downto 0) := (others => '0');
+signal sel: 					std_logic_vector(1 downto 0) := (others => '0');
 	
 -- Out signals
 signal res: 					std_logic_vector(15 downto 0) := (others => '0');

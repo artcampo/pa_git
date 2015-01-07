@@ -10,7 +10,7 @@ component ALU is
 	port	(		
 				op1	:	in		std_logic_vector(15 downto 0);
 				op2	:	in		std_logic_vector(15 downto 0);
-				sel	:	in		std_logic_vector(2 downto 0);
+				sel	:	in		std_logic_vector(1 downto 0);
 				res	:	out	std_logic_vector(15 downto 0)  
 );
 end component ALU;
