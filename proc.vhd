@@ -8,8 +8,8 @@ use work.proc_package.all;
 entity proc is
 	PORT 
 	(
-		clock_CI			: in   std_logic; 
-		reset_I			: in   std_logic
+		clock_i			: in   std_logic; 
+		reset_i			: in   std_logic
 	);
 end proc;
 
@@ -33,12 +33,24 @@ begin
 
 
 	-- mem ----------------------------------------------------------------------------------------------------
-		Mem1: mem
-			port map (
-					clock_CI 		=> clock_CI,
-					ins_addr_DI => ins_addr,
-					ins_enab_DI => ins_enab,
-					ins_data_DO => ins_data	
-					);
+  Mem1: mem
+    port map (
+        clock_i  	 => clock_i,
+        ins_addr_i => ins_addr,
+        ins_enab_i => ins_enab,
+        ins_data_o => ins_data	
+        );
+          
+	-- ctrl ----------------------------------------------------------------------------------------------------
+  ctrl1: ctrl
+    port map (
+      clock_i         => clock_i,
+      reset_i         => reset_i,
+      de_ctrl_i       => ,
+      of_ctrl_o       => ,
+      ex_ctrl_o       => ,
+      ma_ctrl_o       => ,
+      wb_ctrl_o       => 
+      );          
 	
 end proc_behaviour;

@@ -117,7 +117,7 @@ end component ALU;
 component mem is
 	port	(
 				-- Host Interface --
-				Clock_CI        : in   std_logic; 
+				clock_i         : in   std_logic; 
 				Ins_Addr_DI     : in   std_logic_vector(data_width_c - 1 downto 0); 
 				Ins_Enab_DI     : in   std_logic;
 				Ins_Data_DO     : out  std_logic_vector(data_width_c - 1 downto 0) 
@@ -138,5 +138,20 @@ component decoder
       );
 end component;
 
+-- Component: Control --------------------------------------------------------------
+-- -------------------------------------------------------------------------------------------
+component ctrl
+  port	(
+        clock_i           : in  std_logic;
+        reset_i           : in  std_logic;
+
+        de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0);
+        
+        of_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
+        ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
+        ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
+        wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0)
+      );
+end component;
 
 end package proc_package;

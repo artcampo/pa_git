@@ -8,15 +8,15 @@ use work.proc_package.all;
 
 entity ctrl is
   port	(
-        clock_i           : in  std_logic; -- global clock line
-        reset_i           : in  std_logic; -- global reset line, sync, high-active
+        clock_i           : in  std_logic;
+        reset_i           : in  std_logic;
 
-        op_dec_ctrl_i   : in  std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
-
-        of_ctrl_o   : out std_logic_vector(ctrl_width_c-1 downto 0); 
-        ex_ctrl_o   : out std_logic_vector(ctrl_width_c-1 downto 0); 
-        ma_ctrl_o   : out std_logic_vector(ctrl_width_c-1 downto 0);
-        wb_ctrl_o   : out std_logic_vector(ctrl_width_c-1 downto 0)
+        op_dec_ctrl_i     : in  std_logic_vector(ctrl_width_c-1 downto 0);
+        
+        of_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
+        ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
+        ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
+        wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0)
       );
 end ctrl;
 
