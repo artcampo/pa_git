@@ -8,11 +8,19 @@ use work.proc_package.all;
 entity regf is
 	PORT 
 	(
-		clock_CI		 : in   std_logic; 
-		reset_I		 : in   std_logic;
+		clock_i		   : in   std_logic; 
+		reset_I		   : in   std_logic;
+		stall_i		   : in   std_logic;
 		
 		wb_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
-      of_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0)
+    of_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
+		
+		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
+		imm_i        : in  std_logic_vector(data_width_c-1 downto 0);
+		
+		op1_o        : out std_logic_vector(data_width_c-1 downto 0);
+    op2_o        : out std_logic_vector(data_width_c-1 downto 0)
+		
 	);
 end regf;
 
@@ -24,5 +32,13 @@ architecture regf_behaviour of regf is
 
 begin 
 
+  write_reg: process(clock_i)
+  begin
+    if rising_edge(clock_i) then
+      if (wb_ctrl_i(ctrl_nop_c) = '0') and (stall_i = '0') then
+        regf_mem(to_integer(unsigned(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c)))) <= wb_data_i;
+      end if;
+    end if;
+  end process write_reg;
 
 end regf_behaviour;

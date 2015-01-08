@@ -17,7 +17,7 @@ constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"
 -- Control word description ---------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
 
-constant ctrl_nop_c         : natural := 0;
+constant ctrl_nop_c         : natural := 0; -- is 1 for a nop inst, 0 for a valid inst
 
 constant ctrl_ra_pc_c       : natural := 1; -- use pc for ra
 constant ctrl_ra_0_c        : natural := 2;
@@ -134,6 +134,7 @@ component decoder
 
         -- decoder interface output --
         ctrl_o          : out std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
+        imm_o           : out std_logic_vector(data_width_c-1 downto 0)  -- immediate unsigned output
       );
 end component;
 
