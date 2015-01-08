@@ -28,8 +28,11 @@ architecture regf_behaviour of regf is
 
   -- register file --
   type   regf_mem_type is array (num_registers - 1 downto 0) of std_logic_vector(data_width_c-1 downto 0);
-  signal regf_mem      : regf_mem_type := (others => (others => '0'));
+  signal regf_mem     : regf_mem_type := (others => (others => '0'));
 
+  signal op1          : std_logic_vector(data_width_c-1 downto 0);
+  signal op2          : std_logic_vector(data_width_c-1 downto 0);  
+  
 begin 
 
   write_reg: process(clock_i)
@@ -40,5 +43,13 @@ begin
       end if;
     end if;
   end process write_reg;
+  
+  operand_fetch: process(of_ctrl_i, regf_mem)
+  begin
+    op1 <= regf_mem(to_integer(unsigned(of_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c))));
+    op2 <= regf_mem(to_integer(unsigned(of_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c))));
+  end process operand_fetch;
 
+  op1_o <= op1;
+  op2_o <= op2;
 end regf_behaviour;
