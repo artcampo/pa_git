@@ -33,6 +33,16 @@ constant ctrl_rd_0_c        : natural := 9;
 constant ctrl_rd_1_c        : natural := 10;
 constant ctrl_rd_2_c        : natural := 11;
 
+constant ctrl_inm_0_c       : natural := 12;
+constant ctrl_inm_1_c       : natural := 13;
+constant ctrl_inm_2_c       : natural := 14;
+constant ctrl_inm_3_c       : natural := 15;
+constant ctrl_inm_4_c       : natural := 16;
+constant ctrl_inm_5_c       : natural := 17;
+constant ctrl_inm_6_c       : natural := 18;
+
+
+
 -- ALU Function Select -----------------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------
 
@@ -71,7 +81,19 @@ component mem is
 				Ins_Data_DO     : out  std_logic_vector(data_width_c - 1 downto 0) 
 			);
 end component mem;
-----------------------------------------------------------------------------------------------
+
+
+-- Component: Decoder --------------------------------------------------------------
+-- -------------------------------------------------------------------------------------------
+component decoder
+  port	(
+        -- decoder interface input --
+        instr_i         : in  std_logic_vector(data_width_c-1 downto 0); -- instruction input
+
+        -- decoder interface output --
+        ctrl_o          : out std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
+      );
+end component;
 
 
 end package proc_package;
