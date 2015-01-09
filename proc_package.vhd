@@ -19,12 +19,12 @@ constant ctrl_width_c      : natural := 16;
   constant op_NOP_c         : std_logic_vector(1 downto 0)  := "00"; 
   
   constant op_mem_c         : std_logic_vector(1 downto 0)  := "01"; 
-    constant op_mem_load_c    : std_logic_vector := "0"; 
-    constant op_mem_store_c   : std_logic_vector := "1"; 
+    constant op_mem_load_c    : std_logic := '0'; 
+    constant op_mem_store_c   : std_logic := '1'; 
   
   constant op_ari_c         : std_logic_vector(1 downto 0)  := "10"; 
-    constant op_ari_imm_c     : std_logic_vector := "0"; 
-    constant op_ari_reg_c     : std_logic_vector := "1"; 
+    constant op_ari_imm_c     : std_logic := '0'; 
+    constant op_ari_reg_c     : std_logic := '1'; 
 
   constant op_branch_c      : std_logic_vector(1 downto 0)  := "11"; 
     constant op_branch_jmp_c  : std_logic_vector(1 downto 0)  := "00"; 
@@ -44,11 +44,8 @@ constant ctrl_width_c      : natural := 16;
 	constant ctrl_ra_2_c        : natural := 4; -- operand register A adr bit 2
 
 	-- Operand B
-<<<<<<< HEAD
 	constant ctrl_rb_is_imm_c   : natural := 9; -- operand register B is an immediate
-=======
-	constant ctrl_rb_is_imm_c   : natural := 9;  -- operand register B is an immediate
->>>>>>> 4bdee4106b0c64316b8a63b6fbcbbd8e8f3a665a
+
 	constant ctrl_rb_0_c        : natural := 5; -- operand register B adr bit 0
 	constant ctrl_rb_2_c        : natural := 7; -- operand register B adr bit 2
 
