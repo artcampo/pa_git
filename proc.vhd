@@ -25,6 +25,8 @@ architecture proc_behaviour of proc is
   signal ma_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal wb_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   
+  signal de_imm             : std_logic_vector(ctrl_width_c - 1 downto 0);	
+  
 begin 
 	proc_fetch : process(clock_i)
 	 begin
@@ -58,6 +60,14 @@ begin
       ex_ctrl_o       => ex_ctrl,
       ma_ctrl_o       => ma_ctrl,
       wb_ctrl_o       => wb_ctrl
-      );          
+      ); 
+
+	-- mem ----------------------------------------------------------------------------------------------------
+  dec1: decoder
+    port map (
+			instr_i         => ins_data,
+			ctrl_o          => de_ctrl,
+			imm_o           => de_imm
+      );      
 	
 end proc_behaviour;

@@ -27,7 +27,7 @@ decoder: process(instr_i)
 
 	case (instr_i(isa_op1_c downto isa_op2_c)) is
 	
-     when op_mem_c => -- class 0: NOP
+     when op_nop_c => -- class 0: NOP
       -- -------------------------------------------------------------------	
       
       
@@ -75,6 +75,7 @@ decoder: process(instr_i)
 				when op_branch_jne_c => -- JNE
 
 				when op_branch_je_c => -- JE
+        when OTHERS =>
 				
 			end case;
 		
