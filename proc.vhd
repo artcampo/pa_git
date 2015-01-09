@@ -42,9 +42,9 @@ begin
   Mem1: mem
     port map (
         clock_i  	  => clock_i,
-        Ins_Addr_DI => ins_addr,
-        Ins_Enab_DI => ins_enab,
-        Ins_Data_DO => ins_data	
+        ins_addr_i => ins_addr,
+        ins_enab_i => ins_enab,
+        ins_data_o => ins_data	
         );
           
 	-- ctrl ----------------------------------------------------------------------------------------------------

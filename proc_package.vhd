@@ -125,9 +125,9 @@ component mem is
 	port	(
 				-- Host Interface --
 				clock_i         : in   std_logic; 
-				Ins_Addr_DI     : in   std_logic_vector(data_width_c - 1 downto 0); 
-				Ins_Enab_DI     : in   std_logic;
-				Ins_Data_DO     : out  std_logic_vector(data_width_c - 1 downto 0) 
+				ins_addr_i      : in   std_logic_vector(data_width_c - 1 downto 0); 
+				ins_enab_i      : in   std_logic;
+				ins_data_o      : out  std_logic_vector(data_width_c - 1 downto 0) 
 			);
 end component mem;
 

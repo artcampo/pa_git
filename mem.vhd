@@ -11,9 +11,9 @@ entity mem is
 	port	(
 				-- Host Interface --
 				clock_i         : in   std_logic; 
-				Ins_Addr_DI     : in   std_logic_vector(data_width_c - 1 downto 0); 
-				Ins_Enab_DI     : in   std_logic;
-				Ins_Data_DO     : out  std_logic_vector(data_width_c - 1 downto 0) 
+				ins_addr_i      : in   std_logic_vector(data_width_c - 1 downto 0); 
+				ins_enab_i      : in   std_logic;
+				ins_data_o      : out  std_logic_vector(data_width_c - 1 downto 0) 
 			);
 end mem;
 
@@ -42,8 +42,8 @@ begin
 		mem_access: process(clock_i)
 		begin
 			if rising_edge(clock_i) then				
-				if (Ins_Enab_DI = '1') then					
-					Ins_Data_DO <= mem_ram(to_integer(unsigned(Ins_Addr_DI(log2_mem_size-1 downto 0))));
+				if (ins_enab_i = '1') then					
+					ins_data_o <= mem_ram(to_integer(unsigned(ins_addr_i(log2_mem_size-1 downto 0))));
 				end if;
 			end if;
 		end process mem_access;
