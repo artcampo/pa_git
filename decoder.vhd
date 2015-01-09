@@ -29,7 +29,7 @@ decoder: process(instr_i)
 	
      when op_nop_c => -- class 0: NOP
       -- -------------------------------------------------------------------	
-      
+      ctrl_o(ctrl_nop_c)  <= '1';
       
       
 	   when op_mem_c => -- class 1: memory access
