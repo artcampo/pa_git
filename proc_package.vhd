@@ -14,34 +14,41 @@ constant alu_op_bits	      : natural := 2;
 constant alu_equal_c       : std_logic_vector(15 downto 0) := "0000000000000001"; 
 constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"; 
 
+
 -- Control word description ---------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
 
-constant ctrl_nop_c         : natural := 0; -- is 1 for a nop inst, 0 for a valid inst
+	constant ctrl_nop_c         : natural := 0; -- is 1 for a nop inst, 0 for a valid inst
 
-constant ctrl_ra_pc_c       : natural := 1; -- use pc for ra
-constant ctrl_ra_0_c        : natural := 2;
-constant ctrl_ra_2_c        : natural := 4;
+	-- Operand A
+	constant ctrl_ra_pc_c       : natural := 1; -- use pc for ra (opA is the pc)
+	constant ctrl_ra_0_c        : natural := 2; -- operand register A adr bit 0
+	constant ctrl_ra_2_c        : natural := 4; -- operand register A adr bit 2
 
-constant ctrl_rb_0_c        : natural := 5;
-constant ctrl_rb_2_c        : natural := 7;
+	-- Operand B
+	constant ctrl_rb_is_imm_c  : natural := 9;  -- operand register B is an immediate
+	constant ctrl_rb_0_c        : natural := 5; -- operand register B adr bit 0
+	constant ctrl_rb_2_c        : natural := 7; -- operand register B adr bit 2
 
-constant ctrl_rd_wb_c       : natural := 8;	-- enable write back
-constant ctrl_rd_0_c        : natural := 9;
-constant ctrl_rd_2_c        : natural := 11;
+	-- Destiantion Register
+	constant ctrl_rd_wb_c       : natural := 8;	-- enable write back
+	constant ctrl_rd_0_c        : natural := 9;  -- register destination adr bit 0
+	constant ctrl_rd_2_c        : natural := 11; -- register destination adr bit 2
 
-constant ctrl_imm_c       	 : natural := 12; -- immediate implicated
+	constant ctrl_imm_c       	 : natural := 12; -- immediate implicated
 
+	-- Sleep command --
+	constant ctrl_sleep_c       : natural := 13; -- go to sleep
 
 
 -- ISA description ---------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
 
-constant isa_op1_c		    				: natural := 15;
-constant isa_op2_c		    				: natural := 14;
+constant isa_op1_c		    					: natural := 15;
+constant isa_op2_c		    					: natural := 14;
 
 -- load/store
-constant isa_mem_load_store_c		   	: natural := 13;
+constant isa_mem_load_store_c		   		: natural := 13;
 	--load
 	constant isa_mem_load_ra_2_c		   	: natural := 12;
 	constant isa_mem_load_ra_0_c		   	: natural := 10;
@@ -138,16 +145,22 @@ component decoder
       );
 end component;
 
+
 -- Component: Control --------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------
 component ctrl
   port	(
         clock_i           : in  std_logic;
+		  clock_en_i		  : in  std_logic; 
         reset_i           : in  std_logic;
 
-        de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0);
+        op_dec_ctrl_i     : in  std_logic_vector(ctrl_width_c-1 downto 0); 
+        instr_i           : in  std_logic_vector(data_width_c-1 downto 0);         
         
-        of_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
+		  wake_up_i         : in  std_logic; 
+
+		  
+		  of_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
         ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
         ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
         wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0)
