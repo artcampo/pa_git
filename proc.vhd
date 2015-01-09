@@ -28,10 +28,11 @@ architecture proc_behaviour of proc is
 	signal ins_data           : std_logic_vector(data_width_c - 1 downto 0);	
 	signal ins_enab           : std_logic := '1';	
   
-  -- signals fro DEC
-  signal de_imm             : std_logic_vector(ctrl_width_c - 1 downto 0);	
+  -- signals for DEC
+  signal de_imm             : std_logic_vector(ctrl_width_c - 1 downto 0);
+  signal pc_from_fe         : std_logic_vector(ctrl_width_c - 1 downto 0);	
  
-  -- signals fro ALU
+  -- signals for ALU
   signal op1  	            :	std_logic_vector(data_width_c - 1 downto 0);
   signal op2  	            :	std_logic_vector(data_width_c - 1 downto 0);
   signal sel  	            :	std_logic_vector(alu_op_bits - 1  downto 0);
@@ -55,14 +56,6 @@ begin
 	end process;					
 
 
-	-- mem ----------------------------------------------------------------------------------------------------
-  Mem1: mem
-    port map (
-        clock_i  	  => clock_i,
-        ins_addr_i => ins_addr,
-        ins_enab_i => ins_enab,
-        ins_data_o => ins_data	
-        );
           
 	-- ctrl ----------------------------------------------------------------------------------------------------
   ctrl1: ctrl
@@ -74,10 +67,12 @@ begin
       of_ctrl_o       => of_ctrl,
       ex_ctrl_o       => ex_ctrl,
       ma_ctrl_o       => ma_ctrl,
-      wb_ctrl_o       => wb_ctrl
+      wb_ctrl_o       => wb_ctrl,
+      
+      pc_from_of_o    => pc_from_of
       ); 
 
-	-- deco ----------------------------------------------------------------------------------------------------
+	-- deco: DE --------------------------------------------------------------------------------------------------
   dec1: decoder
     port map (
 			instr_i         => ins_data,
@@ -85,16 +80,8 @@ begin
 			imm_o           => de_imm
       );
       
-	-- deco ----------------------------------------------------------------------------------------------------
-  alu1: alu
-    port map (
-      op1_i => op1,
-      op2_i => op2,
-      sel_i => sel,
-      res_o => res
-      );
 
-	-- deco ----------------------------------------------------------------------------------------------------
+	-- regf: both OF and WB ------------------------------------------------------------------------------------
   regf1: regf
     port map (
       clock_i		   => clock_i,
@@ -103,9 +90,28 @@ begin
       wb_ctrl_i    => wb_ctrl,
       of_ctrl_i    => of_ctrl,
       wb_data_i    => wb_data,
-      imm_i        => de_imm,   
+      imm_i        => de_imm,
+      pc_from_of_i => pc_from_of,   
       op1_o        => op1,
       op2_o        => op2
-      );      
+      );   
+   
+	-- alu: EX ----------------------------------------------------------------------------------------------------
+  alu1: alu
+    port map (
+      op1_i => op1,
+      op2_i => op2,
+      sel_i => sel,
+      res_o => res
+      );   
+   
+	-- mem: MA ----------------------------------------------------------------------------------------------------
+  Mem1: mem
+    port map (
+        clock_i  	  => clock_i,
+        ins_addr_i => ins_addr,
+        ins_enab_i => ins_enab,
+        ins_data_o => ins_data	
+        );   
 	
 end proc_behaviour;

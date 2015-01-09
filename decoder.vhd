@@ -21,9 +21,9 @@ begin
  -- Decoder  -------------------------------------------------------------------------------
   -- --------------------------------------------------------------------------------------------------------
 decoder: process(instr_i)
-   begin
-      -- defaults --
-      ctrl_o                                     <= (others => '0');                  -- all signals disabled
+  begin
+  -- defaults --
+  ctrl_o                                     <= (others => '0');                  -- all signals disabled
 
 	case (instr_i(isa_op1_c downto isa_op2_c)) is
 	

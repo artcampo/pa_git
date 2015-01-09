@@ -19,17 +19,17 @@ constant ctrl_width_c      : natural := 16;
   constant op_nop_c         : std_logic_vector(1 downto 0)  := "00"; 
   
   constant op_mem_c         : std_logic_vector(1 downto 0)  := "01"; 
-    constant op_mem_load_c    : std_logic := '0'; 
-    constant op_mem_store_c   : std_logic := '1'; 
+  constant op_mem_load_c    : std_logic := '0'; 
+  constant op_mem_store_c   : std_logic := '1'; 
   
   constant op_ari_c         : std_logic_vector(1 downto 0)  := "10"; 
-    constant op_ari_imm_c     : std_logic := '0'; 
-    constant op_ari_reg_c     : std_logic := '1'; 
+  constant op_ari_imm_c     : std_logic := '0'; 
+  constant op_ari_reg_c     : std_logic := '1'; 
 
   constant op_branch_c      : std_logic_vector(1 downto 0)  := "11"; 
-    constant op_branch_jmp_c  : std_logic_vector(1 downto 0)  := "00"; 
-    constant op_branch_jne_c  : std_logic_vector(1 downto 0)  := "01"; 
-    constant op_branch_je_c   : std_logic_vector(1 downto 0)  := "10"; 
+  constant op_branch_jmp_c  : std_logic_vector(1 downto 0)  := "00"; 
+  constant op_branch_jne_c  : std_logic_vector(1 downto 0)  := "01"; 
+  constant op_branch_je_c   : std_logic_vector(1 downto 0)  := "10"; 
 
 
 
@@ -44,8 +44,7 @@ constant ctrl_width_c      : natural := 16;
 	constant ctrl_ra_2_c        : natural := 4; -- operand register A adr bit 2
 
 	-- Operand B
-	constant ctrl_rb_imm_c   : natural := 9; -- operand register B is an immediate
-
+	constant ctrl_rb_imm_c      : natural := 9; -- operand register B is an immediate
 	constant ctrl_rb_0_c        : natural := 5; -- operand register B adr bit 0
 	constant ctrl_rb_2_c        : natural := 7; -- operand register B adr bit 2
 
@@ -121,62 +120,34 @@ constant alu_comp_c       : std_logic_vector(1 downto 0) := "10"; -- compare (ke
 constant alu_op1_c        : std_logic_vector(1 downto 0) := "11"; -- result equal to op1
 
 
-
-
-
--- Component: ALU -------------------------------------------------------
+-- Component: Control --------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------
-
-component ALU is
-	port	(		
-				op1_i	:	in		std_logic_vector(data_width_c - 1 downto 0);
-				op2_i	:	in		std_logic_vector(data_width_c - 1 downto 0);
-				sel_i	:	in		std_logic_vector(1 downto 0);
-				res_o	:	out	std_logic_vector(data_width_c - 1 downto 0)  
-);
-end component ALU;
-
-
-
--- Component: MEM -------------------------------------------------------
--- -------------------------------------------------------------------------------------------
-component mem is
-	port	(
-				-- Host Interface --
-				clock_i         : in   std_logic; 
-				ins_addr_i      : in   std_logic_vector(data_width_c - 1 downto 0); 
-				ins_enab_i      : in   std_logic;
-				ins_data_o      : out  std_logic_vector(data_width_c - 1 downto 0) 
-			);
-end component mem;
+component ctrl
+  port	(
+    clock_i           : in  std_logic;
+    reset_i           : in  std_logic;
+    --instr_i           : in  std_logic_vector(data_width_c-1 downto 0);         
+    de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0);
+  
+    of_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
+    ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
+    ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
+    wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
+    pc_from_of_o      : out std_logic_vector(data_width_c-1 downto 0) 
+  );
+end component;
 
 
 -- Component: Decoder --------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------
 component decoder
   port	(
-        instr_i         : in  std_logic_vector(data_width_c-1 downto 0); -- instruction input
-        ctrl_o          : out std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
-        imm_o           : out std_logic_vector(data_width_c-1 downto 0)  -- immediate unsigned output
-      );
+    instr_i         : in  std_logic_vector(data_width_c-1 downto 0); -- instruction input
+    ctrl_o          : out std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
+    imm_o           : out std_logic_vector(data_width_c-1 downto 0)  -- immediate unsigned output
+  );
 end component;
 
-
--- Component: Control --------------------------------------------------------------
--- -------------------------------------------------------------------------------------------
-component ctrl
-  port	(
-        clock_i           : in  std_logic;
-        reset_i           : in  std_logic;
-        --instr_i           : in  std_logic_vector(data_width_c-1 downto 0);         
-        de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0);
-		  
-		    of_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
-        ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
-        ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
-        wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0)
-      );
-end component;
 
 -- Component: regf --------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------
@@ -190,10 +161,37 @@ component regf
 		of_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
 		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
 		imm_i        : in  std_logic_vector(data_width_c-1 downto 0);
+    pc_from_of_i : in  std_logic_vector(data_width_c-1 downto 0);
 		
 		op1_o        : out std_logic_vector(data_width_c-1 downto 0);
     op2_o        : out std_logic_vector(data_width_c-1 downto 0)
-      );
+    );
 end component;
+
+-- Component: ALU -------------------------------------------------------
+-- -------------------------------------------------------------------------------------------
+
+component ALU is
+	port	(		
+    op1_i	:	in		std_logic_vector(data_width_c - 1 downto 0);
+    op2_i	:	in		std_logic_vector(data_width_c - 1 downto 0);
+    sel_i	:	in		std_logic_vector(1 downto 0);
+    res_o	:	out	std_logic_vector(data_width_c - 1 downto 0)  
+);
+end component ALU;
+
+
+-- Component: MEM -------------------------------------------------------
+-- -------------------------------------------------------------------------------------------
+component mem is
+	port	(
+    -- Host Interface --
+    clock_i         : in   std_logic; 
+    ins_addr_i      : in   std_logic_vector(data_width_c - 1 downto 0); 
+    ins_enab_i      : in   std_logic;
+    ins_data_o      : out  std_logic_vector(data_width_c - 1 downto 0) 
+  );
+end component mem;
+
 
 end package proc_package;
