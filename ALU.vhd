@@ -7,10 +7,10 @@ use work.proc_package.all;
 
 entity ALU is
 	port	(		
-				op1	:	in		std_logic_vector(data_width_c - 1 downto 0);
-				op2	:	in		std_logic_vector(data_width_c - 1 downto 0);
-				sel	:	in		std_logic_vector(alu_op_bits - 1 downto 0);
-				res	:	out	std_logic_vector(data_width_c - 1 downto 0)  
+    op1_i	:	in		std_logic_vector(data_width_c - 1 downto 0);
+    op2_i	:	in		std_logic_vector(data_width_c - 1 downto 0);
+    sel_i	:	in		std_logic_vector(alu_op_bits - 1 downto 0);
+    res_o	:	out	std_logic_vector(data_width_c - 1 downto 0)  
 );
 
 end entity ALU;
@@ -20,19 +20,19 @@ architecture ALU_structure of ALU is
 
 begin
  
- process (sel, op1, op2) is
+ process (sel_i, op1_i, op2_i) is
  begin 
-	case sel is
-		when alu_add_c => res <= op1 + op2; -- add operation
-		when alu_sub_c => res <= op1 - op2; -- substract operation
+	case sel_i is
+		when alu_add_c => res_o <= op1_i + op2_i; -- add operation
+		when alu_sub_c => res_o <= op1_i - op2_i; -- substract operation
 		when alu_comp_c => 					-- comparison
-			if(op1=op2) then
-				res <= alu_equal_c; 			-- if op1 equals op2 res = TRUE
-			elsif(op1/=op2) then
-				res <= alu_not_equal_c;		-- if op1 != op2 res = FALSE
+			if(op1_i=op2_i) then
+				res_o <= alu_equal_c; 			-- if op1_i equals op2_i res_o = TRUE
+			elsif(op1_i/=op2_i) then
+				res_o <= alu_not_equal_c;		-- if op1_i != op2_i res_o = FALSE
 			end if;
-		when alu_op1_c => res <= op1; 		-- move operation
-		when others => res <= "XXXXXXXXXXXXXXXX";
+		when alu_op1_c => res_o <= op1_i; 		-- move operation
+		when others => res_o <= "XXXXXXXXXXXXXXXX";
 	end case;
  end process;
 	

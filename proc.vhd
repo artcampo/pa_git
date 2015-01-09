@@ -25,7 +25,14 @@ architecture proc_behaviour of proc is
   signal ma_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal wb_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   
+  -- signals fro DEC
   signal de_imm             : std_logic_vector(ctrl_width_c - 1 downto 0);	
+ 
+  -- signals fro ALU
+  signal op1  	            :	std_logic_vector(data_width_c - 1 downto 0);
+  signal op2  	            :	std_logic_vector(data_width_c - 1 downto 0);
+  signal sel  	            :	std_logic_vector(alu_op_bits - 1  downto 0);
+  signal res  	            :	std_logic_vector(data_width_c - 1 downto 0);
   
 begin 
 	proc_fetch : process(clock_i)
@@ -62,12 +69,21 @@ begin
       wb_ctrl_o       => wb_ctrl
       ); 
 
-	-- mem ----------------------------------------------------------------------------------------------------
+	-- deco ----------------------------------------------------------------------------------------------------
   dec1: decoder
     port map (
 			instr_i         => ins_data,
 			ctrl_o          => de_ctrl,
 			imm_o           => de_imm
-      );      
+      );
+      
+	-- deco ----------------------------------------------------------------------------------------------------
+  alu1: alu
+    port map (
+      op1_i => op1,
+      op2_i => op2,
+      sel_i => sel,
+      res_o => res
+      );
 	
 end proc_behaviour;

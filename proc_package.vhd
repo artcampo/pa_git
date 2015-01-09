@@ -129,10 +129,10 @@ constant alu_op1_c        : std_logic_vector(1 downto 0) := "11"; -- result equa
 
 component ALU is
 	port	(		
-				op1	:	in		std_logic_vector(data_width_c - 1 downto 0);
-				op2	:	in		std_logic_vector(data_width_c - 1 downto 0);
-				sel	:	in		std_logic_vector(1 downto 0);
-				res	:	out	std_logic_vector(data_width_c - 1 downto 0)  
+				op1_i	:	in		std_logic_vector(data_width_c - 1 downto 0);
+				op2_i	:	in		std_logic_vector(data_width_c - 1 downto 0);
+				sel_i	:	in		std_logic_vector(1 downto 0);
+				res_o	:	out	std_logic_vector(data_width_c - 1 downto 0)  
 );
 end component ALU;
 

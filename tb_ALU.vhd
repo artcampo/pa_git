@@ -22,12 +22,12 @@ CONSTANT ClkPeriod: 		TIME := 10 ns;
 SIGNAL   VerifySignal:	std_logic := '0';
 
 -- In signals
-signal op1: 					std_logic_vector(15 downto 0) := (others => '0');
-signal op2: 					std_logic_vector(15 downto 0) := (others => '0');
-signal sel: 					std_logic_vector(1 downto 0) := (others => '0');
+signal op1_i: 					std_logic_vector(15 downto 0) := (others => '0');
+signal op2_i: 					std_logic_vector(15 downto 0) := (others => '0');
+signal sel_i: 					std_logic_vector(1 downto 0) := (others => '0');
 	
 -- Out signals
-signal res: 					std_logic_vector(15 downto 0) := (others => '0');
+signal res_o: 					std_logic_vector(15 downto 0) := (others => '0');
 		
 -- check
 signal check_res: 			std_logic_vector(15 downto 0) := (others => '0');
@@ -43,10 +43,10 @@ BEGIN
 
 
 -- Instance of design being tested
-  test_ALU: ALU PORT MAP (	op1 => op1,
-									op2 => op2,
-									sel => sel,
-									res => res
+  test_ALU: ALU PORT MAP (	op1_i => op1_i,
+									op2_i => op2_i,
+									sel_i => sel_i,
+									res_o => res_o
 								  );
 
   readVec: PROCESS
@@ -84,9 +84,9 @@ BEGIN
 	   Rst <= vRst;
 		VerifySignal<=vVerify;
 
-		op1 <= vop1;
-		op2 <= vop2;
-		sel <= vsel;
+		op1_i <= vop1;
+		op2_i <= vop2;
+		sel_i <= vsel;
 		check_res <= vcheck_res;
 	
       WAIT FOR (ClkPeriod/4) * 3;
@@ -102,11 +102,11 @@ END PROCESS;
   variable ErrorMsg: LINE;
   BEGIN
     IF (TestClk'event AND TestClk = '0' AND VerifySignal = '1') THEN
-      IF check_res /= res THEN
+      IF check_res /= res_o THEN
         write(ErrorMsg, STRING'("Vector failed: check_res "));
         write(ErrorMsg, now);
 		  write(ErrorMsg, STRING'(" -- is: "));
-		  write(ErrorMsg, res );
+		  write(ErrorMsg, res_o );
 		  write(ErrorMsg, STRING'(" should: "));
 		  write(ErrorMsg, check_res);		  
         writeline(output, ErrorMsg);
