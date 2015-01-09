@@ -9,15 +9,11 @@ use work.proc_package.all;
 entity ctrl is
   port	(
         clock_i           : in  std_logic; -- global clock
-        clock_en_i		  : in  std_logic; -- clock enable
 		    reset_i           : in  std_logic; -- global reset
 
         de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
-        instr_i           : in  std_logic_vector(data_width_c-1 downto 0); -- instruction input
- 
-        wake_up_i         : in  std_logic; -- wake up from sleep
+        --instr_i           : in  std_logic_vector(data_width_c-1 downto 0); -- instruction input
 
- 
         of_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- of stage control
         ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ex stage control
         ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ma stage control
@@ -45,7 +41,7 @@ begin
   
  -- Stage 1: operand fetch ------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
-    of_ctrl_o <= op_dec_ctrl_i;
+    of_ctrl_o <= de_ctrl_i;
 
 	 
 	 
@@ -56,8 +52,8 @@ begin
       if rising_edge(clock_i) then
         if (reset_i = '1') then
           ex_ctrl	 <= (others => '0');
-        elsif (clock_en_i = '1') then
-          ex_ctrl  <= op_dec_ctrl_i;
+        else
+          ex_ctrl  <= de_ctrl_i;
         end if;
       end if;
     end process ex_stage;
@@ -73,7 +69,7 @@ begin
       if rising_edge(clock_i) then
         if (reset_i = '1') then
           ma_ctrl <= (others => '0');
-        elsif (clock_en_i = '1') then
+        else
           ma_ctrl <= ex_ctrl;
         end if;
       end if;
@@ -91,7 +87,7 @@ begin
       if rising_edge(clock_i) then
         if (reset_i = '1') then
           wb_ctrl <= (others => '0');
-        elsif (clock_en_i = '1') then
+        else
           wb_ctrl <= ma_ctrl;
        end if;
       end if;
@@ -99,8 +95,6 @@ begin
 
     -- output --
     wb_ctrl_o <= wb_ctrl;
-
-	
 	
 
 end ctrl_structure;

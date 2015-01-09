@@ -39,9 +39,9 @@ begin
 
 	-- Memory Access ---------------------------------------------------------------------------------------
 	-- --------------------------------------------------------------------------------------------------------
-		mem_access: process(Clock_CI)
+		mem_access: process(clock_i)
 		begin
-			if rising_edge(Clock_CI) then				
+			if rising_edge(clock_i) then				
 				if (Ins_Enab_DI = '1') then					
 					Ins_Data_DO <= mem_ram(to_integer(unsigned(Ins_Addr_DI(log2_mem_size-1 downto 0))));
 				end if;

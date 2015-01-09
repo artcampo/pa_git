@@ -19,6 +19,12 @@ architecture proc_behaviour of proc is
 	signal ins_data           : std_logic_vector(data_width_c - 1 downto 0);	
 	signal ins_enab           : std_logic := '1';	
 
+  signal de_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
+  signal of_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
+  signal ex_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
+  signal ma_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
+  signal wb_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
+  
 begin 
 	proc_fetch : process(clock_i)
 	 begin
@@ -35,7 +41,7 @@ begin
 	-- mem ----------------------------------------------------------------------------------------------------
   Mem1: mem
     port map (
-        clock_i  	 => clock_i,
+        clock_i  	  => clock_i,
         Ins_Addr_DI => ins_addr,
         Ins_Enab_DI => ins_enab,
         Ins_Data_DO => ins_data	
@@ -45,13 +51,13 @@ begin
   ctrl1: ctrl
     port map (
       clock_i         => clock_i,
-      reset_i         => reset_i
+      reset_i         => reset_i,
 		
-      de_ctrl_i       => ,
-      of_ctrl_o       => ,
-      ex_ctrl_o       => ,
-      ma_ctrl_o       => ,
-      wb_ctrl_o       => 
+      de_ctrl_i       => de_ctrl,
+      of_ctrl_o       => of_ctrl,
+      ex_ctrl_o       => ex_ctrl,
+      ma_ctrl_o       => ma_ctrl,
+      wb_ctrl_o       => wb_ctrl
       );          
 	
 end proc_behaviour;
