@@ -44,7 +44,7 @@ constant ctrl_width_c      : natural := 16;
 	constant ctrl_ra_2_c        : natural := 4; -- operand register A adr bit 2
 
 	-- Operand B
-	constant ctrl_rb_is_imm_c   : natural := 9; -- operand register B is an immediate
+	constant ctrl_rb_imm_c   : natural := 9; -- operand register B is an immediate
 
 	constant ctrl_rb_0_c        : natural := 5; -- operand register B adr bit 0
 	constant ctrl_rb_2_c        : natural := 7; -- operand register B adr bit 2
