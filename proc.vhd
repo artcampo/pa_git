@@ -15,15 +15,18 @@ end proc;
 
 architecture proc_behaviour of proc is
 
-	signal ins_addr           : std_logic_vector(data_width_c - 1 downto 0);	
-	signal ins_data           : std_logic_vector(data_width_c - 1 downto 0);	
-	signal ins_enab           : std_logic := '1';	
-
+  -- signals for control
   signal de_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal of_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal ex_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal ma_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
-  signal wb_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
+  signal wb_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);
+  signal stall           : std_logic := '1';	
+  
+  -- signals for Fetch
+	signal ins_addr           : std_logic_vector(data_width_c - 1 downto 0);	
+	signal ins_data           : std_logic_vector(data_width_c - 1 downto 0);	
+	signal ins_enab           : std_logic := '1';	
   
   -- signals fro DEC
   signal de_imm             : std_logic_vector(ctrl_width_c - 1 downto 0);	
@@ -33,6 +36,11 @@ architecture proc_behaviour of proc is
   signal op2  	            :	std_logic_vector(data_width_c - 1 downto 0);
   signal sel  	            :	std_logic_vector(alu_op_bits - 1  downto 0);
   signal res  	            :	std_logic_vector(data_width_c - 1 downto 0);
+  
+  -- signals for WB
+  signal wb_data            :	std_logic_vector(data_width_c - 1 downto 0);
+      
+        
   
 begin 
 	proc_fetch : process(clock_i)
@@ -85,5 +93,19 @@ begin
       sel_i => sel,
       res_o => res
       );
+
+	-- deco ----------------------------------------------------------------------------------------------------
+  regf1: regf
+    port map (
+      clock_i		   => clock_i,
+      reset_i		   => reset_i,
+      stall_i		   => stall,     
+      wb_ctrl_i    => wb_ctrl,
+      of_ctrl_i    => of_ctrl,
+      wb_data_i    => wb_data,
+      imm_i        => de_imm,   
+      op1_o        => op1,
+      op2_o        => op2
+      );      
 	
 end proc_behaviour;
