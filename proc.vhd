@@ -9,8 +9,7 @@ entity proc is
 	PORT 
 	(
 		clock_i			: in   std_logic; 
-		reset_i			: in   std_logic;
-		clock_en_i		: in   std_logic;
+		reset_i			: in   std_logic
 	);
 end proc;
 
@@ -46,14 +45,13 @@ begin
   ctrl1: ctrl
     port map (
       clock_i         => clock_i,
-		clock_en_i		 => clock_en_i, 
-      reset_i         => reset_i,
+      reset_i         => reset_i
 		
---      de_ctrl_i       => ,
---      of_ctrl_o       => ,
---      ex_ctrl_o       => ,
---      ma_ctrl_o       => ,
---      wb_ctrl_o       => 
+      de_ctrl_i       => ,
+      of_ctrl_o       => ,
+      ex_ctrl_o       => ,
+      ma_ctrl_o       => ,
+      wb_ctrl_o       => 
       );          
 	
 end proc_behaviour;

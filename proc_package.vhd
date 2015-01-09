@@ -154,13 +154,13 @@ component ctrl
 		  clock_en_i		  : in  std_logic; 
         reset_i           : in  std_logic;
 
-        op_dec_ctrl_i     : in  std_logic_vector(ctrl_width_c-1 downto 0); 
+        de_ctrl_i     : in  std_logic_vector(ctrl_width_c-1 downto 0); 
         instr_i           : in  std_logic_vector(data_width_c-1 downto 0);         
         
 		  wake_up_i         : in  std_logic; 
 
 		  
-		  of_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
+		    of_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
         ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
         ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
         wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0)
