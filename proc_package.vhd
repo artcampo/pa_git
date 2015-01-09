@@ -44,7 +44,11 @@ constant ctrl_width_c      : natural := 16;
 	constant ctrl_ra_2_c        : natural := 4; -- operand register A adr bit 2
 
 	-- Operand B
+<<<<<<< HEAD
 	constant ctrl_rb_is_imm_c   : natural := 9; -- operand register B is an immediate
+=======
+	constant ctrl_rb_is_imm_c   : natural := 9;  -- operand register B is an immediate
+>>>>>>> 4bdee4106b0c64316b8a63b6fbcbbd8e8f3a665a
 	constant ctrl_rb_0_c        : natural := 5; -- operand register B adr bit 0
 	constant ctrl_rb_2_c        : natural := 7; -- operand register B adr bit 2
 
@@ -154,10 +158,7 @@ end component mem;
 -- -------------------------------------------------------------------------------------------
 component decoder
   port	(
-        -- decoder interface input --
         instr_i         : in  std_logic_vector(data_width_c-1 downto 0); -- instruction input
-
-        -- decoder interface output --
         ctrl_o          : out std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
         imm_o           : out std_logic_vector(data_width_c-1 downto 0)  -- immediate unsigned output
       );
@@ -169,14 +170,9 @@ end component;
 component ctrl
   port	(
         clock_i           : in  std_logic;
-		  clock_en_i		  : in  std_logic; 
         reset_i           : in  std_logic;
-
-        de_ctrl_i     : in  std_logic_vector(ctrl_width_c-1 downto 0); 
-        instr_i           : in  std_logic_vector(data_width_c-1 downto 0);         
-        
-		  wake_up_i         : in  std_logic; 
-
+        --instr_i           : in  std_logic_vector(data_width_c-1 downto 0);         
+        de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0);
 		  
 		    of_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
         ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
