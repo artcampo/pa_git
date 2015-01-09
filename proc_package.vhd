@@ -10,9 +10,27 @@ constant data_width_c      : natural := 16;
 constant num_registers	   : natural := 8;
 constant ctrl_width_c      : natural := 16;
 
-constant alu_op_bits	      : natural := 2;
-constant alu_equal_c       : std_logic_vector(15 downto 0) := "0000000000000001"; 
-constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"; 
+  -- alu
+  constant alu_op_bits	     : natural := 2;
+  constant alu_equal_c       : std_logic_vector(15 downto 0) := "0000000000000001"; 
+  constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"; 
+
+  -- operations 
+  constant op_NOP_c         : std_logic_vector(1 downto 0)  := "00"; 
+  
+  constant op_mem_c         : std_logic_vector(1 downto 0)  := "01"; 
+    constant op_mem_load_c    : std_logic_vector := "0"; 
+    constant op_mem_store_c   : std_logic_vector := "1"; 
+  
+  constant op_ari_c         : std_logic_vector(1 downto 0)  := "10"; 
+    constant op_ari_imm_c     : std_logic_vector := "0"; 
+    constant op_ari_reg_c     : std_logic_vector := "1"; 
+
+  constant op_branch_c      : std_logic_vector(1 downto 0)  := "11"; 
+    constant op_branch_jmp_c  : std_logic_vector(1 downto 0)  := "00"; 
+    constant op_branch_jne_c  : std_logic_vector(1 downto 0)  := "01"; 
+    constant op_branch_je_c   : std_logic_vector(1 downto 0)  := "10"; 
+
 
 
 -- Control word description ---------------------------------------------------------------------------------
@@ -26,7 +44,11 @@ constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"
 	constant ctrl_ra_2_c        : natural := 4; -- operand register A adr bit 2
 
 	-- Operand B
+<<<<<<< HEAD
+	constant ctrl_rb_is_imm_c   : natural := 9; -- operand register B is an immediate
+=======
 	constant ctrl_rb_is_imm_c   : natural := 9;  -- operand register B is an immediate
+>>>>>>> 4bdee4106b0c64316b8a63b6fbcbbd8e8f3a665a
 	constant ctrl_rb_0_c        : natural := 5; -- operand register B adr bit 0
 	constant ctrl_rb_2_c        : natural := 7; -- operand register B adr bit 2
 
@@ -35,7 +57,7 @@ constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"
 	constant ctrl_rd_0_c        : natural := 9;  -- register destination adr bit 0
 	constant ctrl_rd_2_c        : natural := 11; -- register destination adr bit 2
 
-	constant ctrl_imm_c       	 : natural := 12; -- immediate implicated
+	constant ctrl_imm_c       	: natural := 12; -- immediate implicated
 
 	-- Sleep command --
 	constant ctrl_sleep_c       : natural := 13; -- go to sleep
@@ -44,8 +66,8 @@ constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"
 -- ISA description ---------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
 
-constant isa_op1_c		    					: natural := 15;
-constant isa_op2_c		    					: natural := 14;
+constant isa_op1_c		    					  : natural := 15;
+constant isa_op2_c		    					  : natural := 14;
 
 -- load/store
 constant isa_mem_load_store_c		   		: natural := 13;
@@ -62,13 +84,13 @@ constant isa_mem_load_store_c		   		: natural := 13;
 	constant isa_mem_store_ra_0_c		   	: natural := 10;
 	constant isa_mem_store_rb_2_c		   	: natural := 9;
 	constant isa_mem_store_rb_0_c		   	: natural := 7;
-	constant isa_mem_store_imm_6_c		   : natural := 6;
-	constant isa_mem_store_imm_0_c		   : natural := 0;
+	constant isa_mem_store_imm_6_c		  : natural := 6;
+	constant isa_mem_store_imm_0_c		  : natural := 0;
 	
 -- arithmetic op
-constant isa_alu_c		   					: natural := 13;
-constant isa_alu_op1_c							: natural := 12;
-constant isa_alu_op0_c							: natural := 11;
+constant isa_alu_c		   					    : natural := 13;
+constant isa_alu_op1_c							  : natural := 12;
+constant isa_alu_op0_c							  : natural := 11;
 
 	--op with immediate
 	constant isa_alu_imm_ra_2_c		   	: natural := 10;
