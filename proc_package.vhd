@@ -127,11 +127,11 @@ component ctrl
     --instr_i           : in  std_logic_vector(data_width_c-1 downto 0);         
     de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0);
   
-    of_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
+    fe_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
     wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
-    pc_from_of_o      : out std_logic_vector(data_width_c-1 downto 0) 
+    pc_from_fe_o      : out std_logic_vector(data_width_c-1 downto 0) 
   );
 end component;
 
@@ -156,10 +156,10 @@ component regf
 		stall_i		   : in   std_logic;
 		
 		wb_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
-		of_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
+		fe_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
 		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
 		imm_i        : in  std_logic_vector(data_width_c-1 downto 0);
-    pc_from_of_i : in  std_logic_vector(data_width_c-1 downto 0);
+    pc_from_fe_i : in  std_logic_vector(data_width_c-1 downto 0);
 		
 		op1_o        : out std_logic_vector(data_width_c-1 downto 0);
     op2_o        : out std_logic_vector(data_width_c-1 downto 0)

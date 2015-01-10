@@ -17,11 +17,11 @@ architecture proc_behaviour of proc is
 
   -- signals for control
   signal de_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
-  signal of_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
+  signal fe_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal ex_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal ma_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal wb_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);
-  signal stall           : std_logic := '1';	
+  signal stall              : std_logic := '1';	
   
   -- signals for Fetch
 	signal ins_addr           : std_logic_vector(data_width_c - 1 downto 0);	
@@ -64,12 +64,12 @@ begin
       reset_i         => reset_i,
 		
       de_ctrl_i       => de_ctrl,
-      of_ctrl_o       => of_ctrl,
+      fe_ctrl_o       => fe_ctrl,
       ex_ctrl_o       => ex_ctrl,
       ma_ctrl_o       => ma_ctrl,
       wb_ctrl_o       => wb_ctrl,
       
-      pc_from_of_o    => pc_from_of
+      pc_from_fe_o    => pc_from_fe
       ); 
 
 	-- deco: DE --------------------------------------------------------------------------------------------------
@@ -88,10 +88,10 @@ begin
       reset_i		   => reset_i,
       stall_i		   => stall,     
       wb_ctrl_i    => wb_ctrl,
-      of_ctrl_i    => of_ctrl,
+      fe_ctrl_i    => fe_ctrl,
       wb_data_i    => wb_data,
       imm_i        => de_imm,
-      pc_from_of_i => pc_from_of,   
+      pc_from_fe_i => pc_from_fe,   
       op1_o        => op1,
       op2_o        => op2
       );   
