@@ -31,7 +31,9 @@ architecture proc_behaviour of proc is
   -- signals for DEC
   signal de_imm             : std_logic_vector(ctrl_width_c - 1 downto 0);
   signal pc_from_fe         : std_logic_vector(ctrl_width_c - 1 downto 0);	
- 
+  signal op1_de	            :	std_logic_vector(data_width_c - 1 downto 0);
+  signal op2_de	            :	std_logic_vector(data_width_c - 1 downto 0);
+  
   -- signals for ALU
   signal op1  	            :	std_logic_vector(data_width_c - 1 downto 0);
   signal op2  	            :	std_logic_vector(data_width_c - 1 downto 0);
@@ -80,6 +82,20 @@ begin
 			imm_o           => de_imm
       );
       
+	-- fwd: FE ------------------------------------------------------------------------------------
+  fwd1: fwd
+    port map (
+      ex_ctrl_i    => ,
+      ma_ctrl_i    => ,
+      wb_ctrl_i    => ,
+      
+      wb_data_i    => ,
+      op1_i        => ,
+      op2_i        => ,
+      
+      op1_o        => ,
+      op2_o        => 
+      );         
 
 	-- regf: both OF and WB ------------------------------------------------------------------------------------
   regf1: regf
