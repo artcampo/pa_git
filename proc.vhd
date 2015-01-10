@@ -85,16 +85,16 @@ begin
 	-- fwd: DE ------------------------------------------------------------------------------------
   fwd1: fwd
     port map (
-      ex_ctrl_i    => ,
-      ma_ctrl_i    => ,
-      wb_ctrl_i    => ,
+      ex_ctrl_i    => ex_ctrl,
+      ma_ctrl_i    => ma_ctrl,
+      wb_ctrl_i    => wb_ctrl,
       
-      wb_data_i    => ,
-      op1_i        => ,
-      op2_i        => ,
+      wb_data_i    => wb_data,
+      op1_i        => op1_de,
+      op2_i        => op2_de,
       
-      op1_o        => op1_d,
-      op2_o        => op2_d
+      op1_o        => op1,
+      op2_o        => op2
       );         
 
 	-- regf: both DE and WB ------------------------------------------------------------------------------------
