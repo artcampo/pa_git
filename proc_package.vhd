@@ -10,10 +10,10 @@ constant data_width_c      : natural := 16;
 constant num_registers	   : natural := 8;
 constant ctrl_width_c      : natural := 16;
 
-  -- alu
-  constant alu_op_bits	     : natural := 2;
-  constant alu_equal_c       : std_logic_vector(15 downto 0) := "0000000000000001"; 
-  constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"; 
+-- alu
+constant alu_op_bits	     : natural := 2;
+constant alu_equal_c       : std_logic_vector(15 downto 0) := "0000000000000001"; 
+constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"; 
 
   -- operations 
   constant op_nop_c         : std_logic_vector(1 downto 0)  := "00"; 
@@ -30,37 +30,41 @@ constant ctrl_width_c      : natural := 16;
   constant op_ari_imm_c     : std_logic := '0'; 
   constant op_ari_reg_c     : std_logic := '1'; 
 
-  constant op_branch_c      : std_logic_vector(1 downto 0)  := "11"; 
-  constant op_branch_jmp_c  : std_logic_vector(1 downto 0)  := "00"; 
-  constant op_branch_jne_c  : std_logic_vector(1 downto 0)  := "01"; 
-  constant op_branch_je_c   : std_logic_vector(1 downto 0)  := "10"; 
+constant op_ari_c         : std_logic_vector(1 downto 0)  := "10"; 
+constant op_ari_imm_c     : std_logic := '0'; 
+constant op_ari_reg_c     : std_logic := '1'; 
+
+constant op_branch_c      : std_logic_vector(1 downto 0)  := "11"; 
+constant op_branch_jmp_c  : std_logic_vector(1 downto 0)  := "00"; 
+constant op_branch_jne_c  : std_logic_vector(1 downto 0)  := "01"; 
+constant op_branch_je_c   : std_logic_vector(1 downto 0)  := "10"; 
 
 
 
 -- Control word description ---------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
 
-	constant ctrl_nop_c         : natural := 0; -- is 1 for a nop inst, 0 for a valid inst
+constant ctrl_nop_c         : natural := 0; -- is 1 for a nop inst, 0 for a valid inst
 
-	-- Operand A
-	constant ctrl_ra_pc_c       : natural := 1; -- use pc for ra (opA is the pc)
-	constant ctrl_ra_0_c        : natural := 2; -- operand register A adr bit 0
-	constant ctrl_ra_2_c        : natural := 4; -- operand register A adr bit 2
+-- Operand A
+constant ctrl_ra_pc_c       : natural := 1; -- use pc for ra (opA is the pc)
+constant ctrl_ra_0_c        : natural := 2; -- operand register A adr bit 0
+constant ctrl_ra_2_c        : natural := 4; -- operand register A adr bit 2
 
-	-- Operand B
-	constant ctrl_rb_imm_c      : natural := 9; -- operand register B is an immediate
-	constant ctrl_rb_0_c        : natural := 5; -- operand register B adr bit 0
-	constant ctrl_rb_2_c        : natural := 7; -- operand register B adr bit 2
+-- Operand B
+constant ctrl_rb_imm_c      : natural := 9; -- operand register B is an immediate
+constant ctrl_rb_0_c        : natural := 5; -- operand register B adr bit 0
+constant ctrl_rb_2_c        : natural := 7; -- operand register B adr bit 2
 
-	-- Destiantion Register
-	constant ctrl_rd_wb_c       : natural := 8;	-- enable write back
-	constant ctrl_rd_0_c        : natural := 9;  -- register destination adr bit 0
-	constant ctrl_rd_2_c        : natural := 11; -- register destination adr bit 2
+-- Destiantion Register
+constant ctrl_rd_wb_c       : natural := 8;	-- enable write back
+constant ctrl_rd_0_c        : natural := 9;  -- register destination adr bit 0
+constant ctrl_rd_2_c        : natural := 11; -- register destination adr bit 2
 
-	constant ctrl_imm_c       	: natural := 12; -- immediate implicated
+constant ctrl_imm_c       	: natural := 12; -- immediate implicated
 
-	-- Sleep command --
-	constant ctrl_sleep_c       : natural := 13; -- go to sleep
+-- Sleep command --
+constant ctrl_sleep_c       : natural := 13; -- go to sleep
 
 
 -- ISA description ---------------------------------------------------------------------------------
@@ -68,6 +72,7 @@ constant ctrl_width_c      : natural := 16;
 
 constant isa_op1_c		    					  : natural := 15;
 constant isa_op2_c		    					  : natural := 14;
+
 
 -- load/store - move
 constant isa_mem_ldst_move_c		   		: natural := 13;
@@ -95,7 +100,7 @@ constant isa_mem_ldst_move_c		   		: natural := 13;
     constant isa_mem_store_rb_0_c		   	: natural := 6;
     constant isa_mem_store_imm_6_c		  : natural := 5;
     constant isa_mem_store_imm_0_c		  : natural := 0;
-	
+
 -- arithmetic op
 constant isa_alu_c		   					    : natural := 13;
 constant isa_alu_op1_c							  : natural := 12;
@@ -122,8 +127,6 @@ constant isa_branch_1_c		   				: natural := 13;
 constant isa_branch_0_c							: natural := 12;
 
 
-
-	
 -- ALU Function Select -----------------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------
 
@@ -180,6 +183,23 @@ component regf
     op2_o        : out std_logic_vector(data_width_c-1 downto 0)
     );
 end component;
+
+
+-- Component: fwd --------------------------------------------------------------
+-- -------------------------------------------------------------------------------------------
+component fwd
+  port	(
+    ex_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
+		ma_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
+    wb_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
+		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
+		op1_i        : in  std_logic_vector(data_width_c-1 downto 0);
+    op2_i        : in  std_logic_vector(data_width_c-1 downto 0);    
+		op1_o        : out std_logic_vector(data_width_c-1 downto 0);
+    op2_o        : out std_logic_vector(data_width_c-1 downto 0)
+    );
+end component;
+
 
 -- Component: ALU -------------------------------------------------------
 -- -------------------------------------------------------------------------------------------
