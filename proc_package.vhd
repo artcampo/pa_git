@@ -16,8 +16,9 @@ constant alu_equal_c       : std_logic_vector(15 downto 0) := "0000000000000001"
 constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"; 
 
   -- operations 
-  constant op_nop_c         : std_logic_vector(1 downto 0)  := "00"; 
-  
+  constant op_nop_c           : std_logic_vector(1 downto 0)  := "00"; 
+  constant op_not_using_regX  : std_logic := '1'; -- The operation is not using the 3 regs (ra, rb, rd)
+
   constant op_mem_c               : std_logic_vector(1 downto 0)  := "01"; 
   constant op_mem_load_store_c    : std_logic := '0'; 
   constant op_mem_load_c          : std_logic := '0'; 
@@ -44,23 +45,26 @@ constant ctrl_nop_c         : natural := 0; -- is 1 for a nop inst, 0 for a vali
 
 -- Operand A
 constant ctrl_ra_pc_c       : natural := 1; -- use pc for ra (opA is the pc)
-constant ctrl_ra_0_c        : natural := 2; -- operand register A adr bit 0
-constant ctrl_ra_2_c        : natural := 4; -- operand register A adr bit 2
+constant ctrl_ra_c          : natural := 2; -- is 1 for not using A, 0 for using A
+constant ctrl_ra_0_c        : natural := 3; -- operand register A adr bit 0
+constant ctrl_ra_2_c        : natural := 5; -- operand register A adr bit 2
+
 
 -- Operand B
-constant ctrl_rb_imm_c      : natural := 9; -- operand register B is an immediate
-constant ctrl_rb_0_c        : natural := 5; -- operand register B adr bit 0
-constant ctrl_rb_2_c        : natural := 7; -- operand register B adr bit 2
+constant ctrl_rb_imm_c      : natural := 6; -- operand register B is an immediate
+constant ctrl_rb_c          : natural := 7; -- is 1 for not using B, 0 for using B
+constant ctrl_rb_0_c        : natural := 8; -- operand register B adr bit 0
+constant ctrl_rb_2_c        : natural := 10; -- operand register B adr bit 2
 
 -- Destiantion Register
-constant ctrl_rd_wb_c       : natural := 8;	-- enable write back
-constant ctrl_rd_0_c        : natural := 9;  -- register destination adr bit 0
-constant ctrl_rd_2_c        : natural := 11; -- register destination adr bit 2
+constant ctrl_rd_wb_c       : natural := 11;	 -- enable write back
+constant ctrl_rd_c          : natural := 12;   -- is 1 for not using D, 0 for using D
+constant ctrl_rd_0_c        : natural := 13;   -- register destination adr bit 0
+constant ctrl_rd_2_c        : natural := 15;   -- register destination adr bit 2
 
-constant ctrl_imm_c       	: natural := 12; -- immediate implicated
 
 -- Sleep command --
-constant ctrl_sleep_c       : natural := 13; -- go to sleep
+constant ctrl_sleep_c       : natural := 16; -- go to sleep
 
 
 -- ISA description ---------------------------------------------------------------------------------
