@@ -41,12 +41,14 @@ decoder: process(instr_i)
             case(instr_i(isa_mem_load_store_c)) is
 
                 when op_mem_load_c => -- Load
-                  ctrl_o(ctrl_rb_imm_c) 							   <= '1';
+                  ctrl_o(ctrl_rb_imm_c) 							     <= '1';
+                  ctrl_o(ctrl_rb_c) 							         <=  op_not_using_regX;      -- not using rb
                   ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <=  instr_i(isa_mem_load_ra_2_c  downto isa_mem_load_ra_0_c);			-- operand a register
                   ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <=  instr_i(isa_mem_load_rd_2_c  downto isa_mem_load_rd_0_c); 			-- destination register 
                   imm_o   	                               <=  "0000000000" & instr_i(isa_mem_load_imm_6_c downto isa_mem_load_imm_0_c); 		-- immediate
                 
                 when op_mem_store_c => -- Store
+                  ctrl_o(ctrl_rd_c) 							         <=  op_not_using_regX;    -- not using rd
                   ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <=  instr_i(isa_mem_store_ra_2_c  downto isa_mem_store_ra_0_c);						-- operand a register
                   ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c) <=  instr_i(isa_mem_store_rb_2_c  downto isa_mem_store_rb_0_c); 						-- operand b register
                   imm_o   													       <=  "0000000000" & instr_i(isa_mem_store_imm_6_c downto isa_mem_store_imm_0_c);	-- immediate
@@ -54,6 +56,8 @@ decoder: process(instr_i)
               
               
 				when op_mem_move_c => -- Move
+          ctrl_o(ctrl_ra_c) 							         <=  op_not_using_regX;      -- not using ra
+          ctrl_o(ctrl_rb_c) 							         <=  op_not_using_regX;      -- not using rb
 					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <=  instr_i(isa_mem_move_rd_2_c  downto isa_mem_move_rd_0_c);						-- operand a register
 					imm_o   													       <=  "0000000" & instr_i(isa_mem_move_imm_8_c downto isa_mem_move_imm_0_c);	-- immediate
 			end case;
@@ -65,7 +69,8 @@ decoder: process(instr_i)
       
 				when op_ari_imm_c => -- Op with immediate
 					ctrl_o(ctrl_rb_imm_c) 									    <= '1';
-					ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c)  	<=  instr_i(isa_alu_imm_ra_2_c downto isa_alu_imm_ra_0_c); 							-- operand a register
+					ctrl_o(ctrl_rb_c) 							            <=  op_not_using_regX;      -- not using rb
+          ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c)  	<=  instr_i(isa_alu_imm_ra_2_c downto isa_alu_imm_ra_0_c); 							-- operand a register
 					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c)   	<=  instr_i(isa_alu_imm_rd_2_c downto isa_alu_imm_rd_0_c); 							-- destination register 
 					imm_o   													          <=  "00000000000" & instr_i(isa_alu_imm_imm_4_c downto isa_alu_imm_imm_0_c); 	-- immediate
 				
