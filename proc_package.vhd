@@ -15,16 +15,16 @@ constant alu_op_bits	     : natural := 2;
 constant alu_equal_c       : std_logic_vector(15 downto 0) := "0000000000000001"; 
 constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"; 
 
-  -- operations 
-  constant op_nop_c           : std_logic_vector(1 downto 0)  := "00"; 
-  constant op_not_using_regX  : std_logic := '1'; -- The operation is not using the 3 regs (ra, rb, rd)
+-- operations 
+constant op_nop_c           : std_logic_vector(1 downto 0)  := "00"; 
+constant op_not_using_regX  : std_logic := '1'; -- The operation is not using the 3 regs (ra, rb, rd)
 
-  constant op_mem_c               : std_logic_vector(1 downto 0)  := "01"; 
-  constant op_mem_load_store_c    : std_logic := '0'; 
-  constant op_mem_load_c          : std_logic := '0'; 
-  constant op_mem_store_c         : std_logic := '1'; 
-  
-  constant op_mem_move_c          : std_logic := '1'; 
+constant op_mem_c               : std_logic_vector(1 downto 0)  := "01"; 
+constant op_mem_load_store_c    : std_logic := '0'; 
+constant op_mem_load_c          : std_logic := '0'; 
+constant op_mem_store_c         : std_logic := '1'; 
+
+constant op_mem_move_c          : std_logic := '1'; 
  
   
 constant op_ari_c         : std_logic_vector(1 downto 0)  := "10"; 
@@ -142,14 +142,18 @@ component ctrl
   port	(
     clock_i           : in  std_logic;
     reset_i           : in  std_logic;
-    --instr_i           : in  std_logic_vector(data_width_c-1 downto 0);         
+   
     de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0);
+    ra_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
+    rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
   
     fe_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
     wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
-    pc_from_fe_o      : out std_logic_vector(data_width_c-1 downto 0) 
+    pc_from_fe_o      : out std_logic_vector(data_width_c-1 downto 0);
+    ra_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rb_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0)
   );
 end component;
 
@@ -179,8 +183,8 @@ component regf
 		imm_i        : in  std_logic_vector(data_width_c-1 downto 0);
     pc_from_fe_i : in  std_logic_vector(data_width_c-1 downto 0);
 		
-		op1_o        : out std_logic_vector(data_width_c-1 downto 0);
-    op2_o        : out std_logic_vector(data_width_c-1 downto 0)
+		ra_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rb_o        : out std_logic_vector(data_width_c-1 downto 0)
     );
 end component;
 
@@ -193,10 +197,10 @@ component fwd
 		ma_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
     wb_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
 		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
-		op1_i        : in  std_logic_vector(data_width_c-1 downto 0);
-    op2_i        : in  std_logic_vector(data_width_c-1 downto 0);    
-		op1_o        : out std_logic_vector(data_width_c-1 downto 0);
-    op2_o        : out std_logic_vector(data_width_c-1 downto 0)
+		ra_i        : in  std_logic_vector(data_width_c-1 downto 0);
+    rb_i        : in  std_logic_vector(data_width_c-1 downto 0);    
+		ra_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rb_o        : out std_logic_vector(data_width_c-1 downto 0)
     );
 end component;
 

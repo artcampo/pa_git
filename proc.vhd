@@ -31,12 +31,15 @@ architecture proc_behaviour of proc is
   -- signals for DEC
   signal de_imm             : std_logic_vector(ctrl_width_c - 1 downto 0);
   signal pc_from_fe         : std_logic_vector(ctrl_width_c - 1 downto 0);	
-  signal op1_de	            :	std_logic_vector(data_width_c - 1 downto 0);
-  signal op2_de	            :	std_logic_vector(data_width_c - 1 downto 0);
+  signal ra_de	            :	std_logic_vector(data_width_c - 1 downto 0);
+  signal rb_de	            :	std_logic_vector(data_width_c - 1 downto 0);
+
+  signal ra_de_ex	            :	std_logic_vector(data_width_c - 1 downto 0);
+  signal rb_de_ex	            :	std_logic_vector(data_width_c - 1 downto 0);  
   
   -- signals for ALU
-  signal op1  	            :	std_logic_vector(data_width_c - 1 downto 0);
-  signal op2  	            :	std_logic_vector(data_width_c - 1 downto 0);
+  signal ra  	            :	std_logic_vector(data_width_c - 1 downto 0);
+  signal rb  	            :	std_logic_vector(data_width_c - 1 downto 0);
   signal sel  	            :	std_logic_vector(alu_op_bits - 1  downto 0);
   signal res  	            :	std_logic_vector(data_width_c - 1 downto 0);
   
@@ -66,12 +69,16 @@ begin
       reset_i         => reset_i,
 		
       de_ctrl_i       => de_ctrl,
+      ra_de_i         => ra_de,
+      rb_de_i         => rb_de,
       fe_ctrl_o       => fe_ctrl,
       ex_ctrl_o       => ex_ctrl,
       ma_ctrl_o       => ma_ctrl,
       wb_ctrl_o       => wb_ctrl,
       
-      pc_from_fe_o    => pc_from_fe
+      pc_from_fe_o    => pc_from_fe,
+      ra_de_ex_o      => ra_de_ex,
+      rb_de_ex_o      => rb_de_ex
       ); 
 
 	-- deco: DE --------------------------------------------------------------------------------------------------
@@ -82,21 +89,6 @@ begin
 			imm_o           => de_imm
       );
       
-	-- fwd: DE ------------------------------------------------------------------------------------
-  fwd1: fwd
-    port map (
-      ex_ctrl_i    => ex_ctrl,
-      ma_ctrl_i    => ma_ctrl,
-      wb_ctrl_i    => wb_ctrl,
-      
-      wb_data_i    => wb_data,
-      op1_i        => op1_de,
-      op2_i        => op2_de,
-      
-      op1_o        => op1,
-      op2_o        => op2
-      );         
-
 	-- regf: both DE and WB ------------------------------------------------------------------------------------
   regf1: regf
     port map (
@@ -108,15 +100,29 @@ begin
       wb_data_i    => wb_data,
       imm_i        => de_imm,
       pc_from_fe_i => pc_from_fe,   
-      op1_o        => op1,
-      op2_o        => op2
+      ra_o         => ra_de,
+      rb_o         => rb_de
       );   
-   
+
+  -- fwd: EX ------------------------------------------------------------------------------------
+  fwd1: fwd
+    port map (
+      ex_ctrl_i    => ex_ctrl,
+      ma_ctrl_i    => ma_ctrl,
+      wb_ctrl_i    => wb_ctrl,
+      
+      wb_data_i    => wb_data,
+      ra_i         => ra_de_ex,
+      rb_i         => rb_de_ex,
+      
+      ra_o         => ra,
+      rb_o         => rb
+      );          
 	-- alu: EX ----------------------------------------------------------------------------------------------------
   alu1: alu
     port map (
-      op1_i => op1,
-      op2_i => op2,
+      op1_i => ra,
+      op2_i => rb,
       sel_i => sel,
       res_o => res
       );   

@@ -14,11 +14,11 @@ entity fwd is
 		
 		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
 		ma_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
-		op1_i        : in  std_logic_vector(data_width_c-1 downto 0);
-    op2_i        : in  std_logic_vector(data_width_c-1 downto 0);    
+		ra_i        : in  std_logic_vector(data_width_c-1 downto 0);
+    rb_i        : in  std_logic_vector(data_width_c-1 downto 0);    
 		
-		op1_o        : out std_logic_vector(data_width_c-1 downto 0);
-    op2_o        : out std_logic_vector(data_width_c-1 downto 0)
+		ra_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rb_o        : out std_logic_vector(data_width_c-1 downto 0)
 	);
 end fwd;
 
@@ -28,35 +28,35 @@ begin
 
  -- Bypass, alu-alu and alu-mem  -------------------------------------------------------------------------------
   -- --------------------------------------------------------------------------------------------------------
- process (ex_ctrl_i, ma_ctrl_i, wb_ctrl_i, op1_i, op2_i) is
+ process (ex_ctrl_i, ma_ctrl_i, wb_ctrl_i, ra_i, rb_i) is
  begin  
   
   --By pass form ma to ex ---------------------------------------------------------------------------------------
  -- rd provaider vs ra consummer
   if ((ma_ctrl_i(ctrl_rd_c) = not op_not_using_regX) and ((ex_ctrl_i(ctrl_ra_c) = not op_not_using_regX))) then  
       if 	(ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c) ) then
-        op1_o <= ma_data_i;
+        ra_o <= ma_data_i;
       end if;
       
    elsif ((wb_ctrl_i(ctrl_rd_c) = not op_not_using_regX) and ((ex_ctrl_i(ctrl_ra_c) = not op_not_using_regX))) then  
       if 	(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c) ) then
-        op1_o <= wb_data_i;
+        ra_o <= wb_data_i;
       end if;
-   else op1_o <= op1_i;
+   else ra_o <= ra_i;
    end if;
 
    
   -- rd provaider vs rb consummer
   if ((ma_ctrl_i(ctrl_rd_c) = not op_not_using_regX) and ((ex_ctrl_i(ctrl_rb_c) = not op_not_using_regX))) then  
       if 	(ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c) ) then
-        op2_o <= ma_data_i;
+        rb_o <= ma_data_i;
       end if;
       
    elsif ((wb_ctrl_i(ctrl_rd_c) = not op_not_using_regX) and ((ex_ctrl_i(ctrl_rb_c) = not op_not_using_regX))) then  
       if 	(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c) ) then
-        op2_o <= wb_data_i;
+        rb_o <= wb_data_i;
       end if;
-   else op2_o <= op2_i;
+   else rb_o <= rb_i;
    end if;
 
    

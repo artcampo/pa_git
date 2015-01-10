@@ -18,8 +18,8 @@ entity regf is
 		imm_i        : in  std_logic_vector(data_width_c-1 downto 0);
     pc_from_fe_i : in  std_logic_vector(data_width_c-1 downto 0);
 		
-		op1_o        : out std_logic_vector(data_width_c-1 downto 0);
-    op2_o        : out std_logic_vector(data_width_c-1 downto 0)
+		ra_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rb_o        : out std_logic_vector(data_width_c-1 downto 0)
 	);
 end regf;
 
@@ -29,8 +29,8 @@ architecture regf_behaviour of regf is
   type   regf_mem_type is array (num_registers - 1 downto 0) of std_logic_vector(data_width_c-1 downto 0);
   signal regf_mem     : regf_mem_type := (others => (others => '0'));
 
-  signal op1          : std_logic_vector(data_width_c-1 downto 0);
-  signal op2          : std_logic_vector(data_width_c-1 downto 0);  
+  signal ra          : std_logic_vector(data_width_c-1 downto 0);
+  signal rb          : std_logic_vector(data_width_c-1 downto 0);  
   
 begin 
 
@@ -45,11 +45,11 @@ begin
   
   operand_fetch: process(fe_ctrl_i, regf_mem)
   begin
-    op1 <= regf_mem(to_integer(unsigned(fe_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c))));
-    op2 <= regf_mem(to_integer(unsigned(fe_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c))));
+    ra <= regf_mem(to_integer(unsigned(fe_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c))));
+    rb <= regf_mem(to_integer(unsigned(fe_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c))));
   end process operand_fetch;
 
-  op1_o <= pc_from_fe_i when (fe_ctrl_i(ctrl_ra_pc_c ) = '1')  else op1;
-  op2_o <= imm_i        when (fe_ctrl_i(ctrl_rb_imm_c) = '1')  else op2;
+  ra_o <= pc_from_fe_i when (fe_ctrl_i(ctrl_ra_pc_c ) = '1')  else ra;
+  rb_o <= imm_i        when (fe_ctrl_i(ctrl_rb_imm_c) = '1')  else rb;
   
 end regf_behaviour;
