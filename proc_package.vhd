@@ -15,12 +15,20 @@ constant alu_op_bits	     : natural := 2;
 constant alu_equal_c       : std_logic_vector(15 downto 0) := "0000000000000001"; 
 constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"; 
 
--- operations 
-constant op_nop_c         : std_logic_vector(1 downto 0)  := "00"; 
-
-constant op_mem_c         : std_logic_vector(1 downto 0)  := "01"; 
-constant op_mem_load_c    : std_logic := '0'; 
-constant op_mem_store_c   : std_logic := '1'; 
+  -- operations 
+  constant op_nop_c         : std_logic_vector(1 downto 0)  := "00"; 
+  
+  constant op_mem_c               : std_logic_vector(1 downto 0)  := "01"; 
+  constant op_mem_load_store_c    : std_logic := '0'; 
+  constant op_mem_load_c          : std_logic := '0'; 
+  constant op_mem_store_c         : std_logic := '1'; 
+  
+  constant op_mem_move_c          : std_logic := '1'; 
+ 
+  
+  constant op_ari_c         : std_logic_vector(1 downto 0)  := "10"; 
+  constant op_ari_imm_c     : std_logic := '0'; 
+  constant op_ari_reg_c     : std_logic := '1'; 
 
 constant op_ari_c         : std_logic_vector(1 downto 0)  := "10"; 
 constant op_ari_imm_c     : std_logic := '0'; 
@@ -65,45 +73,55 @@ constant ctrl_sleep_c       : natural := 13; -- go to sleep
 constant isa_op1_c		    					  : natural := 15;
 constant isa_op2_c		    					  : natural := 14;
 
--- load/store
-constant isa_mem_load_store_c		   		: natural := 13;
---load
-constant isa_mem_load_ra_2_c		   	: natural := 12;
-constant isa_mem_load_ra_0_c		   	: natural := 10;
-constant isa_mem_load_rd_2_c		   	: natural := 9;
-constant isa_mem_load_rd_0_c		   	: natural := 7;
-constant isa_mem_load_imm_6_c		   	: natural := 6;
-constant isa_mem_load_imm_0_c		   	: natural := 0;
 
---store
-constant isa_mem_store_ra_2_c		   	: natural := 12;
-constant isa_mem_store_ra_0_c		   	: natural := 10;
-constant isa_mem_store_rb_2_c		   	: natural := 9;
-constant isa_mem_store_rb_0_c		   	: natural := 7;
-constant isa_mem_store_imm_6_c		  : natural := 6;
-constant isa_mem_store_imm_0_c		  : natural := 0;
+-- load/store - move
+constant isa_mem_ldst_move_c		   		: natural := 13;
+  --move
+  constant isa_mem_move_c		   		      : natural := 12;
+  constant isa_mem_move_rd_2_c          : natural := 11;
+  constant isa_mem_move_rd_0_c          : natural := 9;
+  constant isa_mem_move_imm_8_c         : natural := 8;
+  constant isa_mem_move_imm_0_c         : natural := 0;
+  
+  --load/store
+  constant isa_mem_load_store_c		   		: natural := 12;
+    --load
+    constant isa_mem_load_ra_2_c		   	: natural := 11;
+    constant isa_mem_load_ra_0_c		   	: natural := 9;
+    constant isa_mem_load_rd_2_c		   	: natural := 8;
+    constant isa_mem_load_rd_0_c		   	: natural := 6;
+    constant isa_mem_load_imm_6_c		   	: natural := 5;
+    constant isa_mem_load_imm_0_c		   	: natural := 0;
+
+    --store
+    constant isa_mem_store_ra_2_c		   	: natural := 11;
+    constant isa_mem_store_ra_0_c		   	: natural := 9;
+    constant isa_mem_store_rb_2_c		   	: natural := 8;
+    constant isa_mem_store_rb_0_c		   	: natural := 6;
+    constant isa_mem_store_imm_6_c		  : natural := 5;
+    constant isa_mem_store_imm_0_c		  : natural := 0;
 
 -- arithmetic op
 constant isa_alu_c		   					    : natural := 13;
 constant isa_alu_op1_c							  : natural := 12;
 constant isa_alu_op0_c							  : natural := 11;
 
---op with immediate
-constant isa_alu_imm_ra_2_c		   	: natural := 10;
-constant isa_alu_imm_ra_0_c	   		: natural := 8;
-constant isa_alu_imm_rd_2_c		   	: natural := 7;
-constant isa_alu_imm_rd_0_c		  		: natural := 5;
-constant isa_alu_imm_imm_4_c		   	: natural := 4;
-constant isa_alu_imm_imm_0_c		   	: natural := 0;
-
---op between registers
-constant isa_alu_reg_ra_2_c		   	: natural := 10;
-constant isa_alu_reg_ra_0_c	   		: natural := 8;
-constant isa_alu_reg_rb_2_c		   	: natural := 7;
-constant isa_alu_reg_rb_0_c		  		: natural := 5;
-constant isa_alu_reg_rd_2_c		   	: natural := 4;
-constant isa_alu_reg_rd_0_c		  		: natural := 2;
-
+	--op with immediate
+	constant isa_alu_imm_ra_2_c		    	: natural := 10;
+	constant isa_alu_imm_ra_0_c	   		  : natural := 8;
+	constant isa_alu_imm_rd_2_c		    	: natural := 7;
+	constant isa_alu_imm_rd_0_c		  		: natural := 5;
+	constant isa_alu_imm_imm_4_c		   	: natural := 4;
+	constant isa_alu_imm_imm_0_c		   	: natural := 0;
+	
+	--op between registers
+	constant isa_alu_reg_ra_2_c		   	: natural := 10;
+	constant isa_alu_reg_ra_0_c	   		: natural := 8;
+	constant isa_alu_reg_rb_2_c		   	: natural := 7;
+	constant isa_alu_reg_rb_0_c		  	: natural := 5;
+	constant isa_alu_reg_rd_2_c		   	: natural := 4;
+	constant isa_alu_reg_rd_0_c		  	: natural := 2;
+	
 -- branch
 constant isa_branch_1_c		   				: natural := 13;
 constant isa_branch_0_c							: natural := 12;
