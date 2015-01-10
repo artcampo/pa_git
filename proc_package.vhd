@@ -26,10 +26,6 @@ constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"
   constant op_mem_move_c          : std_logic := '1'; 
  
   
-  constant op_ari_c         : std_logic_vector(1 downto 0)  := "10"; 
-  constant op_ari_imm_c     : std_logic := '0'; 
-  constant op_ari_reg_c     : std_logic := '1'; 
-
 constant op_ari_c         : std_logic_vector(1 downto 0)  := "10"; 
 constant op_ari_imm_c     : std_logic := '0'; 
 constant op_ari_reg_c     : std_logic := '1'; 
