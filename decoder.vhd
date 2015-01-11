@@ -80,6 +80,8 @@ decoder: process(instr_i)
 					ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c)   	<=  instr_i(isa_alu_reg_rb_2_c downto isa_alu_reg_rb_0_c); 		-- operand b register
 					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c)   	<=  instr_i(isa_alu_reg_rd_2_c downto isa_alu_reg_rd_0_c);		-- immediate
           
+        when OTHERS => ctrl_o <= (OTHERS=>'X');
+        
 			end case;			
 		
 		
@@ -91,9 +93,11 @@ decoder: process(instr_i)
 				when op_branch_jne_c => -- JNE
 
 				when op_branch_je_c => -- JE
-        when OTHERS =>
+        when OTHERS => ctrl_o <= (OTHERS=>'X');
 				
 			end case;
+      
+    when OTHERS => ctrl_o <= (OTHERS=>'X');
 		
 	end case;
  end process;
