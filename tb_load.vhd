@@ -41,7 +41,14 @@ BEGIN
   WAIT FOR ClkPeriod*numberCycles;
 
   --Check here
-
+  if(p256 /= "500")
+      REPORT "Simulation complete"
+      SEVERITY NOTE;
+  else 
+        write(ErrorMsg, STRING'(" Should: "));
+        write(ErrorMsg, "500");		  
+        writeline(output, ErrorMsg);
+   end if
                         
 END testbench;
 	 
