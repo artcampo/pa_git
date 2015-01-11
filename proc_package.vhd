@@ -18,12 +18,12 @@ constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"
 -- Isa values ---------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
 -- operations 
-constant op_nop_c           : std_logic_vector(1 downto 0)  := "00"; 
+constant op_nop_c          : std_logic_vector(1 downto 0)  := "00"; 
 
-constant op_mem_c               : std_logic_vector(1 downto 0)  := "01"; 
-constant op_mem_load_c          : std_logic_vector := "00"; 
-constant op_mem_store_c         : std_logic_vector := "01"; 
-constant op_mem_move_c          : std_logic_vector := "10"; 
+constant op_mem_c          : std_logic_vector(1 downto 0)  := "01"; 
+constant op_mem_load_c     : std_logic_vector := "00"; 
+constant op_mem_store_c    : std_logic_vector := "01"; 
+constant op_mem_move_c     : std_logic_vector := "10"; 
  
   
 constant op_ari_c         : std_logic_vector(1 downto 0)  := "10"; 
