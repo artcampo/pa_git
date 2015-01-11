@@ -1,7 +1,6 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 USE ieee.std_logic_textio.all;
-
 LIBRARY std;
 USE std.textio.all;
 
@@ -32,6 +31,8 @@ BEGIN
                             reset_i
                             );
   
+ exec: PROCESS
+ BEGIN
   -- reset processor
   Rst <= '1';
   WAIT FOR ClkPeriod;
@@ -41,14 +42,16 @@ BEGIN
   WAIT FOR ClkPeriod*numberCycles;
 
   --Check here
-  if(p256 /= "500")
+  if(p256 /= "500") then
       REPORT "Simulation complete"
       SEVERITY NOTE;
   else 
         write(ErrorMsg, STRING'(" Should: "));
         write(ErrorMsg, "500");		  
         writeline(output, ErrorMsg);
-   end if
+  end if;
+   
+end process;
                         
 END testbench;
 	 
