@@ -19,7 +19,6 @@ constant alu_not_equal_c   : std_logic_vector(15 downto 0) := "0000000000000000"
 ----------------------------------------------------------------------------------------------
 -- operations 
 constant op_nop_c           : std_logic_vector(1 downto 0)  := "00"; 
-constant op_not_using_regX  : std_logic := '1'; -- The operation is not using the 3 regs (ra, rb, rd)
 
 constant op_mem_c               : std_logic_vector(1 downto 0)  := "01"; 
 constant op_mem_load_c          : std_logic_vector := "00"; 

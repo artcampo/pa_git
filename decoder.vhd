@@ -22,7 +22,7 @@ begin
   -- --------------------------------------------------------------------------------------------------------
 decoder: process(instr_i)
   begin
-  -- defaults --
+  -- defaults, given that all bits are already set to '0' those whose value had to be set 0, won't be set again
   ctrl_o                                     <= (others => '0');                  -- all signals disabled
 
 	case (instr_i(isa_op1_c downto isa_op2_c)) is
@@ -38,22 +38,27 @@ decoder: process(instr_i)
 
         when op_mem_load_c => -- Load
           ctrl_o(ctrl_rb_imm_c) 							     <= '1';
-          ctrl_o(ctrl_rb_c) 							         <=  op_not_using_regX;      -- not using rb
-          ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <=  instr_i(isa_mem_load_ra_2_c  downto isa_mem_load_ra_0_c);			-- operand a register
-          ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <=  instr_i(isa_mem_load_rd_2_c  downto isa_mem_load_rd_0_c); 			-- destination register 
-          imm_o   	                               <=  "0000000000" & instr_i(isa_mem_load_imm_6_c downto isa_mem_load_imm_0_c); 		-- immediate
+          ctrl_o(ctrl_ra_c) 							         <= '0';
+          ctrl_o(ctrl_rb_c) 							         <= '0';
+          ctrl_o(ctrl_rd_c) 							         <= '0';          
+          ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <= instr_i(isa_mem_load_ra_2_c  downto isa_mem_load_ra_0_c);			
+          ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <= instr_i(isa_mem_load_rd_2_c  downto isa_mem_load_rd_0_c); 
+          imm_o   	                               <= "0000000000" & instr_i(isa_mem_load_imm_6_c downto isa_mem_load_imm_0_c); 
         
         when op_mem_store_c => -- Store
-          ctrl_o(ctrl_rd_c) 							         <=  op_not_using_regX;    -- not using rd
-          ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <=  instr_i(isa_mem_store_ra_2_c  downto isa_mem_store_ra_0_c);						-- operand a register
-          ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c) <=  instr_i(isa_mem_store_rb_2_c  downto isa_mem_store_rb_0_c); 						-- operand b register
-          imm_o   													       <=  "0000000000" & instr_i(isa_mem_store_imm_6_c downto isa_mem_store_imm_0_c);	-- immediate
+          ctrl_o(ctrl_ra_c) 							         <= '0';
+          ctrl_o(ctrl_rb_c) 							         <= '0';
+          ctrl_o(ctrl_rd_c) 							         <= '0';          
+          ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <= instr_i(isa_mem_store_ra_2_c  downto isa_mem_store_ra_0_c);
+          ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c) <= instr_i(isa_mem_store_rb_2_c  downto isa_mem_store_rb_0_c);
+          imm_o   													       <= "0000000000" & instr_i(isa_mem_store_imm_6_c downto isa_mem_store_imm_0_c);
           
 				when op_mem_move_c => -- Move
-          ctrl_o(ctrl_ra_c) 							         <=  op_not_using_regX;      -- not using ra
-          ctrl_o(ctrl_rb_c) 							         <=  op_not_using_regX;      -- not using rb
-					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <=  instr_i(isa_mem_move_rd_2_c  downto isa_mem_move_rd_0_c);						-- operand a register
-					imm_o   													       <=  "0000000" & instr_i(isa_mem_move_imm_8_c downto isa_mem_move_imm_0_c);	-- immediate
+          ctrl_o(ctrl_ra_c) 							         <= '0';
+          ctrl_o(ctrl_rb_c) 							         <= '0';
+          ctrl_o(ctrl_rd_c) 							         <= '0';
+					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <= instr_i(isa_mem_move_rd_2_c  downto isa_mem_move_rd_0_c);						-- operand a register
+					imm_o   													       <= "0000000" & instr_i(isa_mem_move_imm_8_c downto isa_mem_move_imm_0_c);	-- immediate
 			
         when OTHERS => ctrl_o <= (OTHERS=>'X');
       end case;
