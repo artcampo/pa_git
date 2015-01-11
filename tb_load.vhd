@@ -16,27 +16,31 @@ ARCHITECTURE testbench OF tb_load IS
 
 
 -- Common signals
-SIGNAL   Rst: 				std_logic;
-SIGNAL 	 TestClk: 		std_logic := '0';
-CONSTANT ClkPeriod: 		TIME := 10 ns;
-
+SIGNAL   Rst: 				 std_logic;
+SIGNAL 	 TestClk: 		 std_logic := '0';
+CONSTANT ClkPeriod: 	 TIME := 10 ns;
+constant numberCycles: natural := 15;
 
 BEGIN
 
--- Free running test clock
+  -- Free running test clock
   TestClk <= NOT TestClk AFTER ClkPeriod/2;
 
 
--- Instance of design being tested
+  -- Instance of design being tested
   test_load: proc PORT MAP (clock_i,
                             reset_i
                             );
-                            
-      WAIT FOR ClkPeriod/4;
-	   Rst <= vRst;
-		VerifySignal<=vVerify;
+  
+  -- reset processor
+  Rst <= '1';
+  WAIT FOR ClkPeriod;
+	
+  -- perform execution
+  Rst <= '0';
+  WAIT FOR ClkPeriod*numberCycles;
 
-
+  --Check here
 
                         
 END testbench;
