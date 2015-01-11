@@ -238,4 +238,14 @@ component mem is
 end component mem;
 
 
+-- Component: MEM -------------------------------------------------------
+-- -------------------------------------------------------------------------------------------
+component proc is
+	port	(
+		clock_i			: in   std_logic; 
+		reset_i			: in   std_logic
+  );
+end component proc;
+
+
 end package proc_package;

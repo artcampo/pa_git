@@ -27,11 +27,13 @@ BEGIN
 
 
   -- Instance of design being tested
-  test_load: proc PORT MAP (clock_i,
-                            reset_i
+  test_load: proc PORT MAP (clock_i => TestClk,
+                            reset_i => Rst
                             );
   
+  
  exec: PROCESS
+ variable ErrorMsg: LINE;
  BEGIN
   -- reset processor
   Rst <= '1';
@@ -42,7 +44,7 @@ BEGIN
   WAIT FOR ClkPeriod*numberCycles;
 
   --Check here
-  if(p256 /= "500") then
+  if(p256 /= x"500") then
       REPORT "Simulation complete"
       SEVERITY NOTE;
   else 
