@@ -31,7 +31,7 @@ begin
 			elsif(op1_i/=op2_i) then
 				res_o <= alu_not_equal_c;		-- if op1_i != op2_i res_o = FALSE
 			end if;
-		when alu_op1_c => res_o <= op1_i; 		-- move operation
+		when alu_op1_c => res_o <= op2_i; 		-- move operation
 		when others => res_o <= "XXXXXXXXXXXXXXXX";
 	end case;
  end process;
