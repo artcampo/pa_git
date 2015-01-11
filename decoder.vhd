@@ -54,9 +54,8 @@ decoder: process(instr_i)
           imm_o   													       <= "0000000000" & instr_i(isa_mem_store_imm_6_c downto isa_mem_store_imm_0_c);
           
 				when op_mem_move_c => -- Move
-          ctrl_o(ctrl_ra_c) 							         <= '0';
-          ctrl_o(ctrl_rb_c) 							         <= '0';
-          ctrl_o(ctrl_rd_c) 							         <= '0';
+          ctrl_o(ctrl_rb_imm_c) 	  			         <= '1';
+          ctrl_o(ctrl_rd_c) 							         <= '1';
 					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <= instr_i(isa_mem_move_rd_2_c  downto isa_mem_move_rd_0_c);						-- operand a register
 					imm_o   													       <= "0000000" & instr_i(isa_mem_move_imm_8_c downto isa_mem_move_imm_0_c);	-- immediate
 			
