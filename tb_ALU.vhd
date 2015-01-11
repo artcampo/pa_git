@@ -105,10 +105,10 @@ END PROCESS;
       IF check_res /= res_o THEN
         write(ErrorMsg, STRING'("Vector failed: check_res "));
         write(ErrorMsg, now);
-		  write(ErrorMsg, STRING'(" -- is: "));
-		  write(ErrorMsg, res_o );
-		  write(ErrorMsg, STRING'(" should: "));
-		  write(ErrorMsg, check_res);		  
+		    write(ErrorMsg, STRING'(" -- is: "));
+		    write(ErrorMsg, res_o );
+		    write(ErrorMsg, STRING'(" should: "));
+		    write(ErrorMsg, check_res);		  
         writeline(output, ErrorMsg);
       END IF;
     END IF;

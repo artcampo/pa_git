@@ -45,12 +45,11 @@ BEGIN
 
   --Check here
   if(p256 /= x"500") then
-      REPORT "Simulation complete"
-      SEVERITY NOTE;
-  else 
-        write(ErrorMsg, STRING'(" Should: "));
-        write(ErrorMsg, "500");		  
-        writeline(output, ErrorMsg);
+      --REPORT "Simulation complete"
+      --SEVERITY NOTE;
+      --write(ErrorMsg, STRING'(" Should: "));
+      --write(ErrorMsg, "500");		  
+      --writeline(output, ErrorMsg);
   end if;
    
 end process;
