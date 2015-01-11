@@ -33,12 +33,12 @@ begin
   
   --By pass form ma to ex ---------------------------------------------------------------------------------------
  -- rd provaider vs ra consummer
-  if ((ma_ctrl_i(ctrl_rd_c) = not op_not_using_regX) and ((ex_ctrl_i(ctrl_ra_c) = not op_not_using_regX))) then  
+  if ((ma_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_ra_c) = '1'))) then  
       if 	(ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c) ) then
         ra_o <= ma_data_i;
       end if;
       
-   elsif ((wb_ctrl_i(ctrl_rd_c) = not op_not_using_regX) and ((ex_ctrl_i(ctrl_ra_c) = not op_not_using_regX))) then  
+   elsif ((wb_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_ra_c) = '1'))) then  
       if 	(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c) ) then
         ra_o <= wb_data_i;
       end if;
@@ -47,12 +47,12 @@ begin
 
    
   -- rd provaider vs rb consummer
-  if ((ma_ctrl_i(ctrl_rd_c) = not op_not_using_regX) and ((ex_ctrl_i(ctrl_rb_c) = not op_not_using_regX))) then  
+  if ((ma_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_rb_c) = '1'))) then  
       if 	(ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c) ) then
         rb_o <= ma_data_i;
       end if;
       
-   elsif ((wb_ctrl_i(ctrl_rd_c) = not op_not_using_regX) and ((ex_ctrl_i(ctrl_rb_c) = not op_not_using_regX))) then  
+   elsif ((wb_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_rb_c) = '1'))) then  
       if 	(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c) ) then
         rb_o <= wb_data_i;
       end if;

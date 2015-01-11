@@ -70,7 +70,6 @@ decoder: process(instr_i)
         
 				when op_ari_imm_c => -- Op with immediate
 					ctrl_o(ctrl_rb_imm_c) 									    <= '1';
-					ctrl_o(ctrl_rb_c) 							            <=  op_not_using_regX;      -- not using rb
           ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c)  	<=  instr_i(isa_alu_imm_ra_2_c downto isa_alu_imm_ra_0_c); 							-- operand a register
 					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c)   	<=  instr_i(isa_alu_imm_rd_2_c downto isa_alu_imm_rd_0_c); 							-- destination register 
 					imm_o   													          <=  "00000000000" & instr_i(isa_alu_imm_imm_4_c downto isa_alu_imm_imm_0_c); 	-- immediate
