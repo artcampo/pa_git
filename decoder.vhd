@@ -23,8 +23,9 @@ begin
 decoder: process(instr_i)
   begin
   -- defaults, given that all bits are already set to '0' those whose value had to be set 0, won't be set again
-  ctrl_o                                     <= (others => '0');                  -- all signals disabled
-
+  ctrl_o <= (others => '0');                  -- all signals disabled
+  imm_o  <= (others => '0');
+  
 	case (instr_i(isa_op1_c downto isa_op2_c)) is
 	
      when op_nop_c => -- class 0: NOP

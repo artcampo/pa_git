@@ -11,7 +11,6 @@ entity ctrl is
     clock_i           : in  std_logic; -- global clock
     reset_i           : in  std_logic; -- global reset
 
-    
     de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
     ra_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);

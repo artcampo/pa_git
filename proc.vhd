@@ -21,7 +21,7 @@ architecture proc_behaviour of proc is
   signal ex_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal ma_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal wb_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);
-  signal stall              : std_logic := '1';	
+  signal stall              : std_logic := '0';	
   
   -- signals for Fetch
 	signal ins_addr           : std_logic_vector(data_width_c - 1 downto 0);	
@@ -45,12 +45,11 @@ architecture proc_behaviour of proc is
   -- signals for MA
   signal rd_ex_ma           :	std_logic_vector(data_width_c - 1 downto 0);
   signal w_enable           : std_logic := '1';	
+  signal ma_data            :	std_logic_vector(data_width_c - 1 downto 0);
   
   -- signals for WB
   signal rd_ma_wb           :	std_logic_vector(data_width_c - 1 downto 0);
   signal wb_data            :	std_logic_vector(data_width_c - 1 downto 0);
-      
-        
   
 begin 
 	proc_fetch : process(clock_i)
@@ -120,11 +119,10 @@ begin
       ex_ctrl_i    => ex_ctrl,
       ma_ctrl_i    => ma_ctrl,
       wb_ctrl_i    => wb_ctrl,
-      
       wb_data_i    => wb_data,
+      ma_data_i    => ma_data,
       ra_i         => ra_de_ex,
       rb_i         => rb_de_ex,
-      
       ra_o         => ra,
       rb_o         => rb
       );  

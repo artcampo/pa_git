@@ -200,10 +200,11 @@ component fwd
 		ma_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
     wb_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
 		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
-		ra_i        : in  std_logic_vector(data_width_c-1 downto 0);
-    rb_i        : in  std_logic_vector(data_width_c-1 downto 0);    
-		ra_o        : out std_logic_vector(data_width_c-1 downto 0);
-    rb_o        : out std_logic_vector(data_width_c-1 downto 0)
+    ma_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
+		ra_i         : in  std_logic_vector(data_width_c-1 downto 0);
+    rb_i         : in  std_logic_vector(data_width_c-1 downto 0);    
+		ra_o         : out std_logic_vector(data_width_c-1 downto 0);
+    rb_o         : out std_logic_vector(data_width_c-1 downto 0)
     );
 end component;
 

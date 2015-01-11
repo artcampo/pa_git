@@ -14,11 +14,11 @@ entity fwd is
 		
 		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
 		ma_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
-		ra_i        : in  std_logic_vector(data_width_c-1 downto 0);
-    rb_i        : in  std_logic_vector(data_width_c-1 downto 0);    
+		ra_i         : in  std_logic_vector(data_width_c-1 downto 0);
+    rb_i         : in  std_logic_vector(data_width_c-1 downto 0);    
 		
-		ra_o        : out std_logic_vector(data_width_c-1 downto 0);
-    rb_o        : out std_logic_vector(data_width_c-1 downto 0)
+		ra_o         : out std_logic_vector(data_width_c-1 downto 0);
+    rb_o         : out std_logic_vector(data_width_c-1 downto 0)
 	);
 end fwd;
 
@@ -28,7 +28,7 @@ begin
 
  -- Bypass, alu-alu and alu-mem  -------------------------------------------------------------------------------
   -- --------------------------------------------------------------------------------------------------------
- process (ex_ctrl_i, ma_ctrl_i, wb_ctrl_i, ra_i, rb_i) is
+ process (ex_ctrl_i, ma_ctrl_i, wb_ctrl_i, ra_i, rb_i, ma_data_i, wb_data_i) is
  begin  
   
   --By pass form ma to ex ---------------------------------------------------------------------------------------
