@@ -28,7 +28,7 @@ architecture mem_structure of mem is
 
 	-- MEMORY IMAGE (Bootloader Program) --
 	------------------------------------------------------
-	constant mem_ram : mem_ram_t :=
+	signal mem_ram : mem_ram_t :=
     (
 		000000 => x"0020", -- B
 		000001 => x"0010", -- B
