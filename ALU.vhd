@@ -32,7 +32,7 @@ begin
 				res_o <= alu_not_equal_c;		-- if op1_i != op2_i res_o = FALSE
 			end if;
 		when alu_op2_c => res_o <= op2_i; 		-- move operation
-		when others => res_o <= "XXXXXXXXXXXXXXXX";
+		when others => res_o <= (OTHERS => 'X');
 	end case;
  end process;
 	

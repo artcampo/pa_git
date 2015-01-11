@@ -58,7 +58,8 @@ decoder: process(instr_i)
           ctrl_o(ctrl_rd_c) 							         <= '1';
 					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <= instr_i(isa_mem_move_rd_2_c  downto isa_mem_move_rd_0_c);						-- operand a register
 					imm_o   													       <= "0000000" & instr_i(isa_mem_move_imm_8_c downto isa_mem_move_imm_0_c);	-- immediate
-			
+          ctrl_o(ctrl_alu_op_1_c downto ctrl_alu_op_0_c) <= alu_op2_c;
+          
         when OTHERS => ctrl_o <= (OTHERS=>'X');
       end case;
 			
