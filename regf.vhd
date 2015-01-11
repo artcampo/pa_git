@@ -36,10 +36,8 @@ begin
 
   write_reg: process(clock_i)
   begin
-    if rising_edge(clock_i) then
-      if (wb_ctrl_i(ctrl_nop_c) = '0') and (stall_i = '0') then
-        regf_mem(to_integer(unsigned(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c)))) <= wb_data_i;
-      end if;
+    if ((wb_ctrl_i(ctrl_nop_c) = '0') and (stall_i = '0') and (wb_ctrl_i(ctrl_rd_c) = '1')) then
+      regf_mem(to_integer(unsigned(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c)))) <= wb_data_i;
     end if;
   end process write_reg;
   
