@@ -34,33 +34,29 @@ decoder: process(instr_i)
       
 	   when op_mem_c => -- class 1: memory access
       -- -------------------------------------------------------------------	
-			case(instr_i(isa_mem_ldst_move_c)) is
+			case(instr_i(isa_mem_load_store_1_c downto isa_mem_load_store_0_c)) is
 
-				when op_mem_load_store_c => --Load/Store	
-            
-            case(instr_i(isa_mem_load_store_c)) is
-
-                when op_mem_load_c => -- Load
-                  ctrl_o(ctrl_rb_imm_c) 							     <= '1';
-                  ctrl_o(ctrl_rb_c) 							         <=  op_not_using_regX;      -- not using rb
-                  ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <=  instr_i(isa_mem_load_ra_2_c  downto isa_mem_load_ra_0_c);			-- operand a register
-                  ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <=  instr_i(isa_mem_load_rd_2_c  downto isa_mem_load_rd_0_c); 			-- destination register 
-                  imm_o   	                               <=  "0000000000" & instr_i(isa_mem_load_imm_6_c downto isa_mem_load_imm_0_c); 		-- immediate
-                
-                when op_mem_store_c => -- Store
-                  ctrl_o(ctrl_rd_c) 							         <=  op_not_using_regX;    -- not using rd
-                  ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <=  instr_i(isa_mem_store_ra_2_c  downto isa_mem_store_ra_0_c);						-- operand a register
-                  ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c) <=  instr_i(isa_mem_store_rb_2_c  downto isa_mem_store_rb_0_c); 						-- operand b register
-                  imm_o   													       <=  "0000000000" & instr_i(isa_mem_store_imm_6_c downto isa_mem_store_imm_0_c);	-- immediate
-             end case;
-              
-              
+        when op_mem_load_c => -- Load
+          ctrl_o(ctrl_rb_imm_c) 							     <= '1';
+          ctrl_o(ctrl_rb_c) 							         <=  op_not_using_regX;      -- not using rb
+          ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <=  instr_i(isa_mem_load_ra_2_c  downto isa_mem_load_ra_0_c);			-- operand a register
+          ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <=  instr_i(isa_mem_load_rd_2_c  downto isa_mem_load_rd_0_c); 			-- destination register 
+          imm_o   	                               <=  "0000000000" & instr_i(isa_mem_load_imm_6_c downto isa_mem_load_imm_0_c); 		-- immediate
+        
+        when op_mem_store_c => -- Store
+          ctrl_o(ctrl_rd_c) 							         <=  op_not_using_regX;    -- not using rd
+          ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <=  instr_i(isa_mem_store_ra_2_c  downto isa_mem_store_ra_0_c);						-- operand a register
+          ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c) <=  instr_i(isa_mem_store_rb_2_c  downto isa_mem_store_rb_0_c); 						-- operand b register
+          imm_o   													       <=  "0000000000" & instr_i(isa_mem_store_imm_6_c downto isa_mem_store_imm_0_c);	-- immediate
+          
 				when op_mem_move_c => -- Move
           ctrl_o(ctrl_ra_c) 							         <=  op_not_using_regX;      -- not using ra
           ctrl_o(ctrl_rb_c) 							         <=  op_not_using_regX;      -- not using rb
 					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <=  instr_i(isa_mem_move_rd_2_c  downto isa_mem_move_rd_0_c);						-- operand a register
 					imm_o   													       <=  "0000000" & instr_i(isa_mem_move_imm_8_c downto isa_mem_move_imm_0_c);	-- immediate
-			end case;
+			
+        when OTHERS => ctrl_o <= (OTHERS=>'X');
+      end case;
 			
 		
 		when op_ari_c => -- class 2: arithmetic op
