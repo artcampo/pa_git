@@ -13,6 +13,8 @@ entity mem is
 				clock_i         : in   std_logic; 
 				ins_addr_i      : in   std_logic_vector(data_width_c - 1 downto 0); 
 				ins_enab_i      : in   std_logic;
+        w_data_i        : in   std_logic_vector(data_width_c - 1 downto 0); -- write data
+        w_enable_i      : in   std_logic;
 				ins_data_o      : out  std_logic_vector(data_width_c - 1 downto 0) 
 			);
 end mem;

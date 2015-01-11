@@ -65,8 +65,9 @@ decoder: process(instr_i)
 		
 		when op_ari_c => -- class 2: arithmetic op
       -- -------------------------------------------------------------------	
+      ctrl_o(ctrl_alu_op_1_c downto ctrl_alu_op_0_c)  <= instr_i(isa_alu_op1_c downto isa_alu_op0_c);
 			case(instr_i(isa_alu_c)) is
-      
+        
 				when op_ari_imm_c => -- Op with immediate
 					ctrl_o(ctrl_rb_imm_c) 									    <= '1';
 					ctrl_o(ctrl_rb_c) 							            <=  op_not_using_regX;      -- not using rb

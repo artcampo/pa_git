@@ -15,16 +15,17 @@ entity ctrl is
     de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
     ra_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
+    rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
 
-
-    
     fe_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- of stage control
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ex stage control
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ma stage control
     wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);  -- wb stage control
     pc_from_fe_o      : out std_logic_vector(data_width_c-1 downto 0);
     ra_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
-    rb_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0)
+    rb_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rd_ex_ma_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rd_ma_wb_o        : out std_logic_vector(data_width_c-1 downto 0)
     );
 end ctrl;
 
@@ -35,6 +36,8 @@ architecture ctrl_structure of ctrl is
   signal ma_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
   signal wb_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
 
+  signal rd_ex_ma      : std_logic_vector(data_width_c-1 downto 0);
+  
   -- system enable/start-up control --
   signal sys_enable    : std_logic;
   signal start         : std_logic;
@@ -69,6 +72,8 @@ begin
         ex_ctrl	 <= (others => '0');
       else
         ex_ctrl     <= de_ctrl_i;
+        rd_ex_ma_o  <= rd_ex;
+        rd_ex_ma    <= rd_ex;
       end if;
     end if;
   end process ex_stage;
@@ -85,7 +90,8 @@ begin
       if (reset_i = '1') then
         ma_ctrl <= (others => '0');
       else
-        ma_ctrl <= ex_ctrl;
+        ma_ctrl    <= ex_ctrl;
+        rd_ma_wb_o <= rd_ex_ma;
       end if;
     end if;
   end process ma_stage;

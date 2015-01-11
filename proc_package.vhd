@@ -8,7 +8,7 @@ package proc_package is
 ----------------------------------------------------------------------------------------------
 constant data_width_c      : natural := 16;
 constant num_registers	   : natural := 8;
-constant ctrl_width_c      : natural := 16;
+constant ctrl_width_c      : natural := 30; -- TODO: reduce this when processor finished
 
 -- alu
 constant alu_op_bits	     : natural := 2;
@@ -63,8 +63,10 @@ constant ctrl_rd_0_c        : natural := 13;   -- register destination adr bit 0
 constant ctrl_rd_2_c        : natural := 15;   -- register destination adr bit 2
 
 
--- Sleep command --
-constant ctrl_sleep_c       : natural := 16; -- go to sleep
+-- Alu
+constant ctrl_alu_op_0_c        : natural := 16;   -- register destination adr bit 0
+constant ctrl_alu_op_1_c        : natural := 17;   -- register destination adr bit 2
+
 
 
 -- ISA description ---------------------------------------------------------------------------------
@@ -146,6 +148,7 @@ component ctrl
     de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0);
     ra_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
+    rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
   
     fe_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
@@ -153,7 +156,9 @@ component ctrl
     wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
     pc_from_fe_o      : out std_logic_vector(data_width_c-1 downto 0);
     ra_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
-    rb_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0)
+    rb_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rd_ex_ma_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rd_ma_wb_o        : out std_logic_vector(data_width_c-1 downto 0)
   );
 end component;
 
@@ -226,6 +231,8 @@ component mem is
     clock_i         : in   std_logic; 
     ins_addr_i      : in   std_logic_vector(data_width_c - 1 downto 0); 
     ins_enab_i      : in   std_logic;
+    w_data_i        : in   std_logic_vector(data_width_c - 1 downto 0); -- write data
+    w_enable_i      : in   std_logic;
     ins_data_o      : out  std_logic_vector(data_width_c - 1 downto 0) 
   );
 end component mem;

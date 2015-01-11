@@ -29,21 +29,25 @@ architecture proc_behaviour of proc is
 	signal ins_enab           : std_logic := '1';	
   
   -- signals for DEC
-  signal de_imm             : std_logic_vector(ctrl_width_c - 1 downto 0);
-  signal pc_from_fe         : std_logic_vector(ctrl_width_c - 1 downto 0);	
+  signal de_imm             : std_logic_vector(data_width_c - 1 downto 0);
+  signal pc_from_fe         : std_logic_vector(data_width_c - 1 downto 0);	
   signal ra_de	            :	std_logic_vector(data_width_c - 1 downto 0);
   signal rb_de	            :	std_logic_vector(data_width_c - 1 downto 0);
 
-  signal ra_de_ex	            :	std_logic_vector(data_width_c - 1 downto 0);
-  signal rb_de_ex	            :	std_logic_vector(data_width_c - 1 downto 0);  
+  signal ra_de_ex	          :	std_logic_vector(data_width_c - 1 downto 0);
+  signal rb_de_ex	          :	std_logic_vector(data_width_c - 1 downto 0);  
   
   -- signals for ALU
-  signal ra  	            :	std_logic_vector(data_width_c - 1 downto 0);
-  signal rb  	            :	std_logic_vector(data_width_c - 1 downto 0);
-  signal sel  	            :	std_logic_vector(alu_op_bits - 1  downto 0);
-  signal res  	            :	std_logic_vector(data_width_c - 1 downto 0);
+  signal ra  	              :	std_logic_vector(data_width_c - 1 downto 0);
+  signal rb  	              :	std_logic_vector(data_width_c - 1 downto 0);
+  signal rd   	            :	std_logic_vector(data_width_c - 1 downto 0);
+  
+  -- signals for MA
+  signal rd_ex_ma           :	std_logic_vector(data_width_c - 1 downto 0);
+  signal w_enable           : std_logic := '1';	
   
   -- signals for WB
+  signal rd_ma_wb           :	std_logic_vector(data_width_c - 1 downto 0);
   signal wb_data            :	std_logic_vector(data_width_c - 1 downto 0);
       
         
@@ -71,6 +75,9 @@ begin
       de_ctrl_i       => de_ctrl,
       ra_de_i         => ra_de,
       rb_de_i         => rb_de,
+      
+      rd_ex           => rd,
+      
       fe_ctrl_o       => fe_ctrl,
       ex_ctrl_o       => ex_ctrl,
       ma_ctrl_o       => ma_ctrl,
@@ -78,7 +85,10 @@ begin
       
       pc_from_fe_o    => pc_from_fe,
       ra_de_ex_o      => ra_de_ex,
-      rb_de_ex_o      => rb_de_ex
+      rb_de_ex_o      => rb_de_ex,
+      
+      rd_ex_ma_o      => rd_ex_ma,
+      rd_ma_wb_o      => rd_ma_wb
       ); 
 
 	-- deco: DE --------------------------------------------------------------------------------------------------
@@ -117,22 +127,25 @@ begin
       
       ra_o         => ra,
       rb_o         => rb
-      );          
+      );  
+      
 	-- alu: EX ----------------------------------------------------------------------------------------------------
   alu1: alu
     port map (
       op1_i => ra,
       op2_i => rb,
-      sel_i => sel,
-      res_o => res
+      sel_i => ex_ctrl(ctrl_alu_op_1_c downto ctrl_alu_op_0_c),
+      res_o => rd
       );   
    
 	-- mem: MA ----------------------------------------------------------------------------------------------------
   Mem1: mem
     port map (
-        clock_i  	  => clock_i,
+        clock_i  	 => clock_i,
         ins_addr_i => ins_addr,
         ins_enab_i => ins_enab,
+        w_data_i   => rd_ex_ma,
+        w_enable_i => w_enable,
         ins_data_o => ins_data	
         );   
 	
