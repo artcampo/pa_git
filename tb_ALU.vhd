@@ -17,7 +17,7 @@ ARCHITECTURE testbench OF tb_ALU IS
 -- Common signals
 FILE     vectorFile: TEXT OPEN READ_MODE is "vectorfile_alu.txt";
 SIGNAL   Rst: 				std_logic;
-SIGNAL 	TestClk: 		std_logic := '0';
+SIGNAL 	 TestClk: 		std_logic := '0';
 CONSTANT ClkPeriod: 		TIME := 10 ns;
 SIGNAL   VerifySignal:	std_logic := '0';
 

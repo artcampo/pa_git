@@ -6,6 +6,7 @@ use IEEE.math_real.all;
 use ieee.numeric_std.all;
 
 use work.proc_package.all;
+use work.tb_load_signals.all;
 
 entity mem is
 	port	(
@@ -20,7 +21,7 @@ entity mem is
 end mem;
 
 architecture mem_structure of mem is	
-	constant mem_size     	: natural := 256;
+	constant mem_size     	: natural := 256*10;
 	constant log2_mem_size 	: natural := 8;
 
 
@@ -41,15 +42,17 @@ begin
 
 	-- Memory Access ---------------------------------------------------------------------------------------
 	-- --------------------------------------------------------------------------------------------------------
-		mem_access: process(clock_i)
-		begin
-			if rising_edge(clock_i) then				
-				if (ins_enab_i = '1') then					
-					ins_data_o <= mem_ram(to_integer(unsigned(ins_addr_i(log2_mem_size-1 downto 0))));
-				end if;
-			end if;
-		end process mem_access;
+  mem_access: process(clock_i)
+  begin
+    if rising_edge(clock_i) then				
+      if (ins_enab_i = '1') then					
+        ins_data_o <= mem_ram(to_integer(unsigned(ins_addr_i(log2_mem_size-1 downto 0))));
+      end if;
+    end if;
+  end process mem_access;
 
+  p256 <= mem_ram(256);
+  p257 <= mem_ram(257);
 
 
 end mem_structure;
