@@ -27,7 +27,10 @@ entity memg is
 end memg;
 
 architecture memg_structure of memg is	
-	
+
+	signal r_enable     : std_logic := '0'; 
+  signal w_enable     : std_logic := '0';
+  
 begin
 
   rd_o        <= data_i;
@@ -35,22 +38,27 @@ begin
 
 	mem_request : process(clock_i)
 	 begin
-		if (rising_edge(clock_i) and ma_ctrl_i(ctrl_use_mem_c) = '1') then		
-      data_addr_o <= addr_i; 
-			if (ma_ctrl_i(ctrl_rd_c) = '1') then				 
-				-- load
-        r_enable_o <= '1';
-        w_enable_o <= '0';
-			else
-        -- store
-        r_enable_o <= '0';
-        w_enable_o <= '1';
-        w_data_o   <= rb_i;
-			end if;	
-    else
-        r_enable_o <= '0';
-        w_enable_o <= '0';
-		end if;
+		if (rising_edge(clock_i)) then
+      if(ma_ctrl_i(ctrl_use_mem_c) = '1') then
+        data_addr_o <= addr_i; 
+        if (ma_ctrl_i(ctrl_rd_c) = '1') then				 
+          -- load
+          r_enable <= '1';
+          w_enable <= '0';
+        else
+          -- store
+          r_enable <= '0';
+          w_enable <= '1';
+          w_data_o   <= rb_i;
+        end if;	
+      else
+          r_enable <= '0';
+          w_enable <= '0';
+      end if;
+    end if;
 	end process;
 
+  r_enable_o <= r_enable;
+  w_enable_o <= w_enable;
+  
 end memg_structure;
