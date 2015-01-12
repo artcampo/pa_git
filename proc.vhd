@@ -138,9 +138,11 @@ begin
   memg1: memg
     port map (
         clock_i  	 => clock_i,
+        ma_ctrl_i  => ma_ctrl,
 				data_i     => data_mem,
-        rd_i       => rd_ex_ma,
-        data_addr_o => data_addr,
+        addr_i     => rd_ex_ma,
+        rb_i       => rb_ex_ma,
+        data_addr_o=> data_addr,
         w_data_o   => w_data,
         w_enable_o => w_enable,
         r_data_o   => r_data,

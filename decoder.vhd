@@ -31,13 +31,13 @@ decoder: process(instr_i)
      when op_nop_c => -- class 0: NOP
       -- -------------------------------------------------------------------	
       ctrl_o(ctrl_nop_c)  <= '1';
-      
-      
+       
 	   when op_mem_c => -- class 1: memory access
       -- -------------------------------------------------------------------	
 			case(instr_i(isa_mem_load_store_1_c downto isa_mem_load_store_0_c)) is
 
         when op_mem_load_c => -- Load
+          ctrl_o(ctrl_use_mem_c) 							     <= '1';
           ctrl_o(ctrl_rb_imm_c) 							     <= '1';
           ctrl_o(ctrl_ra_c) 							         <= '1';
           ctrl_o(ctrl_rd_c) 							         <= '1';  
@@ -47,6 +47,7 @@ decoder: process(instr_i)
           imm_o   	                               <= "0000000000" & instr_i(isa_mem_load_imm_6_c downto isa_mem_load_imm_0_c); 
         
         when op_mem_store_c => -- Store
+          ctrl_o(ctrl_use_mem_c) 							     <= '1';
           ctrl_o(ctrl_ra_c) 							         <= '0';
           ctrl_o(ctrl_rb_c) 							         <= '0';
           ctrl_o(ctrl_rd_c) 							         <= '0';          

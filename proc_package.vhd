@@ -61,12 +61,12 @@ constant ctrl_rd_c          : natural := 12;   -- is 1 for not using D, 0 for us
 constant ctrl_rd_0_c        : natural := 13;   -- register destination adr bit 0
 constant ctrl_rd_2_c        : natural := 15;   -- register destination adr bit 2
 
-
 -- Alu
 constant ctrl_alu_op_0_c        : natural := 16;   -- register destination adr bit 0
 constant ctrl_alu_op_1_c        : natural := 17;   -- register destination adr bit 2
 
-
+-- Memg
+constant ctrl_use_mem_c        : natural := 18;   -- set if it accesses memory
 
 -- ISA description ---------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
@@ -228,8 +228,10 @@ end component ALU;
 component memg is
 	port	(
 				clock_i         : in   std_logic; 
+        ma_ctrl_i       : in   std_logic_vector(ctrl_width_c - 1 downto 0); -- ma stage control
 			  data_i          : in   std_logic_vector(data_width_c - 1 downto 0); -- data coming from mem
-        rd_i            : in   std_logic_vector(data_width_c - 1 downto 0); -- register to write to mem
+        addr_i          : in   std_logic_vector(data_width_c - 1 downto 0); -- address to access
+        rb_i            : in   std_logic_vector(data_width_c - 1 downto 0); -- register to write to mem
        
         data_addr_o     : out  std_logic_vector(data_width_c - 1 downto 0); -- to mem interface
         w_data_o        : out  std_logic_vector(data_width_c - 1 downto 0); 
