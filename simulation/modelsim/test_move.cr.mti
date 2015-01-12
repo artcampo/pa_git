@@ -59,13 +59,6 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Compiling entity decoder
 -- Compiling architecture decoder_structure of decoder
 
-} {} {}} C:/Users/bscuser/Desktop/pa_git/proc_package.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/proc_package.vhd
-Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling package proc_package
-
 } {} {}} C:/Users/bscuser/Desktop/pa_git/mem.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/mem.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package STANDARD
@@ -77,6 +70,13 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package tb_load_signals
 -- Compiling entity mem
 -- Compiling architecture mem_structure of mem
+
+} {} {}} C:/Users/bscuser/Desktop/pa_git/proc_package.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/proc_package.vhd
+Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling package proc_package
 
 } {} {}} C:/Users/bscuser/Desktop/pa_git/proc.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/proc.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013

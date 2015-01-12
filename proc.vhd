@@ -54,16 +54,7 @@ architecture proc_behaviour of proc is
 
   
 begin 
-	proc_fetch : process(clock_i)
-	 begin
-		if (rising_edge(clock_i)) then			
-			if (reset_I = '1') then				 
-				ins_addr <= (others => '0');
-			else
-        ins_addr <= std_logic_vector(unsigned(ins_addr)+1);
-			end if;			
-		end if;
-	end process;
+
           
 	-- ctrl ----------------------------------------------------------------------------------------------------
   ctrl1: ctrl
@@ -77,6 +68,7 @@ begin
       rb_de_i         => rb_de, 
       rd_ex           => rd,
       
+      inst_pc_o       => ins_addr,
       instr_fe_o      => instr_fe,
       ex_ctrl_o       => ex_ctrl,
       ma_ctrl_o       => ma_ctrl,

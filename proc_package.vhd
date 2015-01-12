@@ -149,6 +149,7 @@ component ctrl
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
   
+    inst_pc_o         : out std_logic_vector(data_width_c-1 downto 0);
     instr_fe_o        : out std_logic_vector(data_width_c-1 downto 0); -- instruction fetched
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);

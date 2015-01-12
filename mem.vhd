@@ -40,13 +40,13 @@ begin
 
 	-- Memory Access ---------------------------------------------------------------------------------------
 	-- --------------------------------------------------------------------------------------------------------
-  mem_access: process(clock_i)
+  mem_access: process(ins_addr_i)
   begin
-    if rising_edge(clock_i) then				
+    --if rising_edge(clock_i) then				
       if (ins_enab_i = '1') then					
         ins_data_o <= mem_ram(to_integer(unsigned(ins_addr_i(log2_mem_size-1 downto 0))));
       end if;
-    end if;
+    --end if;
   end process mem_access;
 
   p256 <= mem_ram(256);

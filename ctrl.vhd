@@ -17,6 +17,7 @@ entity ctrl is
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
 
+    inst_pc_o         : out std_logic_vector(data_width_c-1 downto 0);
     instr_fe_o        : out std_logic_vector(data_width_c-1 downto 0); -- instruction fetched
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ex stage control
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ma stage control
@@ -30,6 +31,8 @@ entity ctrl is
 end ctrl;
 
 architecture ctrl_structure of ctrl is
+
+  signal ins_addr       : std_logic_vector(data_width_c-1 downto 0); -- pc
 
   -- pipeline register --
   signal de_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
@@ -46,6 +49,18 @@ architecture ctrl_structure of ctrl is
 	
 begin
 
+	inc_pc : process(clock_i)
+	 begin
+		if (rising_edge(clock_i)) then			
+			if (reset_i = '1') then				 
+				ins_addr <= (others => '0');
+			else
+        ins_addr <= std_logic_vector(unsigned(ins_addr)+1);
+			end if;			
+		end if;
+	end process;
+  
+  inst_pc_o <= ins_addr;
   
  -- Stage 1:instruction fetch ------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
@@ -63,9 +78,9 @@ begin
   
  -- Stage 2: decode/ operand fetch ------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
-  de_stage: process (reset_i, de_ctrl_i, ra_de_i, rb_de_i)
+  de_stage: process (clock_i)
   begin
-    --if rising_edge(clock_i) then
+    if rising_edge(clock_i) then
       if (reset_i = '1') then
         de_ctrl	    <= (0 => '1', others => '0');
       else
@@ -73,7 +88,7 @@ begin
         ra_de_ex_o  <= ra_de_i;
         rb_de_ex_o  <= rb_de_i;
       end if;
-    --end if;
+    end if;
   end process de_stage;
  
 	 
@@ -85,9 +100,9 @@ begin
       if (reset_i = '1') then
         ex_ctrl	 <= (0 => '1', others => '0');
       else
-        ex_ctrl     <= de_ctrl;
         rd_ex_ma_o  <= rd_ex;
         rd_ex_ma    <= rd_ex;
+        ex_ctrl     <= de_ctrl;
       end if;
     end if;
   end process ex_stage;
@@ -104,8 +119,8 @@ begin
       if (reset_i = '1') then
         ma_ctrl <= (0 => '1', others => '0');
       else
+        rd_ma_wb_o <= rd_ex_ma; 
         ma_ctrl    <= ex_ctrl;
-        rd_ma_wb_o <= rd_ex_ma;
       end if;
     end if;
   end process ma_stage;
