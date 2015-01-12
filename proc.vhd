@@ -24,7 +24,7 @@ architecture proc_behaviour of proc is
   
   -- signals for Fetch
 	signal ins_addr           : std_logic_vector(data_width_c - 1 downto 0);	
-	signal ins_data           : std_logic_vector(data_width_c - 1 downto 0); -- to fetch
+  signal instr_fe           : std_logic_vector(data_width_c - 1 downto 0); -- to fetch
   signal ins_data_mem       : std_logic_vector(data_width_c - 1 downto 0); -- from memory	
 	signal ins_enab           : std_logic := '1';	
 
@@ -59,15 +59,11 @@ begin
 		if (rising_edge(clock_i)) then			
 			if (reset_I = '1') then				 
 				ins_addr <= (others => '0');
-        ins_data <= (others => '0');
 			else
         ins_addr <= std_logic_vector(unsigned(ins_addr)+1);
-        ins_data <= ins_data_mem;
 			end if;			
 		end if;
-	end process;					
-
-
+	end process;
           
 	-- ctrl ----------------------------------------------------------------------------------------------------
   ctrl1: ctrl
@@ -75,12 +71,13 @@ begin
       clock_i         => clock_i,
       reset_i         => reset_i,
 		
+      instr_mem_i     => ins_data_mem,
       de_ctrl_i       => de_ctrl,
       ra_de_i         => ra_de,
-      rb_de_i         => rb_de,
-      
+      rb_de_i         => rb_de, 
       rd_ex           => rd,
       
+      instr_fe_o      => instr_fe,
       ex_ctrl_o       => ex_ctrl,
       ma_ctrl_o       => ma_ctrl,
       wb_ctrl_o       => wb_ctrl,
@@ -96,7 +93,7 @@ begin
 	-- deco: DE --------------------------------------------------------------------------------------------------
   dec1: decoder
     port map (
-			instr_i         => ins_data,
+			instr_i         => instr_fe,
 			ctrl_o          => de_ctrl,
 			imm_o           => de_imm
       );

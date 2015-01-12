@@ -11,11 +11,13 @@ entity ctrl is
     clock_i           : in  std_logic; -- global clock
     reset_i           : in  std_logic; -- global reset
 
+    instr_mem_i       : in  std_logic_vector(data_width_c-1 downto 0); -- instruction input
     de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
     ra_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
 
+    instr_fe_o        : out std_logic_vector(data_width_c-1 downto 0); -- instruction fetched
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ex stage control
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ma stage control
     wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);  -- wb stage control
@@ -30,6 +32,7 @@ end ctrl;
 architecture ctrl_structure of ctrl is
 
   -- pipeline register --
+  signal de_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
   signal ex_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
   signal ma_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
   signal wb_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
@@ -43,25 +46,38 @@ architecture ctrl_structure of ctrl is
 	
 begin
 
-
   
- -- Stage 1: decode/ operand fetch ------------------------------------------------------------------------------
+ -- Stage 1:instruction fetch ------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
-  de_stage: process (clock_i)
+  fe_stage: process (clock_i)
   begin
     if rising_edge(clock_i) then
       if (reset_i = '1') then
-        de_ctrl	 <= (0 => '1', others => '0');
+        instr_fe_o <= ( others => '0');
       else
-        de_ctrl   <= de_ctrl_i;
+        instr_fe_o <= instr_mem_i;
+      end if;
+    end if;
+  end process fe_stage;
+
+  
+ -- Stage 2: decode/ operand fetch ------------------------------------------------------------------------------
+ -- --------------------------------------------------------------------------------------------------------
+  de_stage: process (reset_i, de_ctrl_i, ra_de_i, rb_de_i)
+  begin
+    --if rising_edge(clock_i) then
+      if (reset_i = '1') then
+        de_ctrl	    <= (0 => '1', others => '0');
+      else
+        de_ctrl     <= de_ctrl_i;
         ra_de_ex_o  <= ra_de_i;
         rb_de_ex_o  <= rb_de_i;
       end if;
-    end if;
+    --end if;
   end process de_stage;
  
 	 
- -- Stage 2: Execution ----------------------------------------------------------------------------------
+ -- Stage 3: Execution ----------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
   ex_stage: process (clock_i)
   begin
@@ -69,7 +85,7 @@ begin
       if (reset_i = '1') then
         ex_ctrl	 <= (0 => '1', others => '0');
       else
-        ex_ctrl     <= de_ctrl_i;
+        ex_ctrl     <= de_ctrl;
         rd_ex_ma_o  <= rd_ex;
         rd_ex_ma    <= rd_ex;
       end if;
@@ -80,7 +96,7 @@ begin
   ex_ctrl_o <= ex_ctrl;
 
    
-   -- Stage 3: Memory Access ------------------------------------------------------------------------------
+   -- Stage 4: Memory Access ------------------------------------------------------------------------------
    -- --------------------------------------------------------------------------------------------------------
   ma_stage: process (clock_i)
   begin
@@ -99,7 +115,7 @@ begin
    
    
 
-   -- Stage 4: Write Back ---------------------------------------------------------------------------------
+   -- Stage 5: Write Back ---------------------------------------------------------------------------------
    -- --------------------------------------------------------------------------------------------------------
   wb_stage: process (clock_i)
   begin
