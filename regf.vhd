@@ -18,8 +18,9 @@ entity regf is
 		imm_i        : in  std_logic_vector(data_width_c-1 downto 0);
     pc_from_fe_i : in  std_logic_vector(data_width_c-1 downto 0);
 		
-		ra_o        : out std_logic_vector(data_width_c-1 downto 0);
-    rb_o        : out std_logic_vector(data_width_c-1 downto 0)
+		ra_o         : out std_logic_vector(data_width_c-1 downto 0);
+    rb_o         : out std_logic_vector(data_width_c-1 downto 0);
+    rc_o         : out std_logic_vector(data_width_c-1 downto 0)
 	);
 end regf;
 
@@ -57,6 +58,7 @@ begin
     if (rising_edge(clock_i)) then
       ra_o <= ra2;
       rb_o <= rb2;
+      rc_o <= rb;
     end if;
   end process read_reg;
   

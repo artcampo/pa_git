@@ -15,6 +15,7 @@ entity ctrl is
     de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
     ra_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
+    rc_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
 
     inst_pc_o         : out std_logic_vector(data_width_c-1 downto 0);
@@ -25,6 +26,7 @@ entity ctrl is
     pc_from_fe_o      : out std_logic_vector(data_width_c-1 downto 0);
     ra_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
     rb_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rc_ex_ma_o        : out std_logic_vector(data_width_c-1 downto 0);
     rd_ex_ma_o        : out std_logic_vector(data_width_c-1 downto 0);
     rd_ma_wb_o        : out std_logic_vector(data_width_c-1 downto 0)
     );
@@ -40,6 +42,10 @@ architecture ctrl_structure of ctrl is
   signal ma_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
   signal wb_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
 
+  
+  --signal rb_ex         : std_logic_vector(data_width_c-1 downto 0);
+  signal rc_ex_ma         : std_logic_vector(data_width_c-1 downto 0);
+  signal rc_de_ex         : std_logic_vector(data_width_c-1 downto 0);
   signal rd_ex_ma      : std_logic_vector(data_width_c-1 downto 0);
   
   -- system enable/start-up control --
@@ -87,10 +93,10 @@ begin
         de_ctrl     <= de_ctrl_i;
         ra_de_ex_o  <= ra_de_i;
         rb_de_ex_o  <= rb_de_i;
+        rc_de_ex    <= rc_de_i;
       end if;
     end if;
   end process de_stage;
- 
 	 
  -- Stage 3: Execution ----------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
@@ -102,13 +108,15 @@ begin
       else
         rd_ex_ma_o  <= rd_ex;
         rd_ex_ma    <= rd_ex;
+        rc_ex_ma    <= rc_de_ex;
         ex_ctrl     <= de_ctrl;
       end if;
     end if;
   end process ex_stage;
 
      -- output --
-  ex_ctrl_o <= ex_ctrl;
+  ex_ctrl_o  <= ex_ctrl;
+  rc_ex_ma_o <= rc_ex_ma;
 
    
    -- Stage 4: Memory Access ------------------------------------------------------------------------------

@@ -147,6 +147,7 @@ component ctrl
     de_ctrl_i         : in  std_logic_vector(ctrl_width_c-1 downto 0);
     ra_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
+    rc_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
   
     inst_pc_o         : out std_logic_vector(data_width_c-1 downto 0);
@@ -157,6 +158,7 @@ component ctrl
     pc_from_fe_o      : out std_logic_vector(data_width_c-1 downto 0);
     ra_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
     rb_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rc_ex_ma_o        : out std_logic_vector(data_width_c-1 downto 0);
     rd_ex_ma_o        : out std_logic_vector(data_width_c-1 downto 0);
     rd_ma_wb_o        : out std_logic_vector(data_width_c-1 downto 0)
   );
@@ -189,7 +191,8 @@ component regf
     pc_from_fe_i : in  std_logic_vector(data_width_c-1 downto 0);
 		
 		ra_o        : out std_logic_vector(data_width_c-1 downto 0);
-    rb_o        : out std_logic_vector(data_width_c-1 downto 0)
+    rb_o        : out std_logic_vector(data_width_c-1 downto 0);
+    rc_o         : out std_logic_vector(data_width_c-1 downto 0)
     );
 end component;
 
@@ -236,7 +239,6 @@ component memg is
         data_addr_o     : out  std_logic_vector(data_width_c - 1 downto 0); -- to mem interface
         w_data_o        : out  std_logic_vector(data_width_c - 1 downto 0); 
         w_enable_o      : out  std_logic;
-        r_data_o        : out  std_logic_vector(data_width_c - 1 downto 0); 
         r_enable_o      : out  std_logic;   
         r_is_code_o     : out  std_logic;                                   -- '1'=code, '0'=data
         rd_o            : out  std_logic_vector(data_width_c - 1 downto 0)
@@ -254,7 +256,6 @@ component mem is
     data_addr_i     : in   std_logic_vector(data_width_c - 1 downto 0); 
     w_data_i        : in   std_logic_vector(data_width_c - 1 downto 0); -- write data
     w_enable_i      : in   std_logic;
-    r_data_i        : in   std_logic_vector(data_width_c - 1 downto 0); -- write data
     r_enable_i      : in   std_logic;     
     ins_data_o      : out  std_logic_vector(data_width_c - 1 downto 0);
     data_o          : out  std_logic_vector(data_width_c - 1 downto 0)

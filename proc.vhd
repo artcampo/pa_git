@@ -35,6 +35,8 @@ architecture proc_behaviour of proc is
   signal pc_from_fe         : std_logic_vector(data_width_c - 1 downto 0);	
   signal ra_de	            :	std_logic_vector(data_width_c - 1 downto 0);
   signal rb_de	            :	std_logic_vector(data_width_c - 1 downto 0);
+  signal rc_de	            :	std_logic_vector(data_width_c - 1 downto 0);
+  
 
   signal ra_de_ex	          :	std_logic_vector(data_width_c - 1 downto 0);
   signal rb_de_ex	          :	std_logic_vector(data_width_c - 1 downto 0);  
@@ -45,10 +47,10 @@ architecture proc_behaviour of proc is
   signal rd   	            :	std_logic_vector(data_width_c - 1 downto 0);
   
   -- signals for MA
+  signal rb_ex_ma           :	std_logic_vector(data_width_c - 1 downto 0);
   signal rd_ex_ma           :	std_logic_vector(data_width_c - 1 downto 0);
   signal w_enable           : std_logic := '1';	
   signal r_enable           :	std_logic;
-  signal r_data             :	std_logic_vector(data_width_c - 1 downto 0);
   signal data_addr          :	std_logic_vector(data_width_c - 1 downto 0);
   signal rd_ma              :	std_logic_vector(data_width_c - 1 downto 0);
   signal data_mem           :	std_logic_vector(data_width_c - 1 downto 0);
@@ -72,6 +74,7 @@ begin
       de_ctrl_i       => de_ctrl,
       ra_de_i         => ra_de,
       rb_de_i         => rb_de, 
+      rc_de_i         => rc_de,
       rd_ex           => rd,
       
       inst_pc_o       => ins_addr,
@@ -84,6 +87,7 @@ begin
       ra_de_ex_o      => ra_de_ex,
       rb_de_ex_o      => rb_de_ex,
       
+      rc_ex_ma_o      => rb_ex_ma,
       rd_ex_ma_o      => rd_ex_ma,
       rd_ma_wb_o      => rd_ma_wb
       ); 
@@ -108,7 +112,8 @@ begin
       imm_i        => de_imm,
       pc_from_fe_i => pc_from_fe,   
       ra_o         => ra_de,
-      rb_o         => rb_de
+      rb_o         => rb_de,
+      rc_o         => rc_de
       );   
 
   -- fwd: EX ------------------------------------------------------------------------------------
@@ -145,7 +150,6 @@ begin
         data_addr_o=> data_addr,
         w_data_o   => w_data,
         w_enable_o => w_enable,
-        r_data_o   => r_data,
         r_enable_o => r_enable,
         r_is_code_o=> r_is_code,
         rd_o       => rd_ma
@@ -160,7 +164,6 @@ begin
         data_addr_i=> data_addr,
         w_data_i   => w_data,
         w_enable_i => w_enable,
-        r_data_i   => r_data,
         r_enable_i => r_enable,
         ins_data_o => ins_data_mem,
         data_o     => data_mem

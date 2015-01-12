@@ -17,7 +17,6 @@ entity mem is
         data_addr_i     : in   std_logic_vector(data_width_c - 1 downto 0); 
         w_data_i        : in   std_logic_vector(data_width_c - 1 downto 0); -- write data
         w_enable_i      : in   std_logic;
-        r_data_i        : in   std_logic_vector(data_width_c - 1 downto 0); -- write data
         r_enable_i      : in   std_logic; 
 				ins_data_o      : out  std_logic_vector(data_width_c - 1 downto 0);
         data_o          : out  std_logic_vector(data_width_c - 1 downto 0)
