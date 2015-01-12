@@ -47,8 +47,14 @@ architecture proc_behaviour of proc is
   -- signals for MA
   signal rd_ex_ma           :	std_logic_vector(data_width_c - 1 downto 0);
   signal w_enable           : std_logic := '1';	
-
-  
+  signal r_enable           :	std_logic;
+  signal r_data             :	std_logic_vector(data_width_c - 1 downto 0);
+  signal data_addr          :	std_logic_vector(data_width_c - 1 downto 0);
+  signal rd_ma              :	std_logic_vector(data_width_c - 1 downto 0);
+  signal data_mem           :	std_logic_vector(data_width_c - 1 downto 0);
+  signal w_data             :	std_logic_vector(data_width_c - 1 downto 0);
+  signal r_is_code          : std_logic := '0';
+        
   -- signals for WB
   signal rd_ma_wb           :	std_logic_vector(data_width_c - 1 downto 0);
 
@@ -127,16 +133,35 @@ begin
       sel_i => ex_ctrl(ctrl_alu_op_1_c downto ctrl_alu_op_0_c),
       res_o => rd
       );   
-   
-	-- mem: MA ----------------------------------------------------------------------------------------------------
+      
+  -- memg: MA ----------------------------------------------------------------------------------------------------
+  memg1: memg
+    port map (
+        clock_i  	 => clock_i,
+				data_i     => data_mem,
+        rd_i       => rd_ex_ma,
+        data_addr_o => data_addr,
+        w_data_o   => w_data,
+        w_enable_o => w_enable,
+        r_data_o   => r_data,
+        r_enable_o => r_enable,
+        r_is_code_o=> r_is_code,
+        rd_o       => rd_ma
+        );         
+
+	-- mem: dehors ----------------------------------------------------------------------------------------------------
   Mem1: mem
     port map (
         clock_i  	 => clock_i,
         ins_addr_i => ins_addr,
         ins_enab_i => ins_enab,
-        w_data_i   => rd_ex_ma,
+        data_addr_i=> data_addr,
+        w_data_i   => w_data,
         w_enable_i => w_enable,
-        ins_data_o => ins_data_mem	
+        r_data_i   => r_data,
+        r_enable_i => r_enable,
+        ins_data_o => ins_data_mem,
+        data_o     => data_mem
         );   
 	
 end proc_behaviour;
