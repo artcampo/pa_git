@@ -25,8 +25,11 @@ architecture proc_behaviour of proc is
   
   -- signals for Fetch
 	signal ins_addr           : std_logic_vector(data_width_c - 1 downto 0);	
-	signal ins_data           : std_logic_vector(data_width_c - 1 downto 0);	
+	signal ins_data           : std_logic_vector(data_width_c - 1 downto 0); -- to fetch
+  signal ins_data_mem       : std_logic_vector(data_width_c - 1 downto 0); -- from memory	
 	signal ins_enab           : std_logic := '1';	
+
+  
   
   -- signals for DEC
   signal de_imm             : std_logic_vector(data_width_c - 1 downto 0);
@@ -56,8 +59,10 @@ begin
 	 begin
 		if (rising_edge(clock_i)) then			
 			if (reset_I = '1') then				 
-				 ins_addr <= (others => '0');
+				ins_addr <= (others => '0');
+        ins_data <= (0 => '1', others => '0');
 			else
+        ins_data <= ins_data_mem;
 				ins_addr <= std_logic_vector(unsigned(ins_addr)+1);
 			end if;			
 		end if;
@@ -144,7 +149,7 @@ begin
         ins_enab_i => ins_enab,
         w_data_i   => rd_ex_ma,
         w_enable_i => w_enable,
-        ins_data_o => ins_data	
+        ins_data_o => ins_data_mem	
         );   
 	
 end proc_behaviour;
