@@ -16,7 +16,6 @@ entity ctrl is
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
 
-    fe_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- of stage control
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ex stage control
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ma stage control
     wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);  -- wb stage control
@@ -52,9 +51,9 @@ begin
   begin
     if rising_edge(clock_i) then
       if (reset_i = '1') then
-        fe_ctrl_o	 <= (others => '0');
+        de_ctrl	 <= (0 => '1', others => '0');
       else
-        fe_ctrl_o   <= de_ctrl_i;
+        de_ctrl   <= de_ctrl_i;
         ra_de_ex_o  <= ra_de_i;
         rb_de_ex_o  <= rb_de_i;
       end if;
@@ -68,7 +67,7 @@ begin
   begin
     if rising_edge(clock_i) then
       if (reset_i = '1') then
-        ex_ctrl	 <= (others => '0');
+        ex_ctrl	 <= (0 => '1', others => '0');
       else
         ex_ctrl     <= de_ctrl_i;
         rd_ex_ma_o  <= rd_ex;
@@ -87,7 +86,7 @@ begin
   begin
     if rising_edge(clock_i) then
       if (reset_i = '1') then
-        ma_ctrl <= (others => '0');
+        ma_ctrl <= (0 => '1', others => '0');
       else
         ma_ctrl    <= ex_ctrl;
         rd_ma_wb_o <= rd_ex_ma;
@@ -106,7 +105,7 @@ begin
   begin
     if rising_edge(clock_i) then
       if (reset_i = '1') then
-        wb_ctrl <= (others => '0');
+        wb_ctrl <= (0 => '1', others => '0');
       else
         wb_ctrl <= ma_ctrl;
      end if;

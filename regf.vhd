@@ -13,7 +13,7 @@ entity regf is
 		stall_i		   : in   std_logic;
 		
 		wb_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
-		fe_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
+		de_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
 		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
 		imm_i        : in  std_logic_vector(data_width_c-1 downto 0);
     pc_from_fe_i : in  std_logic_vector(data_width_c-1 downto 0);
@@ -41,13 +41,13 @@ begin
     end if;
   end process write_reg;
   
-  operand_fetch: process(fe_ctrl_i, regf_mem)
+  operand_fetch: process(de_ctrl_i, regf_mem)
   begin
-    ra <= regf_mem(to_integer(unsigned(fe_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c))));
-    rb <= regf_mem(to_integer(unsigned(fe_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c))));
+    ra <= regf_mem(to_integer(unsigned(de_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c))));
+    rb <= regf_mem(to_integer(unsigned(de_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c))));
   end process operand_fetch;
 
-  ra_o <= pc_from_fe_i when (fe_ctrl_i(ctrl_ra_pc_c ) = '1')  else ra;
-  rb_o <= imm_i        when (fe_ctrl_i(ctrl_rb_imm_c) = '1')  else rb;
+  ra_o <= pc_from_fe_i when (de_ctrl_i(ctrl_ra_pc_c ) = '1')  else ra;
+  rb_o <= imm_i        when (de_ctrl_i(ctrl_rb_imm_c) = '1')  else rb;
   
 end regf_behaviour;

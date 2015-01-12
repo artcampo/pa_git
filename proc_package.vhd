@@ -8,7 +8,7 @@ package proc_package is
 ----------------------------------------------------------------------------------------------
 constant data_width_c      : natural := 16;
 constant num_registers	   : natural := 8;
-constant ctrl_width_c      : natural := 30; -- TODO: reduce this when processor finished
+constant ctrl_width_c      : natural := 20; -- TODO: reduce this when processor finished
 
 -- alu
 constant alu_op_bits	     : natural := 2;
@@ -148,7 +148,6 @@ component ctrl
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
   
-    fe_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
     wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
@@ -181,7 +180,7 @@ component regf
 		stall_i		   : in   std_logic;
 		
 		wb_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
-		fe_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
+		de_ctrl_i    : in  std_logic_vector(ctrl_width_c-1 downto 0);
 		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
 		imm_i        : in  std_logic_vector(data_width_c-1 downto 0);
     pc_from_fe_i : in  std_logic_vector(data_width_c-1 downto 0);

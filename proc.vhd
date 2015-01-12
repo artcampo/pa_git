@@ -17,7 +17,6 @@ architecture proc_behaviour of proc is
 
   -- signals for control
   signal de_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
-  signal fe_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal ex_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal ma_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal wb_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);
@@ -60,10 +59,10 @@ begin
 		if (rising_edge(clock_i)) then			
 			if (reset_I = '1') then				 
 				ins_addr <= (others => '0');
-        ins_data <= (0 => '1', others => '0');
+        ins_data <= (others => '0');
 			else
+        ins_addr <= std_logic_vector(unsigned(ins_addr)+1);
         ins_data <= ins_data_mem;
-				ins_addr <= std_logic_vector(unsigned(ins_addr)+1);
 			end if;			
 		end if;
 	end process;					
@@ -82,7 +81,6 @@ begin
       
       rd_ex           => rd,
       
-      fe_ctrl_o       => fe_ctrl,
       ex_ctrl_o       => ex_ctrl,
       ma_ctrl_o       => ma_ctrl,
       wb_ctrl_o       => wb_ctrl,
@@ -110,7 +108,7 @@ begin
       reset_i		   => reset_i,
       stall_i		   => stall,     
       wb_ctrl_i    => wb_ctrl,
-      fe_ctrl_i    => fe_ctrl,
+      de_ctrl_i    => de_ctrl,
       wb_data_i    => rd_ma_wb,
       imm_i        => de_imm,
       pc_from_fe_i => pc_from_fe,   
