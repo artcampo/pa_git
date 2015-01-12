@@ -34,26 +34,45 @@ architecture mem_structure of mem is
 	------------------------------------------------------
 	signal mem_ram : mem_ram_t :=
     (
-		000000 => x"620F", -- MOV R1, 15
+    000000 => x"4040", -- LD R0(0), R1
 		others => x"0000"  -- NOP
  	  );
+    
 	------------------------------------------------------
-
+	signal mem_data_ram : mem_ram_t :=
+    (
+		others => x"4203"
+ 	  );
+  
 begin
 
-	-- Memory Access ---------------------------------------------------------------------------------------
-	-- --------------------------------------------------------------------------------------------------------
+	-- Memory Access - code ---------------------------------------------------------------------------------------
   mem_access: process(ins_addr_i)
-  begin
-    --if rising_edge(clock_i) then				
-      if (ins_enab_i = '1') then					
-        ins_data_o <= mem_ram(to_integer(unsigned(ins_addr_i(log2_mem_size-1 downto 0))));
-      end if;
-    --end if;
+  begin			
+    if (ins_enab_i = '1') then					
+      ins_data_o <= mem_ram(to_integer(unsigned(ins_addr_i(log2_mem_size-1 downto 0))));
+    end if;
   end process mem_access;
 
-  p256 <= mem_ram(256);
-  p257 <= mem_ram(257);
+  -- Memory read - data ---------------------------------------------------------------------------------------
+  mem_data_read: process(data_addr_i, r_enable_i)
+  begin			
+    if (r_enable_i = '1') then					
+      data_o <= mem_data_ram(to_integer(unsigned(data_addr_i(log2_mem_size-1 downto 0))));
+    end if;
+  end process mem_data_read;  
+
+  -- Memory read - data ---------------------------------------------------------------------------------------
+  mem_data_write: process(data_addr_i, r_enable_i)
+  begin			
+    if (w_enable_i = '1') then					
+      mem_data_ram(to_integer(unsigned(data_addr_i(log2_mem_size-1 downto 0)))) <= w_data_i;
+    end if;
+  end process mem_data_write;    
+  
+  -- Used in tb_load
+  p256 <= mem_data_ram(256);
+  p257 <= mem_data_ram(257);
 
 
 end mem_structure;

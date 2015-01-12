@@ -76,6 +76,7 @@ begin
       rb_de_i         => rb_de, 
       rc_de_i         => rc_de,
       rd_ex           => rd,
+      data_ma_i       => rd_ma,
       
       inst_pc_o       => ins_addr,
       instr_fe_o      => instr_fe,

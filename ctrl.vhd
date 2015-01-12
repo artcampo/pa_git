@@ -17,6 +17,7 @@ entity ctrl is
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rc_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
+    data_ma_i         : in  std_logic_vector(data_width_c-1 downto 0);
 
     inst_pc_o         : out std_logic_vector(data_width_c-1 downto 0);
     instr_fe_o        : out std_logic_vector(data_width_c-1 downto 0); -- instruction fetched
@@ -127,7 +128,11 @@ begin
       if (reset_i = '1') then
         ma_ctrl <= (0 => '1', others => '0');
       else
-        rd_ma_wb_o <= rd_ex_ma; 
+        if (ma_ctrl(ctrl_use_mem_c) = '1' and ma_ctrl(ctrl_rd_c) = '1') then
+          rd_ma_wb_o <= data_ma_i;
+        else
+          rd_ma_wb_o <= rd_ex_ma;
+        end if;
         ma_ctrl    <= ex_ctrl;
       end if;
     end if;

@@ -1,22 +1,4 @@
-C:/Users/bscuser/Desktop/pa_git/ctrl.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/ctrl.vhd
-Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package proc_package
--- Compiling entity ctrl
--- Compiling architecture ctrl_structure of ctrl
-
-} {} {}} C:/Users/bscuser/Desktop/pa_git/tb_load_signals.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/tb_load_signals.vhd
-Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package proc_package
--- Compiling package tb_load_signals
-
-} {} {}} C:/Users/bscuser/Desktop/pa_git/fwd.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/fwd.vhd
+C:/Users/bscuser/Desktop/pa_git/fwd.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/fwd.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -25,6 +7,21 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package proc_package
 -- Compiling entity fwd
 -- Compiling architecture fwd_behaviour of fwd
+
+} {} {}} C:/Users/bscuser/Desktop/pa_git/tb_package.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/tb_package.vhd
+Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling package tb_package
+
+} {} {}} C:/Users/bscuser/Desktop/pa_git/tb_load_signals.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/tb_load_signals.vhd
+Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package proc_package
+-- Compiling package tb_load_signals
 
 } {} {}} C:/Users/bscuser/Desktop/pa_git/tb_load.vhd {2 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/tb_load.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
@@ -40,12 +37,35 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 ** Warning: C:/Users/bscuser/Desktop/pa_git/tb_load.vhd(47): (vcom-1083) Implicit array operator "/=" always returns TRUE (left length 16 is not equal to right length 12).
 
 
-} {} {}} C:/Users/bscuser/Desktop/pa_git/tb_package.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/tb_package.vhd
+} {} {}} C:/Users/bscuser/Desktop/pa_git/decoder.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/decoder.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Compiling package tb_package
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Loading package proc_package
+-- Compiling entity decoder
+-- Compiling architecture decoder_structure of decoder
+
+} {} {}} C:/Users/bscuser/Desktop/pa_git/memg.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/memg.vhd
+Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package MATH_REAL
+-- Loading package proc_package
+-- Loading package tb_load_signals
+-- Compiling entity memg
+-- Compiling architecture memg_structure of memg
+
+} {} {}} C:/Users/bscuser/Desktop/pa_git/proc_package.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/proc_package.vhd
+Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling package proc_package
 
 } {} {}} C:/Users/bscuser/Desktop/pa_git/ALU.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/ALU.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
@@ -58,16 +78,25 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Compiling entity ALU
 -- Compiling architecture ALU_structure of ALU
 
-} {} {}} C:/Users/bscuser/Desktop/pa_git/decoder.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/decoder.vhd
+} {} {}} C:/Users/bscuser/Desktop/pa_git/proc.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/proc.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Loading package std_logic_arith
--- Loading package STD_LOGIC_UNSIGNED
+-- Loading package NUMERIC_STD
 -- Loading package proc_package
--- Compiling entity decoder
--- Compiling architecture decoder_structure of decoder
+-- Compiling entity proc
+-- Compiling architecture proc_behaviour of proc
+
+} {} {}} C:/Users/bscuser/Desktop/pa_git/regf.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/regf.vhd
+Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package proc_package
+-- Compiling entity regf
+-- Compiling architecture regf_behaviour of regf
 
 } {} {}} C:/Users/bscuser/Desktop/pa_git/mem.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/mem.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
@@ -80,32 +109,5 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package tb_load_signals
 -- Compiling entity mem
 -- Compiling architecture mem_structure of mem
-
-} {} {}} C:/Users/bscuser/Desktop/pa_git/proc_package.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/proc_package.vhd
-Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling package proc_package
-
-} {} {}} C:/Users/bscuser/Desktop/pa_git/regf.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/regf.vhd
-Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package proc_package
--- Compiling entity regf
--- Compiling architecture regf_behaviour of regf
-
-} {} {}} C:/Users/bscuser/Desktop/pa_git/proc.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/proc.vhd
-Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package proc_package
--- Compiling entity proc
--- Compiling architecture proc_behaviour of proc
 
 } {} {}}
