@@ -5,4 +5,4 @@ bug2
 Registers were one cycle ahead of control words. Due to regf loading them asynchronously.
 
 bug 3
-Memory gate delayed by one cycle.
+Memory gate delayed by one cycle. Memg was synchronous, when it shouldn't.

@@ -33,25 +33,23 @@ begin
   rd_o        <= data_i;
   r_is_code_o <= '0';
 
-	mem_request : process(clock_i)
+	mem_request : process(ma_ctrl_i)
 	 begin
-		if (rising_edge(clock_i)) then
-      if(ma_ctrl_i(ctrl_use_mem_c) = '1') then
-        data_addr_o <= addr_i; 
-        if (ma_ctrl_i(ctrl_rd_c) = '1') then				 
-          -- load
-          r_enable_o <= '1';
-          w_enable_o <= '0';
-        else
-          -- store
-          r_enable_o <= '0';
-          w_enable_o <= '1';
-          w_data_o   <= rb_i;
-        end if;	
+    if(ma_ctrl_i(ctrl_use_mem_c) = '1') then
+      data_addr_o <= addr_i; 
+      if (ma_ctrl_i(ctrl_rd_c) = '1') then				 
+        -- load
+        r_enable_o <= '1';
+        w_enable_o <= '0';
       else
-          r_enable_o <= '0';
-          w_enable_o <= '0';
-      end if;
+        -- store
+        r_enable_o <= '0';
+        w_enable_o <= '1';
+        w_data_o   <= rb_i;
+      end if;	
+    else
+        r_enable_o <= '0';
+        w_enable_o <= '0';
     end if;
 	end process;
   
