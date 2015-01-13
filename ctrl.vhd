@@ -21,6 +21,7 @@ entity ctrl is
 
     inst_pc_o         : out std_logic_vector(data_width_c-1 downto 0);
     instr_fe_o        : out std_logic_vector(data_width_c-1 downto 0); -- instruction fetched
+    de_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- de stage control
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ex stage control
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ma stage control
     wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);  -- wb stage control
@@ -56,16 +57,7 @@ architecture ctrl_structure of ctrl is
 	
 begin
 
-	inc_pc : process(clock_i)
-	 begin
-		if (rising_edge(clock_i)) then			
-			if (reset_i = '1') then				 
-				ins_addr <= (others => '0');
-			else
-        ins_addr <= std_logic_vector(unsigned(ins_addr)+1);
-			end if;			
-		end if;
-	end process;
+
   
   inst_pc_o <= ins_addr;
   
@@ -75,9 +67,11 @@ begin
   begin
     if rising_edge(clock_i) then
       if (reset_i = '1') then
+        ins_addr   <= (others => '0');
         instr_fe_o <= ( others => '0');
       else
         instr_fe_o <= instr_mem_i;
+        ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
       end if;
     end if;
   end process fe_stage;
@@ -104,6 +98,7 @@ begin
       end if;
     end if;
   end process de_stage;
+  de_ctrl_o <= de_ctrl;
 	 
  -- Stage 3: Execution ----------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------

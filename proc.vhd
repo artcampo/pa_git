@@ -16,6 +16,7 @@ end proc;
 architecture proc_behaviour of proc is
 
   -- signals for control
+  signal f1x_de_ctrl        : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal de_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal ex_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
   signal ma_ctrl            : std_logic_vector(ctrl_width_c - 1 downto 0);	
@@ -68,7 +69,7 @@ begin
       reset_i         => reset_i,
 		
       instr_mem_i     => ins_data_mem,
-      de_ctrl_i       => de_ctrl,
+      de_ctrl_i       => f1x_de_ctrl,
       ra_de_i         => ra_de,
       rb_de_i         => rb_de, 
       rc_de_i         => rc_de,
@@ -77,6 +78,7 @@ begin
       
       inst_pc_o       => ins_addr,
       instr_fe_o      => instr_fe,
+      de_ctrl_o       => de_ctrl,
       ex_ctrl_o       => ex_ctrl,
       ma_ctrl_o       => ma_ctrl,
       wb_ctrl_o       => wb_ctrl,
@@ -93,8 +95,10 @@ begin
 	-- deco: DE --------------------------------------------------------------------------------------------------
   dec1: decoder
     port map (
+      clock_i         => clock_i,
+      reset_i		      => reset_i,
 			instr_i         => instr_fe,
-			ctrl_o          => de_ctrl,
+			ctrl_o          => f1x_de_ctrl,
 			imm_o           => de_imm
       );
       

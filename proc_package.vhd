@@ -153,6 +153,7 @@ component ctrl
   
     inst_pc_o         : out std_logic_vector(data_width_c-1 downto 0);
     instr_fe_o        : out std_logic_vector(data_width_c-1 downto 0); -- instruction fetched
+    de_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- de stage control
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
     wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
@@ -169,7 +170,9 @@ end component;
 -- Component: Decoder --------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------
 component decoder
-  port	(
+  port	(    
+    clock_i         : in  std_logic; 
+    reset_i		      : in  std_logic;    
     instr_i         : in  std_logic_vector(data_width_c-1 downto 0); -- instruction input
     ctrl_o          : out std_logic_vector(ctrl_width_c-1 downto 0); -- decoder ctrl lines
     imm_o           : out std_logic_vector(data_width_c-1 downto 0)  -- immediate unsigned output

@@ -10,3 +10,6 @@ Memory gate delayed by one cycle. Memg was synchronous, when it shouldn't.
 Bug 4
 Memory write done at the beginning of MA stage.
 Thus write should be done only on clock edge.
+
+Bug 5
+Decode ctrl word loaded at the same time as PC. Clock and reset added to it.
