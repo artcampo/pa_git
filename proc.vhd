@@ -147,7 +147,7 @@ begin
         ma_ctrl_i  => ma_ctrl,
 				data_i     => data_mem,
         addr_i     => rd_ex_ma,
-        rb_i       => rb_ex_ma,
+        rd_i       => rb_ex_ma,
         data_addr_o=> data_addr,
         w_data_o   => w_data,
         w_enable_o => w_enable,

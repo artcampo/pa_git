@@ -14,7 +14,7 @@ entity memg is
         ma_ctrl_i       : in   std_logic_vector(ctrl_width_c - 1 downto 0); -- ma stage control
 			  data_i          : in   std_logic_vector(data_width_c - 1 downto 0); -- data coming from mem
         addr_i          : in   std_logic_vector(data_width_c - 1 downto 0); -- address to access
-        rb_i            : in   std_logic_vector(data_width_c - 1 downto 0); -- register to write to mem
+        rd_i            : in   std_logic_vector(data_width_c - 1 downto 0); -- register to write to mem
        
         data_addr_o     : out  std_logic_vector(data_width_c - 1 downto 0); -- to mem interface
         w_data_o        : out  std_logic_vector(data_width_c - 1 downto 0); 
@@ -45,7 +45,7 @@ begin
         -- store
         r_enable_o <= '0';
         w_enable_o <= '1';
-        w_data_o   <= rb_i;
+        w_data_o   <= rd_i;
       end if;	
     else
         r_enable_o <= '0';

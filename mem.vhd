@@ -33,8 +33,8 @@ architecture mem_structure of mem is
 	-- MEMORY IMAGE (Bootloader Program) --
 	------------------------------------------------------
 	signal mem_ram : mem_ram_t :=
-    (
-    000000 => x"5040", -- ST R0(0), R1
+    (		
+		000000 => x"A040", -- ST R0(0), R1 - 1010 0000 0010 1000 - add r0,r1,r2
 		others => x"0000"  -- NOP
  	  );
     

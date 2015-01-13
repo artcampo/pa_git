@@ -58,8 +58,8 @@ decoder: process(instr_i)
 				when op_mem_move_c => -- Move
           ctrl_o(ctrl_rb_imm_c) 	  			         <= '1';
           ctrl_o(ctrl_rd_c) 							         <= '1';
-					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <= instr_i(isa_mem_move_rd_2_c  downto isa_mem_move_rd_0_c);						-- operand a register
-					imm_o   													       <= "0000000" & instr_i(isa_mem_move_imm_8_c downto isa_mem_move_imm_0_c);	-- immediate
+					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c) <= instr_i(isa_mem_move_rd_2_c  downto isa_mem_move_rd_0_c);
+					imm_o   													       <= "0000000" & instr_i(isa_mem_move_imm_8_c downto isa_mem_move_imm_0_c);
           ctrl_o(ctrl_alu_op_1_c downto ctrl_alu_op_0_c) <= alu_op2_c;
           
         when OTHERS => ctrl_o <= (OTHERS=>'X');
@@ -73,14 +73,17 @@ decoder: process(instr_i)
         
 				when op_ari_imm_c => -- Op with immediate
 					ctrl_o(ctrl_rb_imm_c) 									    <= '1';
-          ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c)  	<=  instr_i(isa_alu_imm_ra_2_c downto isa_alu_imm_ra_0_c); 							-- operand a register
-					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c)   	<=  instr_i(isa_alu_imm_rd_2_c downto isa_alu_imm_rd_0_c); 							-- destination register 
-					imm_o   													          <=  "00000000000" & instr_i(isa_alu_imm_imm_4_c downto isa_alu_imm_imm_0_c); 	-- immediate
+          ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c)  	<=  instr_i(isa_alu_imm_ra_2_c downto isa_alu_imm_ra_0_c);
+					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c)   	<=  instr_i(isa_alu_imm_rd_2_c downto isa_alu_imm_rd_0_c);
+					imm_o   													          <=  "00000000000" & instr_i(isa_alu_imm_imm_4_c downto isa_alu_imm_imm_0_c);
 				
 				when op_ari_reg_c => -- Op between registers
-					ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c)   	<=  instr_i(isa_alu_reg_ra_2_c downto isa_alu_reg_ra_0_c); 		-- operand a register
-					ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c)   	<=  instr_i(isa_alu_reg_rb_2_c downto isa_alu_reg_rb_0_c); 		-- operand b register
-					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c)   	<=  instr_i(isa_alu_reg_rd_2_c downto isa_alu_reg_rd_0_c);		-- immediate
+          ctrl_o(ctrl_ra_c) 							            <= '1';
+          ctrl_o(ctrl_rb_c) 							            <= '1';        
+          ctrl_o(ctrl_rd_c) 							            <= '1';
+					ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c)   	<=  instr_i(isa_alu_reg_ra_2_c downto isa_alu_reg_ra_0_c);
+					ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c)   	<=  instr_i(isa_alu_reg_rb_2_c downto isa_alu_reg_rb_0_c);
+					ctrl_o(ctrl_rd_2_c   downto ctrl_rd_0_c)   	<=  instr_i(isa_alu_reg_rd_2_c downto isa_alu_reg_rd_0_c);
           
         when OTHERS => ctrl_o <= (OTHERS=>'X');
         
