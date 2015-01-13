@@ -54,12 +54,22 @@ architecture ctrl_structure of ctrl is
   signal sys_enable    : std_logic;
   signal start         : std_logic;
   signal sleep         : std_logic;
+  
+  signal stall         : std_logic;
 	
 begin
 
-
-  
-  inst_pc_o <= ins_addr;
+  compute_stall: process (de_ctrl, ex_ctrl)
+  begin    
+    if( (    (de_ctrl(ctrl_ra_c) = '1' and unsigned(de_ctrl(ctrl_ra_2_c downto ctrl_ra_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
+              or (de_ctrl(ctrl_rb_c) = '1' and unsigned(de_ctrl(ctrl_rb_2_c downto ctrl_rb_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
+             ) 
+            and (ex_ctrl(ctrl_use_mem_c) = '1' and ex_ctrl(ctrl_rd_c) = '1')) then
+      stall <='1';
+    else
+      stall <= '0';
+    end if;
+  end process compute_stall;
   
  -- Stage 1:instruction fetch ------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
@@ -68,7 +78,7 @@ begin
     if rising_edge(clock_i) then
       if (reset_i = '1') then
         ins_addr   <= (others => '0');
-        instr_fe_o <= ( others => '0');
+        instr_fe_o <= (others => '0');
       else
         instr_fe_o <= instr_mem_i;
         ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
@@ -76,6 +86,7 @@ begin
     end if;
   end process fe_stage;
 
+  inst_pc_o <= ins_addr;
   
  -- Stage 2: decode/ operand fetch ------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------

@@ -34,11 +34,8 @@ architecture mem_structure of mem is
 	------------------------------------------------------
 	signal mem_ram : mem_ram_t :=
     (		
-		000000 => x"A020", -- add r0,r1,r0         r0 = 1
-		000001 => x"A020", -- add r0,r1,r0; fw ex, r0 = 2
-		000002 => x"A020", -- add r0,r1,r0; fw ex, r0 = 3
-		000003 => x"0000",
-		000004 => x"A020", -- add r0,r1,r0; fw ma, r0 = 4
+		000000 => x"4000", -- LD R0(0), R0			
+		000001 => x"A020", -- add r0,r1,r0         
 		others => x"0000"  -- NOP
  	  );
     
