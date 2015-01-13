@@ -80,8 +80,10 @@ begin
         ins_addr   <= (others => '0');
         instr_fe_o <= (others => '0');
       else
-        instr_fe_o <= instr_mem_i;
-        ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
+        if(stall = '0') then
+          instr_fe_o <= instr_mem_i;
+          ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
+        end if;
       end if;
     end if;
   end process fe_stage;
@@ -96,15 +98,17 @@ begin
       if (reset_i = '1') then
         de_ctrl	    <= (0 => '1', others => '0');
       else
-        de_ctrl     <= de_ctrl_i;
-        if(de_ctrl(ctrl_nop_c) = '0') then
-          ra_de_ex_o  <= ra_de_i;
-          rb_de_ex_o  <= rb_de_i;
-          rc_de_ex    <= rc_de_i;
-        else
-          ra_de_ex_o  <= (others => '0');   -- nop explicit datapath info
-          rb_de_ex_o  <= (others => '0');   -- nop explicit datapath info
-          rc_de_ex    <= (others => '0');   -- nop explicit datapath info        
+        if (stall = '0') then
+          de_ctrl     <= de_ctrl_i;
+          if(de_ctrl(ctrl_nop_c) = '0') then
+            ra_de_ex_o  <= ra_de_i;
+            rb_de_ex_o  <= rb_de_i;
+            rc_de_ex    <= rc_de_i;
+          else
+            ra_de_ex_o  <= (others => '0');   -- nop explicit datapath info
+            rb_de_ex_o  <= (others => '0');   -- nop explicit datapath info
+            rc_de_ex    <= (others => '0');   -- nop explicit datapath info        
+          end if;
         end if;
       end if;
     end if;
@@ -119,15 +123,23 @@ begin
       if (reset_i = '1') then
         ex_ctrl	 <= (0 => '1', others => '0');
       else
-        ex_ctrl     <= de_ctrl;
-        if(ex_ctrl(ctrl_nop_c) = '0') then
-          rd_ex_ma_o  <= rd_ex;
-          rd_ex_ma    <= rd_ex;
-          rc_ex_ma    <= rc_de_ex;
+        if (stall = '0') then
+          ex_ctrl     <= de_ctrl;
+          if(ex_ctrl(ctrl_nop_c) = '0') then
+            rd_ex_ma_o  <= rd_ex;
+            rd_ex_ma    <= rd_ex;
+            rc_ex_ma    <= rc_de_ex;
+          else
+            rd_ex_ma_o  <= (others => '0');   -- nop explicit datapath info
+            rd_ex_ma    <= (others => '0');   -- nop explicit datapath info
+            rc_ex_ma    <= (others => '0');   -- nop explicit datapath info
+          end if;
         else
-          rd_ex_ma_o  <= (others => '0');   -- nop explicit datapath info
-          rd_ex_ma    <= (others => '0');   -- nop explicit datapath info
-          rc_ex_ma    <= (others => '0');   -- nop explicit datapath info
+            -- stall: insert nop
+            ex_ctrl	 <= (0 => '1', others => '0');
+            rd_ex_ma_o  <= (others => '0');   -- nop explicit datapath info
+            rd_ex_ma    <= (others => '0');   -- nop explicit datapath info
+            rc_ex_ma    <= (others => '0');   -- nop explicit datapath info
         end if;        
       end if;
     end if;
