@@ -6,3 +6,7 @@ Registers were one cycle ahead of control words. Due to regf loading them asynch
 
 bug 3
 Memory gate delayed by one cycle. Memg was synchronous, when it shouldn't.
+
+Bug 4
+Memory write done at the beginning of MA stage.
+Thus write should be done only on clock edge.

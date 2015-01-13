@@ -62,11 +62,13 @@ begin
     end if;
   end process mem_data_read;  
 
-  -- Memory read - data ---------------------------------------------------------------------------------------
-  mem_data_write: process(data_addr_i, r_enable_i)
+  -- Memory write - data ---------------------------------------------------------------------------------------
+  mem_data_write: process(clock_i,data_addr_i, r_enable_i)
   begin			
-    if (w_enable_i = '1') then					
-      mem_data_ram(to_integer(unsigned(data_addr_i(log2_mem_size-1 downto 0)))) <= w_data_i;
+    if (rising_edge(clock_i)) then
+      if (w_enable_i = '1') then					
+        mem_data_ram(to_integer(unsigned(data_addr_i(log2_mem_size-1 downto 0)))) <= w_data_i;
+      end if;
     end if;
   end process mem_data_write;    
   

@@ -48,6 +48,18 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Compiling entity decoder
 -- Compiling architecture decoder_structure of decoder
 
+} {} {}} C:/Users/bscuser/Desktop/pa_git/memg.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/memg.vhd
+Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package MATH_REAL
+-- Loading package proc_package
+-- Loading package tb_load_signals
+-- Compiling entity memg
+-- Compiling architecture memg_structure of memg
+
 } {} {}} C:/Users/bscuser/Desktop/pa_git/proc_package.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/proc_package.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package STANDARD
@@ -95,17 +107,5 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package proc_package
 -- Compiling entity ctrl
 -- Compiling architecture ctrl_structure of ctrl
-
-} {} {}} C:/Users/bscuser/Desktop/pa_git/mem.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/mem.vhd
-Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package MATH_REAL
--- Loading package proc_package
--- Loading package tb_load_signals
--- Compiling entity mem
--- Compiling architecture mem_structure of mem
 
 } {} {}}
