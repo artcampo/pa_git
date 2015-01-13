@@ -88,24 +88,4 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Compiling entity regf
 -- Compiling architecture regf_behaviour of regf
 
-} {} {}} C:/Users/bscuser/Desktop/pa_git/proc.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/proc.vhd
-Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package proc_package
--- Compiling entity proc
--- Compiling architecture proc_behaviour of proc
-
-} {} {}} C:/Users/bscuser/Desktop/pa_git/ctrl.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/ctrl.vhd
-Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package proc_package
--- Compiling entity ctrl
--- Compiling architecture ctrl_structure of ctrl
-
 } {} {}}

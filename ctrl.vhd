@@ -92,9 +92,15 @@ begin
         de_ctrl	    <= (0 => '1', others => '0');
       else
         de_ctrl     <= de_ctrl_i;
-        ra_de_ex_o  <= ra_de_i;
-        rb_de_ex_o  <= rb_de_i;
-        rc_de_ex    <= rc_de_i;
+        if(de_ctrl(ctrl_nop_c) = '0') then
+          ra_de_ex_o  <= ra_de_i;
+          rb_de_ex_o  <= rb_de_i;
+          rc_de_ex    <= rc_de_i;
+        else
+          ra_de_ex_o  <= (others => '0');   -- nop explicit datapath info
+          rb_de_ex_o  <= (others => '0');   -- nop explicit datapath info
+          rc_de_ex    <= (others => '0');   -- nop explicit datapath info        
+        end if;
       end if;
     end if;
   end process de_stage;
@@ -107,9 +113,15 @@ begin
       if (reset_i = '1') then
         ex_ctrl	 <= (0 => '1', others => '0');
       else
-        rd_ex_ma_o  <= rd_ex;
-        rd_ex_ma    <= rd_ex;
-        rc_ex_ma    <= rc_de_ex;
+        if(ex_ctrl(ctrl_nop_c) = '0') then
+          rd_ex_ma_o  <= rd_ex;
+          rd_ex_ma    <= rd_ex;
+          rc_ex_ma    <= rc_de_ex;
+        else
+          rd_ex_ma_o  <= (others => '0');   -- nop explicit datapath info
+          rd_ex_ma    <= (others => '0');   -- nop explicit datapath info
+          rc_ex_ma    <= (others => '0');   -- nop explicit datapath info
+        end if;
         ex_ctrl     <= de_ctrl;
       end if;
     end if;
@@ -128,10 +140,14 @@ begin
       if (reset_i = '1') then
         ma_ctrl <= (0 => '1', others => '0');
       else
-        if (ma_ctrl(ctrl_use_mem_c) = '1' and ma_ctrl(ctrl_rd_c) = '1') then
-          rd_ma_wb_o <= data_ma_i;
+        if(ma_ctrl(ctrl_nop_c) = '0') then
+          if (ma_ctrl(ctrl_use_mem_c) = '1' and ma_ctrl(ctrl_rd_c) = '1') then
+            rd_ma_wb_o <= data_ma_i;
+          else
+            rd_ma_wb_o <= rd_ex_ma;
+          end if;
         else
-          rd_ma_wb_o <= rd_ex_ma;
+          rd_ma_wb_o <= (others => '0');   -- nop explicit datapath info
         end if;
         ma_ctrl    <= ex_ctrl;
       end if;
@@ -140,7 +156,6 @@ begin
 
   -- output --
   ma_ctrl_o <= ma_ctrl;
-   
    
 
    -- Stage 5: Write Back ---------------------------------------------------------------------------------

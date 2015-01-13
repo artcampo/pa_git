@@ -28,8 +28,6 @@ architecture proc_behaviour of proc is
   signal ins_data_mem       : std_logic_vector(data_width_c - 1 downto 0); -- from memory	
 	signal ins_enab           : std_logic := '1';	
 
-  
-  
   -- signals for DEC
   signal de_imm             : std_logic_vector(data_width_c - 1 downto 0);
   signal pc_from_fe         : std_logic_vector(data_width_c - 1 downto 0);	
@@ -37,7 +35,6 @@ architecture proc_behaviour of proc is
   signal rb_de	            :	std_logic_vector(data_width_c - 1 downto 0);
   signal rc_de	            :	std_logic_vector(data_width_c - 1 downto 0);
   
-
   signal ra_de_ex	          :	std_logic_vector(data_width_c - 1 downto 0);
   signal rb_de_ex	          :	std_logic_vector(data_width_c - 1 downto 0);  
   
