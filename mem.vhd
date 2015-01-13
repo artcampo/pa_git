@@ -34,7 +34,7 @@ architecture mem_structure of mem is
 	------------------------------------------------------
 	signal mem_ram : mem_ram_t :=
     (
-    000000 => x"4040", -- LD R0(0), R1
+    000000 => x"5040", -- ST R0(0), R1
 		others => x"0000"  -- NOP
  	  );
     

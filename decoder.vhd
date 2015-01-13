@@ -48,9 +48,9 @@ decoder: process(instr_i)
         
         when op_mem_store_c => -- Store
           ctrl_o(ctrl_use_mem_c) 							     <= '1';
-          ctrl_o(ctrl_ra_c) 							         <= '0';
-          ctrl_o(ctrl_rb_c) 							         <= '0';
-          ctrl_o(ctrl_rd_c) 							         <= '0';          
+          ctrl_o(ctrl_ra_c) 							         <= '1';
+          ctrl_o(ctrl_rb_c) 							         <= '1';
+          ctrl_o(ctrl_alu_op_1_c downto ctrl_alu_op_0_c) <= alu_add_c;                  
           ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <= instr_i(isa_mem_store_ra_2_c  downto isa_mem_store_ra_0_c);
           ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c) <= instr_i(isa_mem_store_rb_2_c  downto isa_mem_store_rb_0_c);
           imm_o   													       <= "0000000000" & instr_i(isa_mem_store_imm_6_c downto isa_mem_store_imm_0_c);
