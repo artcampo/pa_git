@@ -62,13 +62,13 @@ begin
   ra2 <= pc_from_fe_i when (de_ctrl_i(ctrl_ra_pc_c ) = '1')  else ra;
   rb2 <= imm_i        when (de_ctrl_i(ctrl_rb_imm_c) = '1')  else rb;
   
-  read_reg: process(clock_i)
-  begin
-    if (rising_edge(clock_i)) then
+  --read_reg: process(clock_i)
+  --begin
+  --  if (rising_edge(clock_i)) then
       ra_o <= ra2;
       rb_o <= rb2;
       rc_o <= rb;
-    end if;
-  end process read_reg;
+  --  end if;
+  --end process read_reg;
   
 end regf_behaviour;

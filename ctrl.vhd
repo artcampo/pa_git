@@ -108,6 +108,7 @@ begin
       if (reset_i = '1') then
         ex_ctrl	 <= (0 => '1', others => '0');
       else
+        ex_ctrl     <= de_ctrl;
         if(ex_ctrl(ctrl_nop_c) = '0') then
           rd_ex_ma_o  <= rd_ex;
           rd_ex_ma    <= rd_ex;
@@ -116,8 +117,7 @@ begin
           rd_ex_ma_o  <= (others => '0');   -- nop explicit datapath info
           rd_ex_ma    <= (others => '0');   -- nop explicit datapath info
           rc_ex_ma    <= (others => '0');   -- nop explicit datapath info
-        end if;
-        ex_ctrl     <= de_ctrl;
+        end if;        
       end if;
     end if;
   end process ex_stage;
