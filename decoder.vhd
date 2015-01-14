@@ -111,7 +111,11 @@ decoder: process(instr_i)
               ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <= instr_i(isa_br_ra_2_c downto isa_br_ra_0_c);
               ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c) <= (OTHERS=>'0');
             when op_branch_je_c => -- JE
-              
+              imm_o   		                             <= "0000000" & instr_i(isa_br_imm_8_c downto isa_br_imm_0_c);
+              ctrl_o(ctrl_ra_c) 							         <= '1';
+              ctrl_o(ctrl_rb_c) 							         <= '1'; 
+              ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <= instr_i(isa_br_ra_2_c downto isa_br_ra_0_c);
+              ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c) <= (OTHERS=>'0');              
             when OTHERS => ctrl_o <= (OTHERS=>'X');
             
           end case;

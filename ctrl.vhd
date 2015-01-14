@@ -99,7 +99,11 @@ begin
       else
         if(stall = '0') then
           instr_fe_o <= instr_mem_i;
-          ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
+          if(br_shadow = '0') then
+            ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
+          else
+            ins_addr   <= rd_ex;
+          end if;
         end if;
       end if;
     end if;
@@ -116,8 +120,12 @@ begin
         de_ctrl	    <= (0 => '1', others => '0');
       else
         if (stall = '0') then
-          de_ctrl     <= de_ctrl_i;
-          if(de_ctrl(ctrl_nop_c) = '0') then
+          if(br_shadow = '0') then
+            de_ctrl     <= de_ctrl_i;
+          else
+            de_ctrl     <= (0 => '1', others => '0');
+          end if;
+          if(de_ctrl(ctrl_nop_c) = '0' ) then
             ra_de_ex_o  <= ra_de_i;
             rb_de_ex_o  <= rb_de_i;
             rc_de_ex    <= rc_de_i;
@@ -142,7 +150,11 @@ begin
         ex_ctrl	 <= (0 => '1', others => '0');
       else
         if (stall = '0') then
-          ex_ctrl     <= de_ctrl;
+          if(br_shadow = '0') then
+            ex_ctrl     <= de_ctrl;
+          else
+            ex_ctrl     <= (0 => '1', others => '0');
+          end if;
           if(ex_ctrl(ctrl_nop_c) = '0') then
             rd_ex_ma_o  <= rd_ex;
             rd_ex_ma    <= rd_ex;
