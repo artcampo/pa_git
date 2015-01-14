@@ -8,7 +8,7 @@ package proc_package is
 ----------------------------------------------------------------------------------------------
 constant data_width_c      : natural := 16;
 constant num_registers	   : natural := 8;
-constant ctrl_width_c      : natural := 20; -- TODO: reduce this when processor finished
+constant ctrl_width_c      : natural := 24; -- TODO: reduce this when processor finished
 
 -- alu
 constant alu_op_bits	     : natural := 2;
@@ -48,7 +48,6 @@ constant ctrl_ra_c          : natural := 2; -- is 1 for not using A, 0 for using
 constant ctrl_ra_0_c        : natural := 3; -- operand register A adr bit 0
 constant ctrl_ra_2_c        : natural := 5; -- operand register A adr bit 2
 
-
 -- Operand B
 constant ctrl_rb_imm_c      : natural := 6; -- operand register B is an immediate
 constant ctrl_rb_c          : natural := 7; -- is 1 for not using B, 0 for using B
@@ -66,7 +65,12 @@ constant ctrl_alu_op_0_c        : natural := 16;   -- register destination adr b
 constant ctrl_alu_op_1_c        : natural := 17;   -- register destination adr bit 2
 
 -- Memg
-constant ctrl_use_mem_c        : natural := 18;   -- set if it accesses memory
+constant ctrl_use_mem_c         : natural := 18;   -- set if it accesses memory
+
+-- branches
+constant ctrl_is_branch_c       : natural := 19;   
+constant ctrl_branch_cond_0_c   : natural := 20;
+constant ctrl_branch_cond_1_c   : natural := 21;
 
 -- ISA description ---------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
@@ -125,6 +129,19 @@ constant isa_alu_op0_c							  : natural := 11;
 -- branch
 constant isa_branch_1_c		   				: natural := 13;
 constant isa_branch_0_c							: natural := 12;
+
+  -- jmp
+  constant isa_jmp_imm_11_c				  : natural := 11;
+  constant isa_jmp_imm_0_c				  : natural := 0;
+
+  -- bre / brne
+  constant isa_br_cnd_c				    : natural := 11;
+  constant isa_br_ra_2_c				  : natural := 10;
+  constant isa_br_ra_0_c				  : natural := 8;    
+  constant isa_br_imm_7_c				  : natural := 7;
+  constant isa_br_imm_0_c				  : natural := 0;
+  
+
 
 
 -- ALU Function Select -----------------------------------------------------------------------
