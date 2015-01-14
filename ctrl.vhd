@@ -26,7 +26,7 @@ entity ctrl is
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ex stage control
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ma stage control
     wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);  -- wb stage control
-    pc_from_fe_o      : out std_logic_vector(data_width_c-1 downto 0);
+    pc_fe_de_o        : out std_logic_vector(data_width_c-1 downto 0);
     ra_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
     rb_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
     rc_ex_ma_o        : out std_logic_vector(data_width_c-1 downto 0);
@@ -74,17 +74,19 @@ begin
     end if;
   end process compute_stall;
   
-  compute_br_shadow: process (ex_ctrl)
+  compute_br_shadow: process (clock_i,ex_ctrl, de_ctrl, cond_de_ex)
   begin    
-    if(ex_ctrl(ctrl_is_branch_c) = '1' and 
-        ((de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional)
-        or
-         (de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional 
-          and de_ctrl(ctrl_branch_cond_1_c) = cond_de_ex)
-        )) then
-      br_shadow <='1';
-    else
-      br_shadow <= '0';
+    if(clock_i'event and clock_i='0') then
+      if(ex_ctrl(ctrl_is_branch_c) = '1' and 
+          ((de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional)
+          or
+           (de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional 
+            and de_ctrl(ctrl_branch_cond_1_c) = cond_de_ex)
+          )) then
+        br_shadow <='1';
+      else
+        br_shadow <= '0';
+      end if;
     end if;
   end process compute_br_shadow;  
   
@@ -99,6 +101,7 @@ begin
       else
         if(stall = '0') then
           instr_fe_o <= instr_mem_i;
+          pc_fe_de_o <= ins_addr;
           if(br_shadow = '0') then
             ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
           else

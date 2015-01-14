@@ -12,4 +12,15 @@ Memory write done at the beginning of MA stage.
 Thus write should be done only on clock edge.
 
 Bug 5
-Decode ctrl word loaded at the same time as PC. Clock and reset added to it.
+Decode ctrl word loaded at the same time as PC. 
+Turns out I was printing de_ctrl at proc, but the up-to-date value was at ctrl instead.
+
+Bug 6
+Registers from forward unit come a turn later than they should.
+
+Bug 7
+Target Pc not properly computed. Turns out ra isn't properly computed at regf.
+
+Bug 8
+Inmediate from decoder ahead one cycle. Turns out the actual instruction from fetch
+is feeding the decoded. Instead if should be latched.

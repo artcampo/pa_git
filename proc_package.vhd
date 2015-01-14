@@ -178,7 +178,7 @@ component ctrl
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
     wb_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0);
-    pc_from_fe_o      : out std_logic_vector(data_width_c-1 downto 0);
+    pc_fe_de_o        : out std_logic_vector(data_width_c-1 downto 0);
     ra_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
     rb_de_ex_o        : out std_logic_vector(data_width_c-1 downto 0);
     rc_ex_ma_o        : out std_logic_vector(data_width_c-1 downto 0);
