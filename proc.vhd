@@ -102,7 +102,7 @@ begin
     port map (
       clock_i         => clock_i,
       reset_i		      => reset_i,
-			instr_i         => instr_fe_de,
+			instr_i         => instr_fe,
 			ctrl_o          => f1x_de_ctrl,
 			imm_o           => de_imm
       );
