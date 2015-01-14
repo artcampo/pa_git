@@ -99,13 +99,10 @@ begin
       if (reset_i = '1') then
         ins_addr      <= (others => '0');
         instr_fe      <= (others => '0');
-        instr_fe_de_o <= (others => '0');
         inst_pc_o     <= (others => '0');
         instr_fe_o    <= (others => '0');
       else
         if(stall = '0') then
-          instr_fe_de_o <= instr_fe;
-          pc_fe_de_o    <= ins_addr;
           instr_fe      <= instr_mem_i;
           if(br_shadow = '0') then
             ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
@@ -128,13 +125,14 @@ begin
   begin
     if rising_edge(clock_i) then
       if (reset_i = '1') then
-        de_ctrl	    <= (0 => '1', others => '0');
+        instr_fe_de_o <= (others => '0');
       else
         if (stall = '0') then
           if(br_shadow = '0') then
-            de_ctrl     <= de_ctrl_i;
+            instr_fe_de_o <= instr_fe;
+            pc_fe_de_o    <= ins_addr;
           else
-            de_ctrl     <= (0 => '1', others => '0');
+            instr_fe_de_o <= (others => '0');
           end if;
           if(de_ctrl(ctrl_nop_c) = '0' ) then
             ra_de_ex_o  <= ra_de_i;
@@ -151,6 +149,7 @@ begin
     end if;
   end process de_stage;
   de_ctrl_o <= de_ctrl;
+  de_ctrl     <= de_ctrl_i;
 	 
  -- Stage 3: Execution ----------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------

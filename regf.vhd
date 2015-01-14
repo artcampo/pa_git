@@ -29,16 +29,8 @@ architecture regf_behaviour of regf is
 
   -- register file --
   type   regf_mem_type is array (num_registers - 1 downto 0) of std_logic_vector(data_width_c-1 downto 0);
-  --signal regf_mem     : regf_mem_type := (others => (others => '0'));
-  signal regf_mem     : regf_mem_type := (
-  0 => x"0000",
-  1 => x"0001",
-  2 => x"0002",
-  3 => x"0003",
-  4 => x"0004",
-  5 => x"0005",
-  6 => x"0006",
-  7 => x"0007");
+  signal regf_mem     : regf_mem_type := (others => (others => '0'));
+
 
   signal ra          : std_logic_vector(data_width_c-1 downto 0);
   signal rb          : std_logic_vector(data_width_c-1 downto 0);  
