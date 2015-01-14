@@ -35,6 +35,7 @@ architecture proc_behaviour of proc is
   signal ra_de	            :	std_logic_vector(data_width_c - 1 downto 0);
   signal rb_de	            :	std_logic_vector(data_width_c - 1 downto 0);
   signal rc_de	            :	std_logic_vector(data_width_c - 1 downto 0);
+  signal cond               : std_logic;
   
   signal ra_de_ex	          :	std_logic_vector(data_width_c - 1 downto 0);
   signal rb_de_ex	          :	std_logic_vector(data_width_c - 1 downto 0);  
@@ -73,6 +74,7 @@ begin
       ra_de_i         => ra_de,
       rb_de_i         => rb_de, 
       rc_de_i         => rc_de,
+      cond_de_i       => cond,
       rd_ex           => rd,
       data_ma_i       => rd_ma,
       
@@ -112,7 +114,8 @@ begin
       de_ctrl_i    => de_ctrl,
       wb_data_i    => rd_ma_wb,
       imm_i        => de_imm,
-      pc_from_fe_i => pc_from_fe,   
+      pc_from_fe_i => pc_from_fe,  
+      cond_o       => cond, 
       ra_o         => ra_de,
       rb_o         => rb_de,
       rc_o         => rc_de

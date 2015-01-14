@@ -148,6 +148,7 @@ component ctrl
     ra_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rc_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
+    cond_de_i         : in  std_logic;
     rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
     data_ma_i         : in  std_logic_vector(data_width_c-1 downto 0);
   
@@ -194,8 +195,9 @@ component regf
 		imm_i        : in  std_logic_vector(data_width_c-1 downto 0);
     pc_from_fe_i : in  std_logic_vector(data_width_c-1 downto 0);
 		
-		ra_o        : out std_logic_vector(data_width_c-1 downto 0);
-    rb_o        : out std_logic_vector(data_width_c-1 downto 0);
+    cond_o       : out std_logic;
+		ra_o         : out std_logic_vector(data_width_c-1 downto 0);
+    rb_o         : out std_logic_vector(data_width_c-1 downto 0);
     rc_o         : out std_logic_vector(data_width_c-1 downto 0)
     );
 end component;

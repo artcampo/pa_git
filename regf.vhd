@@ -18,6 +18,7 @@ entity regf is
 		imm_i        : in  std_logic_vector(data_width_c-1 downto 0);
     pc_from_fe_i : in  std_logic_vector(data_width_c-1 downto 0);
 		
+    cond_o       : out std_logic;
 		ra_o         : out std_logic_vector(data_width_c-1 downto 0);
     rb_o         : out std_logic_vector(data_width_c-1 downto 0);
     rc_o         : out std_logic_vector(data_width_c-1 downto 0)
@@ -55,8 +56,13 @@ begin
   
   operand_fetch: process(de_ctrl_i, regf_mem)
   begin
-    ra <= regf_mem(to_integer(unsigned(de_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c))));
-    rb <= regf_mem(to_integer(unsigned(de_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c))));
+    ra     <= regf_mem(to_integer(unsigned(de_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c))));
+    rb     <= regf_mem(to_integer(unsigned(de_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c))));
+    if(ra /= rb) then
+      cond_o <= '0'; 
+    else
+      cond_o <= '1';
+     end if; 
   end process operand_fetch;
 
   ra2 <= pc_from_fe_i when (de_ctrl_i(ctrl_ra_pc_c ) = '1')  else ra;

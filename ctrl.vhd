@@ -16,6 +16,7 @@ entity ctrl is
     ra_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rb_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
     rc_de_i           : in  std_logic_vector(data_width_c-1 downto 0);
+    cond_de_i         : in  std_logic;
     rd_ex             : in  std_logic_vector(data_width_c-1 downto 0);
     data_ma_i         : in  std_logic_vector(data_width_c-1 downto 0);
 
@@ -44,10 +45,9 @@ architecture ctrl_structure of ctrl is
   signal ma_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
   signal wb_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
 
-  
-  --signal rb_ex         : std_logic_vector(data_width_c-1 downto 0);
-  signal rc_ex_ma         : std_logic_vector(data_width_c-1 downto 0);
-  signal rc_de_ex         : std_logic_vector(data_width_c-1 downto 0);
+  signal cond_de_ex    : std_logic;
+  signal rc_ex_ma      : std_logic_vector(data_width_c-1 downto 0);
+  signal rc_de_ex      : std_logic_vector(data_width_c-1 downto 0);
   signal rd_ex_ma      : std_logic_vector(data_width_c-1 downto 0);
   
   -- system enable/start-up control --
@@ -104,6 +104,7 @@ begin
             ra_de_ex_o  <= ra_de_i;
             rb_de_ex_o  <= rb_de_i;
             rc_de_ex    <= rc_de_i;
+            cond_de_ex  <= cond_de_i;
           else
             ra_de_ex_o  <= (others => '0');   -- nop explicit datapath info
             rb_de_ex_o  <= (others => '0');   -- nop explicit datapath info
