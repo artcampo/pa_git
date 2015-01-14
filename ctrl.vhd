@@ -22,6 +22,7 @@ entity ctrl is
 
     inst_pc_o         : out std_logic_vector(data_width_c-1 downto 0);
     instr_fe_o        : out std_logic_vector(data_width_c-1 downto 0); -- instruction fetched
+    instr_fe_de_o     : out std_logic_vector(data_width_c-1 downto 0);
     de_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- de stage control
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ex stage control
     ma_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ma stage control
@@ -45,6 +46,8 @@ architecture ctrl_structure of ctrl is
   signal ma_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
   signal wb_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
 
+  
+  signal instr_fe      : std_logic_vector(data_width_c-1 downto 0);
   signal cond_de_ex    : std_logic;
   signal rc_ex_ma      : std_logic_vector(data_width_c-1 downto 0);
   signal rc_de_ex      : std_logic_vector(data_width_c-1 downto 0);
@@ -74,9 +77,9 @@ begin
     end if;
   end process compute_stall;
   
-  compute_br_shadow: process (clock_i,ex_ctrl, de_ctrl, cond_de_ex)
+  compute_br_shadow: process (ex_ctrl, de_ctrl, cond_de_ex)
   begin    
-    if(clock_i'event and clock_i='0') then
+    --if(clock_i'event and clock_i='0') then
       if(ex_ctrl(ctrl_is_branch_c) = '1' and 
           ((de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional)
           or
@@ -87,7 +90,7 @@ begin
       else
         br_shadow <= '0';
       end if;
-    end if;
+    --end if;
   end process compute_br_shadow;  
   
  -- Stage 1:instruction fetch ------------------------------------------------------------------------------
@@ -96,23 +99,27 @@ begin
   begin
     if rising_edge(clock_i) then
       if (reset_i = '1') then
-        ins_addr   <= (others => '0');
-        instr_fe_o <= (others => '0');
+        ins_addr      <= (others => '0');
+        instr_fe      <= (others => '0');
+        instr_fe_de_o <= (others => '0');
       else
         if(stall = '0') then
-          instr_fe_o <= instr_mem_i;
-          pc_fe_de_o <= ins_addr;
+          instr_fe_de_o <= instr_fe;
+          pc_fe_de_o    <= ins_addr;
+          instr_fe    <= instr_mem_i;
           if(br_shadow = '0') then
             ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
           else
             ins_addr   <= rd_ex;
           end if;
+          
         end if;
       end if;
     end if;
   end process fe_stage;
 
-  inst_pc_o <= ins_addr;
+  inst_pc_o  <= ins_addr;
+  instr_fe_o <= instr_fe;
   
  -- Stage 2: decode/ operand fetch ------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------

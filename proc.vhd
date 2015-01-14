@@ -30,6 +30,7 @@ architecture proc_behaviour of proc is
 	signal ins_enab           : std_logic := '1';	
 
   signal pc_fe_de           : std_logic_vector(data_width_c - 1 downto 0);	
+  signal instr_fe_de        : std_logic_vector(data_width_c - 1 downto 0);	
   
   -- signals for DEC
   signal de_imm             : std_logic_vector(data_width_c - 1 downto 0);
@@ -81,6 +82,7 @@ begin
       
       inst_pc_o       => ins_addr,
       instr_fe_o      => instr_fe,
+      instr_fe_de_o   => instr_fe_de,
       de_ctrl_o       => de_ctrl,
       ex_ctrl_o       => ex_ctrl,
       ma_ctrl_o       => ma_ctrl,
@@ -100,7 +102,7 @@ begin
     port map (
       clock_i         => clock_i,
       reset_i		      => reset_i,
-			instr_i         => instr_fe,
+			instr_i         => instr_fe_de,
 			ctrl_o          => f1x_de_ctrl,
 			imm_o           => de_imm
       );
