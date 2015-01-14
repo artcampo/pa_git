@@ -100,8 +100,8 @@ begin
         ins_addr      <= (others => '0');
         instr_fe      <= (others => '0');
         instr_fe_de_o <= (others => '0');
-        inst_pc_o  <= ins_addr;
-        instr_fe_o <= instr_fe;
+        inst_pc_o     <= (others => '0');
+        instr_fe_o    <= (others => '0');
       else
         if(stall = '0') then
           instr_fe_de_o <= instr_fe;
