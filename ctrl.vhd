@@ -109,11 +109,12 @@ begin
           instr_fe      <= instr_mem_i;
           if(br_shadow = '0') then
             ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
+            inst_pc_o  <= std_logic_vector(unsigned(ins_addr)+1);
           else
             ins_addr   <= rd_ex;
+            inst_pc_o  <= rd_ex;
           end if;
-          inst_pc_o  <= ins_addr;
-          instr_fe_o <= instr_fe;
+          instr_fe_o <= instr_mem_i;
         end if;
       end if;
     end if;
