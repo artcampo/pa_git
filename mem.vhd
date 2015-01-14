@@ -39,6 +39,8 @@ architecture mem_structure of mem is
 		000002 => x"A020", -- add r0,r1,r0  
 		000003 => x"4040", -- LD R0(0), R1
 		000004 => x"A020", -- add r0,r1,r0  
+		000005 => x"A040", -- add r0,r4,r0  
+    000006 => x"A080", -- add r0,r4,r0  
 		others => x"0000"  -- NOP
  	  );
     
