@@ -99,18 +99,17 @@ decoder: process(instr_i)
           ctrl_o(ctrl_ra_pc_c)                           <= '1';
           ctrl_o(ctrl_rb_imm_c)                          <= '1';
           ctrl_o(ctrl_alu_op_1_c downto ctrl_alu_op_0_c) <= alu_add_c;
+          ctrl_o(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) <= instr_i(isa_branch_1_c downto isa_branch_0_c);
           
           case(instr_i(isa_branch_1_c downto isa_branch_0_c)) is
             when op_branch_jmp_c => -- JMP
               imm_o   		<= "0000" & instr_i(isa_jmp_imm_11_c downto isa_jmp_imm_0_c); 
-              ctrl_o(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) <= "10";
             when op_branch_jne_c => -- JNE
-              imm_o   		                             <= "00000000" & instr_i(isa_br_imm_7_c downto isa_br_imm_0_c);
+              imm_o   		                             <= "0000000" & instr_i(isa_br_imm_8_c downto isa_br_imm_0_c);
               ctrl_o(ctrl_ra_c) 							         <= '1';
               ctrl_o(ctrl_rb_c) 							         <= '1'; 
               ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <= instr_i(isa_br_ra_2_c downto isa_br_ra_0_c);
               ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c) <= (OTHERS=>'0');
-              ctrl_o(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) <= '0' & instr_i(isa_br_cnd_c);
             when op_branch_je_c => -- JE
               
             when OTHERS => ctrl_o <= (OTHERS=>'X');

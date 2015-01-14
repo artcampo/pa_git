@@ -135,10 +135,9 @@ constant isa_branch_0_c							: natural := 12;
   constant isa_jmp_imm_0_c				  : natural := 0;
 
   -- bre / brne
-  constant isa_br_cnd_c				    : natural := 11;
-  constant isa_br_ra_2_c				  : natural := 10;
-  constant isa_br_ra_0_c				  : natural := 8;    
-  constant isa_br_imm_7_c				  : natural := 7;
+  constant isa_br_ra_2_c				  : natural := 11;
+  constant isa_br_ra_0_c				  : natural := 9;    
+  constant isa_br_imm_8_c				  : natural := 8;
   constant isa_br_imm_0_c				  : natural := 0;
   
 
@@ -152,6 +151,10 @@ constant alu_sub_c        : std_logic_vector(1 downto 0) := "01"; -- subtract
 constant alu_comp_c       : std_logic_vector(1 downto 0) := "10"; -- compare (keep the biggest)
 constant alu_op2_c        : std_logic_vector(1 downto 0) := "11"; -- result equal to op2
 
+-- branch constants  -----------------------------------------------------------------------
+constant br_unconditional : std_logic_vector(1 downto 0) := "00";
+constant br_neq           : std_logic_vector(1 downto 0) := "01";
+constant br_eq            : std_logic_vector(1 downto 0) := "10";
 
 -- Component: Control --------------------------------------------------------------
 -- -------------------------------------------------------------------------------------------

@@ -55,21 +55,38 @@ architecture ctrl_structure of ctrl is
   signal start         : std_logic;
   signal sleep         : std_logic;
   
+  -- signals affecting whole pipeline
   signal stall         : std_logic;
+  signal br_shadow     : std_logic;
+  
 	
 begin
 
   compute_stall: process (de_ctrl, ex_ctrl)
   begin    
-    if( (    (de_ctrl(ctrl_ra_c) = '1' and unsigned(de_ctrl(ctrl_ra_2_c downto ctrl_ra_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
-              or (de_ctrl(ctrl_rb_c) = '1' and unsigned(de_ctrl(ctrl_rb_2_c downto ctrl_rb_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
-             ) 
-            and (ex_ctrl(ctrl_use_mem_c) = '1' and ex_ctrl(ctrl_rd_c) = '1')) then
+    if( ( (de_ctrl(ctrl_ra_c) = '1' and unsigned(de_ctrl(ctrl_ra_2_c downto ctrl_ra_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
+           or (de_ctrl(ctrl_rb_c) = '1' and unsigned(de_ctrl(ctrl_rb_2_c downto ctrl_rb_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
+           ) 
+           and (ex_ctrl(ctrl_use_mem_c) = '1' and ex_ctrl(ctrl_rd_c) = '1')) then
       stall <='1';
     else
       stall <= '0';
     end if;
   end process compute_stall;
+  
+  compute_br_shadow: process (ex_ctrl)
+  begin    
+    if(ex_ctrl(ctrl_is_branch_c) = '1' and 
+        ((de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional)
+        or
+         (de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional 
+          and de_ctrl(ctrl_branch_cond_1_c) = cond_de_ex)
+        )) then
+      br_shadow <='1';
+    else
+      br_shadow <= '0';
+    end if;
+  end process compute_br_shadow;  
   
  -- Stage 1:instruction fetch ------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
