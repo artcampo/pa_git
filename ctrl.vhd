@@ -79,24 +79,24 @@ begin
     end if;
   end process compute_stall;
   
-  compute_br_shadow: process (ex_ctrl, de_ctrl, cond_de_ex)
+  compute_br_shadow: process (ex_ctrl, cond_de_ex)
   begin    
     if(ex_ctrl(ctrl_is_branch_c) = '1' and 
-        ((de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional)
+        ((ex_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional)
         or
-         (    (de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) /= br_unconditional)
-          and (de_ctrl(ctrl_branch_cond_1_c) = cond_de_ex)
+         (    (ex_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) /= br_unconditional)
+          and (ex_ctrl(ctrl_branch_cond_1_c) = cond_de_ex)
         ))) then
       br_shadow <='1';
     else
       br_shadow <= '0';
     end if;
-    if (de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional) then
+    if (ex_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional) then
       br_uncond <='1';
     else
       br_uncond <= '0';
     end if;  
-    if (de_ctrl(ctrl_branch_cond_1_c) = cond_de_ex) then
+    if (ex_ctrl(ctrl_branch_cond_1_c) = cond_de_ex) then
       br_cond <='1';
     else
       br_cond <= '0';    
