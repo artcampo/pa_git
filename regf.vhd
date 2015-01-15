@@ -54,7 +54,7 @@ begin
     end if;
   end process write_reg;
   
-  operand_fetch: process(de_ctrl_i, regf_mem)
+  operand_fetch: process(de_ctrl_i, regf_mem, ra, rb)
   begin
     ra     <= regf_mem(to_integer(unsigned(de_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c))));
     rb     <= regf_mem(to_integer(unsigned(de_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c))));

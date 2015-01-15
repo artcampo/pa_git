@@ -62,6 +62,8 @@ architecture ctrl_structure of ctrl is
   signal stall         : std_logic;
   signal br_shadow     : std_logic;
   
+  signal br_uncond     : std_logic;
+  signal br_cond     : std_logic;
 	
 begin
 
@@ -82,13 +84,23 @@ begin
     if(ex_ctrl(ctrl_is_branch_c) = '1' and 
         ((de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional)
         or
-         (de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional 
-          and de_ctrl(ctrl_branch_cond_1_c) = cond_de_ex)
-        )) then
+         (    (de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) /= br_unconditional)
+          and (de_ctrl(ctrl_branch_cond_1_c) = cond_de_ex)
+        ))) then
       br_shadow <='1';
     else
       br_shadow <= '0';
     end if;
+    if (de_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional) then
+      br_uncond <='1';
+    else
+      br_uncond <= '0';
+    end if;  
+    if (de_ctrl(ctrl_branch_cond_1_c) = cond_de_ex) then
+      br_cond <='1';
+    else
+      br_cond <= '0';    
+    end if;  
   end process compute_br_shadow;  
   
  -- Stage 1:instruction fetch ------------------------------------------------------------------------------
@@ -118,7 +130,6 @@ begin
   end process fe_stage;
 
   
-  
  -- Stage 2: decode/ operand fetch ------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
   de_stage: process (clock_i)
@@ -143,6 +154,7 @@ begin
             ra_de_ex_o  <= (others => '0');   -- nop explicit datapath info
             rb_de_ex_o  <= (others => '0');   -- nop explicit datapath info
             rc_de_ex    <= (others => '0');   -- nop explicit datapath info        
+            cond_de_ex  <= '0';               -- nop explicit datapath info  
           end if;
         end if;
       end if;
