@@ -78,8 +78,11 @@ begin
   end process mem_data_write;    
   
   -- Used in tb_load
-  p256 <= mem_data_ram(256);
-  p257 <= mem_data_ram(257);
+  p0  <= mem_data_ram(0);
+  p1  <= mem_data_ram(1);
+  p2  <= mem_data_ram(1);
+  p3  <= mem_data_ram(1);
+  p4  <= mem_data_ram(1);
 
 
 end mem_structure;

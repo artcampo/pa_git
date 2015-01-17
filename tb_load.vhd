@@ -20,6 +20,8 @@ SIGNAL 	 TestClk: 		 std_logic := '0';
 CONSTANT ClkPeriod: 	 TIME := 10 ns;
 constant numberCycles: natural := 15;
 
+constant c_p0: std_logic_vector := x"0";
+
 BEGIN
 
   -- Free running test clock
@@ -43,13 +45,16 @@ BEGIN
   Rst <= '0';
   WAIT FOR ClkPeriod*numberCycles;
 
+  REPORT "Simulation complete"
+  SEVERITY NOTE;
+  
   --Check here
-  if(p256 /= x"500") then
-      --REPORT "Simulation complete"
-      --SEVERITY NOTE;
-      --write(ErrorMsg, STRING'(" Should: "));
-      --write(ErrorMsg, "500");		  
-      --writeline(output, ErrorMsg);
+  if(p0 /= c_p0) then
+      write(ErrorMsg, STRING'(" Should be: "));
+      write(ErrorMsg, c_p0);	
+      write(ErrorMsg, STRING'(" is: "));
+      write(ErrorMsg, p0);		  
+      writeline(output, ErrorMsg);
   end if;
    
 end process;
