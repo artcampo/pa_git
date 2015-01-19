@@ -64,8 +64,34 @@ architecture ctrl_structure of ctrl is
   
   signal br_uncond     : std_logic;
   signal br_cond     : std_logic;
+  
+  -- predictor signals
+  signal is_branch       : std_logic;
+	signal pred_adr        : std_logic_vector(data_width_c-1 downto 0):= (others => '0');
+	signal pred_othr_addr  : std_logic_vector(data_width_c-1 downto 0):= (others => '0');	
+	signal branch_taken    : std_logic;
+	signal pred_updt       : std_logic;
 	
 begin
+
+  prediction_decoder: pred_dec
+    port map (
+       instr_i         => instr_mem_i,
+       instr_adr_i     => ins_addr,
+       is_branch_o     => is_branch,
+       pred_adr_o      => pred_adr
+        );
+
+  branch_predictor: predictor
+    port map (
+      PC_predict      => ins_addr(3 DOWNTO 0),
+      PC_update       => pred_inst_addr_i(3 DOWNTO 0),
+      update          => pred_updt,
+      branch_outcome  => branch_outcome_i,
+      clock           => clock_i,
+      reset           => reset_i,
+      taken           => branch_taken
+      );			 
 
   compute_stall: process (de_ctrl, ex_ctrl)
   begin    
