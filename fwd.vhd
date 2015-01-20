@@ -23,7 +23,10 @@ entity fwd is
 end fwd;
 
 architecture fwd_behaviour of fwd is
-
+  signal mb : std_logic := '0';
+  signal wb : std_logic := '0';
+  signal mb2 : std_logic := '0';
+  signal wb2 : std_logic := '0';  
 begin
 
  -- Bypass, alu-alu and alu-mem  -------------------------------------------------------------------------------
@@ -32,31 +35,46 @@ begin
  begin  
   
   --By pass form ma to ex ---------------------------------------------------------------------------------------
- -- rd provaider vs ra consummer
+ -- rd provider vs ra consummer
   if ((ma_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_ra_c) = '1'))) then  
-      if 	(ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c) ) then
-        ra_o <= ma_data_i;
-      end if;
-      
-   elsif ((wb_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_ra_c) = '1'))) then  
-      if 	(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c) ) then
-        ra_o <= wb_data_i;
-      end if;
-   else ra_o <= ra_i;
-   end if;
+    if 	(ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c) ) then
+      ra_o <= ma_data_i;
+      mb <= '1';
+      wb <= '0';
+    end if;
+  elsif ((wb_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_ra_c) = '1'))) then  
+    if 	(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c) ) then
+      ra_o <= wb_data_i;
+  
+      mb <= '0';
+      wb <= '1';
+    end if;
+  else 
+    ra_o <= ra_i;
+    mb <= '0';
+    wb <= '0';
+  end if;
 
    
-  -- rd provaider vs rb consummer
+  -- rd provider vs rb consumer
   if ((ma_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_rb_c) = '1'))) then  
       if 	(ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c) ) then
-        rb_o <= ma_data_i;
+        rb_o <= ma_data_i;     
+        mb2 <= '1';
+        wb2 <= '0';
       end if;
       
    elsif ((wb_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_rb_c) = '1'))) then  
       if 	(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c) ) then
-        rb_o <= wb_data_i;
+        rb_o <= wb_data_i;      
+        mb2 <= '0';
+        wb2 <= '1';
       end if;
-   else rb_o <= rb_i;
+   else 
+    rb_o <= rb_i;
+    
+        mb2 <= '0';
+        wb2 <= '0';
    end if;
 
    
