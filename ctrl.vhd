@@ -53,6 +53,9 @@ architecture ctrl_structure of ctrl is
   signal rc_de_ex      : std_logic_vector(data_width_c-1 downto 0);
   signal rd_ex_ma      : std_logic_vector(data_width_c-1 downto 0);
   
+
+  
+  
   -- system enable/start-up control --
   signal sys_enable    : std_logic;
   signal start         : std_logic;
@@ -67,11 +70,21 @@ architecture ctrl_structure of ctrl is
   
   -- predictor signals
   signal is_branch       : std_logic;
-	signal pred_adr        : std_logic_vector(data_width_c-1 downto 0):= (others => '0');
+	signal pred_adr        : std_logic_vector(data_width_c-1 downto 0):= (others => '0'); -- pc of target
 	signal pred_othr_addr  : std_logic_vector(data_width_c-1 downto 0):= (others => '0');	
 	signal branch_taken    : std_logic;
 	signal pred_updt       : std_logic;
-	
+  
+  signal branch_outcome  : std_logic;
+
+
+  signal pred_othr_addr_fe_de : std_logic_vector(data_width_c-1 downto 0); -- shadow branch
+  signal pred_othr_addr_de_ex : std_logic_vector(data_width_c-1 downto 0); -- shadow branch
+  
+  -- done
+  signal pred_inst_addr_fe_de : std_logic_vector(data_width_c-1 downto 0);-- pc of branch instr
+  signal pred_inst_addr_de_ex : std_logic_vector(data_width_c-1 downto 0);-- pc of branch instr
+  
 begin
 
   prediction_decoder: pred_dec
@@ -80,14 +93,14 @@ begin
        instr_adr_i     => ins_addr,
        is_branch_o     => is_branch,
        pred_adr_o      => pred_adr
-        );
+       );
 
   branch_predictor: predictor
     port map (
       PC_predict      => ins_addr(3 DOWNTO 0),
-      PC_update       => pred_inst_addr_i(3 DOWNTO 0),
+      PC_update       => pred_inst_addr_de_ex(3 DOWNTO 0),
       update          => pred_updt,
-      branch_outcome  => branch_outcome_i,
+      branch_outcome  => branch_outcome,
       clock           => clock_i,
       reset           => reset_i,
       taken           => branch_taken
@@ -129,6 +142,27 @@ begin
     end if;  
   end process compute_br_shadow;  
   
+  -- predictor --
+  --compute this
+	 --pred_updt
+  compute_pred_updt: process(ex_ctrl)
+  begin
+      if (ex_ctrl(ctrl_is_branch_c) = '1' ) then				
+        pred_updt <= '1';
+      else
+        pred_updt <= '0';
+      end if;
+  end process compute_pred_updt;
+ 
+  compute_mispredict_target: process(branch_taken, ins_addr)
+  begin
+    if (branch_taken = '1') then				
+      pred_othr_addr <= std_logic_vector(unsigned(ins_addr) + 1); -- word increment
+    else
+      pred_othr_addr <= pred_adr;
+    end if;
+  end process compute_mispredict_target;	
+  
  -- Stage 1:instruction fetch ------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
   fe_stage: process (clock_i)
@@ -141,7 +175,8 @@ begin
         instr_fe_o    <= (others => '0');
       else
         if(stall = '0') then
-          instr_fe      <= instr_mem_i;
+          instr_fe            <= instr_mem_i;
+          pred_inst_addr_fe_de<= instr_mem_i;
           if(br_shadow = '0') then
             ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
             inst_pc_o  <= std_logic_vector(unsigned(ins_addr)+1);
@@ -172,10 +207,11 @@ begin
             instr_fe_de_o <= (others => '0');
           end if;
           if(de_ctrl(ctrl_nop_c) = '0' ) then
-            ra_de_ex_o  <= ra_de_i;
-            rb_de_ex_o  <= rb_de_i;
-            rc_de_ex    <= rc_de_i;
-            cond_de_ex  <= cond_de_i;
+            ra_de_ex_o            <= ra_de_i;
+            rb_de_ex_o            <= rb_de_i;
+            rc_de_ex              <= rc_de_i;
+            cond_de_ex            <= cond_de_i;
+            pred_inst_addr_de_ex  <= pred_inst_addr_fe_de;
           else
             ra_de_ex_o  <= (others => '0');   -- nop explicit datapath info
             rb_de_ex_o  <= (others => '0');   -- nop explicit datapath info
