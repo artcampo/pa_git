@@ -65,25 +65,20 @@ architecture ctrl_structure of ctrl is
   signal stall         : std_logic;
   signal br_shadow     : std_logic;
   
-  signal br_uncond     : std_logic;
-  signal br_cond     : std_logic;
   
   -- predictor signals
-  signal is_branch       : std_logic;
-	signal pred_adr        : std_logic_vector(data_width_c-1 downto 0):= (others => '0'); -- pc of target
-	signal pred_othr_addr  : std_logic_vector(data_width_c-1 downto 0):= (others => '0');	
-	signal branch_taken    : std_logic;
-	signal pred_updt       : std_logic;
-  
-  signal branch_outcome  : std_logic;
-
-
-  signal pred_othr_addr_fe_de : std_logic_vector(data_width_c-1 downto 0); -- shadow branch
-  signal pred_othr_addr_de_ex : std_logic_vector(data_width_c-1 downto 0); -- shadow branch
-  
-  -- done
+	signal branch_taken         : std_logic;
+  signal pred_taken_fe_de     : std_logic;
+  signal pred_taken_de_ex     : std_logic;
   signal pred_inst_addr_fe_de : std_logic_vector(data_width_c-1 downto 0);-- pc of branch instr
   signal pred_inst_addr_de_ex : std_logic_vector(data_width_c-1 downto 0);-- pc of branch instr
+  signal pred_othr_addr       : std_logic_vector(data_width_c-1 downto 0):= (others => '0');	
+  signal pred_othr_addr_fe_de : std_logic_vector(data_width_c-1 downto 0); -- shadow branch
+  signal pred_othr_addr_de_ex : std_logic_vector(data_width_c-1 downto 0); -- shadow branch
+	signal pred_updt            : std_logic;
+  signal pred_adr             : std_logic_vector(data_width_c-1 downto 0):= (others => '0'); -- pc of target
+  signal is_branch            : std_logic;
+  signal branch_outcome       : std_logic;
   
 begin
 
@@ -121,25 +116,26 @@ begin
   compute_br_shadow: process (ex_ctrl, cond_de_ex)
   begin    
     if(ex_ctrl(ctrl_is_branch_c) = '1' and 
-        ((ex_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional)
-        or
+        (
          (    (ex_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) /= br_unconditional)
           and (ex_ctrl(ctrl_branch_cond_1_c) = cond_de_ex)
         ))) then
-      br_shadow <='1';
+      -- jump taken
+      branch_outcome <= '1';
+      if (pred_taken_de_ex = '1') then
+        br_shadow <='0';
+      else
+        br_shadow <='1';
+      end if;
     else
-      br_shadow <= '0';
+      branch_outcome <= '0';
+      -- jump not taken
+      if (pred_taken_de_ex = '1') then
+        br_shadow <='1';
+      else
+        br_shadow <='0';
+      end if;
     end if;
-    if (ex_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional) then
-      br_uncond <='1';
-    else
-      br_uncond <= '0';
-    end if;  
-    if (ex_ctrl(ctrl_branch_cond_1_c) = cond_de_ex) then
-      br_cond <='1';
-    else
-      br_cond <= '0';    
-    end if;  
   end process compute_br_shadow;  
   
   -- predictor --
@@ -177,10 +173,18 @@ begin
         if(stall = '0') then
           instr_fe            <= instr_mem_i;
           pred_inst_addr_fe_de<= instr_mem_i;
+          pred_othr_addr_fe_de<= pred_othr_addr;
+          pred_taken_fe_de    <= branch_taken;
           if(br_shadow = '0') then
-            ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
-            inst_pc_o  <= std_logic_vector(unsigned(ins_addr)+1);
+            if(branch_taken = '1') then
+              ins_addr   <= pred_adr;
+              inst_pc_o  <= pred_adr;
+            else
+              ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
+              inst_pc_o  <= std_logic_vector(unsigned(ins_addr)+1);
+            end if;
           else
+            -- we had a branch / misprediction
             ins_addr   <= rd_ex;
             inst_pc_o  <= rd_ex;
           end if;
@@ -212,6 +216,8 @@ begin
             rc_de_ex              <= rc_de_i;
             cond_de_ex            <= cond_de_i;
             pred_inst_addr_de_ex  <= pred_inst_addr_fe_de;
+            pred_othr_addr_de_ex  <= pred_othr_addr_fe_de;
+            pred_taken_de_ex      <= pred_taken_fe_de;
           else
             ra_de_ex_o  <= (others => '0');   -- nop explicit datapath info
             rb_de_ex_o  <= (others => '0');   -- nop explicit datapath info
