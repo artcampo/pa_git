@@ -36,17 +36,17 @@ architecture mem_structure of mem is
     (		
 		000000 => x"6201", -- MOV R1, 1
 		000001 => x"6402", -- MOV R2, 2
-		000002 => x"6603", -- MOV R3, 2
+		000002 => x"6603", -- MOV R3, 3
 		000003 => x"5040", -- STR R0(0) <- R1
 		000004 => x"5081", -- STR R0(1) <- R2
-		000005 => x"50C3", -- STR R0(2) <- R3
+		000005 => x"50C2", -- STR R0(2) <- R3
 		others => x"0000"  -- NOP
 		);
     
 	------------------------------------------------------
 	signal mem_data_ram : mem_ram_t :=
     (
-		others => x"4203"
+		others => x"DEAD"
  	  );
   
 begin
