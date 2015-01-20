@@ -1,0 +1,13 @@
+  compute_br_shadow: process (ex_ctrl, cond_de_ex)
+  begin    
+    if(ex_ctrl(ctrl_is_branch_c) = '1' and 
+        ((ex_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) = br_unconditional)
+        or
+         (    (ex_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) /= br_unconditional)
+          and (ex_ctrl(ctrl_branch_cond_1_c) = cond_de_ex)
+        ))) then
+      br_shadow <='1';
+    else
+      br_shadow <= '0';
+    end if;
+  end process compute_br_shadow;  
