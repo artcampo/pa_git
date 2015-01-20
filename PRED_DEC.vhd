@@ -20,7 +20,7 @@ entity pred_dec is
         instr_i         : in  std_logic_vector(data_width_c-1 downto 0); -- instruction input
         instr_adr_i     : in  std_logic_vector(data_width_c-1 downto 0); -- corresponding address
 		    is_branch_o     : out std_logic; 
-        pred_adr_o      : out  std_logic_vector(data_width_c-1 downto 0)
+        pred_adr_o      : out std_logic_vector(data_width_c-1 downto 0)
       );
 END PRED_DEC;
 
