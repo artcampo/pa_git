@@ -20,9 +20,10 @@ SIGNAL 	 TestClk: 		 std_logic := '0';
 CONSTANT ClkPeriod: 	 TIME := 10 ns;
 constant numberCycles: natural := 15;
 
-constant c_p0: std_logic_vector := x"0001";
+constant c_p0: std_logic_vector := x"0003";
 constant c_p1: std_logic_vector := x"0002";
-constant c_p2: std_logic_vector := x"0003";
+constant c_p2: std_logic_vector := x"0001";
+constant c_p3: std_logic_vector := x"DEAF";
 
 
 BEGIN
@@ -75,7 +76,14 @@ BEGIN
       write(ErrorMsg, p2);		  
       writeline(output, ErrorMsg);
   end if;
-
+  
+  if(p3 /= c_p3) then
+		  write(ErrorMsg, STRING'("p3 Should be: "));
+		  write(ErrorMsg, c_p3);	
+		  write(ErrorMsg, STRING'(" is: "));
+		  write(ErrorMsg, p3);		  
+		  writeline(output, ErrorMsg);
+		  end if;
    
 end process;
                         
