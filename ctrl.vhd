@@ -103,7 +103,7 @@ begin
 
   compute_stall: process (de_ctrl, ex_ctrl)
   begin    
-    if( ( (de_ctrl(ctrl_ra_c) = '1' and unsigned(de_ctrl(ctrl_ra_2_c downto ctrl_ra_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
+    if( (     (de_ctrl(ctrl_ra_c) = '1' and unsigned(de_ctrl(ctrl_ra_2_c downto ctrl_ra_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
            or (de_ctrl(ctrl_rb_c) = '1' and unsigned(de_ctrl(ctrl_rb_2_c downto ctrl_rb_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
            ) 
            and (ex_ctrl(ctrl_use_mem_c) = '1' and ex_ctrl(ctrl_rd_c) = '1')) then
