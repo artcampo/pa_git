@@ -34,12 +34,12 @@ architecture mem_structure of mem is
 	------------------------------------------------------
 	signal mem_ram : mem_ram_t :=
     (		
-		000000 => x"E004", -- bre, R0, +4
-		000001 => x"6201", -- MOV R1, 2
-		000002 => x"A020", -- add r0,r1,r0  
-		000003 => x"4040", -- LD R0(0), R1
-		000004 => x"A020", -- add r0,r1,r0  
-		000005 => x"A040", -- add r0,r4,r0  
+		000000 => x"6201", -- MOV R1, 1
+		000001 => x"6402", -- MOV R2, 2
+		000002 => x"6603", -- MOV R3, 2
+		000003 => x"5040", -- STR R0(0) <- R1
+		000004 => x"5081", -- STR R0(1) <- R2
+		000005 => x"50C3", -- STR R0(2) <- R3
 		others => x"0000"  -- NOP
 		);
     
@@ -80,9 +80,7 @@ begin
   -- Used in tb_load
   p0  <= mem_data_ram(0);
   p1  <= mem_data_ram(1);
-  p2  <= mem_data_ram(1);
-  p3  <= mem_data_ram(1);
-  p4  <= mem_data_ram(1);
+  p2  <= mem_data_ram(2);
 
 
 end mem_structure;
