@@ -36,19 +36,22 @@ begin
   
   --By pass form ma to ex ---------------------------------------------------------------------------------------
  -- rd provider vs ra consummer
-  if ((ma_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_ra_c) = '1'))) then  
-    if 	(ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c) ) then
+  if ( ma_ctrl_i(ctrl_rd_c)                      = '1'    and 
+       ex_ctrl_i(ctrl_ra_c)                      = '1'    and
+       ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c)
+      ) 
+    then  
       ra_o <= ma_data_i;
       mb <= '1';
       wb <= '0';
-    end if;
-  elsif ((wb_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_ra_c) = '1'))) then  
-    if 	(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c) ) then
+  elsif ( wb_ctrl_i(ctrl_rd_c) = '1' and 
+          ex_ctrl_i(ctrl_ra_c) = '1' and 
+          wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_ra_2_c downto ctrl_ra_0_c) 
+        ) 
+    then
       ra_o <= wb_data_i;
-  
       mb <= '0';
       wb <= '1';
-    end if;
   else 
     ra_o <= ra_i;
     mb <= '0';
@@ -57,25 +60,27 @@ begin
 
    
   -- rd provider vs rb consumer
-  if ((ma_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_rb_c) = '1'))) then  
-      if 	(ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c) ) then
-        rb_o <= ma_data_i;     
-        mb2 <= '1';
-        wb2 <= '0';
-      end if;
-      
-   elsif ((wb_ctrl_i(ctrl_rd_c) = '1') and ((ex_ctrl_i(ctrl_rb_c) = '1'))) then  
-      if 	(wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c) ) then
-        rb_o <= wb_data_i;      
-        mb2 <= '0';
-        wb2 <= '1';
-      end if;
-   else 
+  if ( ma_ctrl_i(ctrl_rd_c)                      = '1'    and 
+       ex_ctrl_i(ctrl_rb_c)                      = '1'    and
+       ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c)
+      ) 
+    then  
+      rb_o <= ma_data_i;
+      mb2 <= '1';
+      wb2 <= '0';
+  elsif ( wb_ctrl_i(ctrl_rd_c) = '1' and 
+          ex_ctrl_i(ctrl_rb_c) = '1' and 
+          wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rb_2_c downto ctrl_rb_0_c) 
+        ) 
+    then
+      rb_o <= wb_data_i;
+      mb2 <= '0';
+      wb2 <= '1';
+  else 
     rb_o <= rb_i;
-    
-        mb2 <= '0';
-        wb2 <= '0';
-   end if;
+    mb2 <= '0';
+    wb2 <= '0';
+  end if;
 
    
  end process;
