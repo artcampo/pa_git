@@ -44,17 +44,25 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Compiling entity regf
 -- Compiling architecture regf_behaviour of regf
 
-} {} {}} C:/Users/sandra/Desktop/pa_git/mem.vhd {1 {vcom -work work -2002 -explicit C:/Users/sandra/Desktop/pa_git/mem.vhd
+} {} {}} C:/Users/sandra/Desktop/pa_git/ctrl.vhd {1 {vcom -work work -2002 -explicit C:/Users/sandra/Desktop/pa_git/ctrl.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
 -- Loading package NUMERIC_STD
--- Loading package MATH_REAL
 -- Loading package proc_package
--- Loading package tb_load_signals
--- Compiling entity mem
--- Compiling architecture mem_structure of mem
+-- Compiling entity ctrl
+-- Compiling architecture ctrl_structure of ctrl
+
+} {} {}} C:/Users/sandra/Desktop/pa_git/PRED_DEC.vhd {1 {vcom -work work -2002 -explicit C:/Users/sandra/Desktop/pa_git/PRED_DEC.vhd
+Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package proc_package
+-- Compiling entity pred_dec
+-- Compiling architecture PRED_DEC_STRUCTURE of PRED_DEC
 
 } {} {}} C:/Users/sandra/Desktop/pa_git/satOut.vhd {1 {vcom -work work -2002 -explicit C:/Users/sandra/Desktop/pa_git/satOut.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
@@ -109,6 +117,17 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package std_logic_1164
 -- Loading package proc_package
 -- Compiling package tb_load_signals
+
+} {} {}} C:/Users/sandra/Desktop/pa_git/decoder.vhd {1 {vcom -work work -2002 -explicit C:/Users/sandra/Desktop/pa_git/decoder.vhd
+Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Loading package proc_package
+-- Compiling entity decoder
+-- Compiling architecture decoder_structure of decoder
 
 } {} {}} C:/Users/sandra/Desktop/pa_git/memg.vhd {1 {vcom -work work -2002 -explicit C:/Users/sandra/Desktop/pa_git/memg.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
