@@ -78,7 +78,7 @@ begin
 	HR 					<= HRT(to_integer(unsigned(PC_predict_synch)));			
 	counter 				<= PT (to_integer(unsigned(HR)));				 	
 	
-	HR_updt 				<= HRT(to_integer(unsigned(PC_update_synch)));	
+	HR_updt 				<= HRT(to_integer(unsigned(PC_update)));	
 	counter_updt_in	<= PT (to_integer(unsigned(HR_updt)));			
 
 	HR_new		 		<= HR_updt(k - 2 downto 0) & branch_outcome_synch;

@@ -87,14 +87,14 @@ begin
   prediction_decoder: pred_dec
     port map (
        instr_i         => instr_fe,
-       instr_adr_i     => ins_addr,
+       instr_adr_i     => inst_addr_fe,
        is_branch_o     => is_branch,
        pred_adr_o      => pred_adr
        );
 
   branch_predictor: predictor
     port map (
-      PC_predict      => ins_addr(3 DOWNTO 0),
+      PC_predict      => inst_addr_fe(3 DOWNTO 0),
       PC_update       => pred_inst_addr_de_ex(3 DOWNTO 0),
       update          => pred_updt,
       branch_outcome  => branch_outcome,
