@@ -70,7 +70,8 @@ architecture ctrl_structure of ctrl is
   signal stall_store   : std_logic;  
   
   -- predictor signals
-	signal branch_taken         : std_logic;
+	signal branch_taken         : std_logic:= '1';
+  signal branch_taken2         : std_logic:= '1';
   signal pred_taken_fe_de     : std_logic;
   signal pred_taken_de_ex     : std_logic;
   signal pred_inst_addr_fe_de : std_logic_vector(data_width_c-1 downto 0);-- pc of branch instr
@@ -101,7 +102,7 @@ begin
       branch_outcome  => branch_outcome,
       clock           => clock_i,
       reset           => reset_i,
-      taken           => branch_taken
+      taken           => branch_taken2
       );			 
 
   compute_stall: process (de_ctrl, ex_ctrl)
@@ -132,26 +133,31 @@ begin
   
   compute_br_shadow: process (ex_ctrl, cond_de_ex)
   begin    
-    if(ex_ctrl(ctrl_is_branch_c) = '1' and 
-        (
-         (    (ex_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) /= br_unconditional)
-          and (ex_ctrl(ctrl_branch_cond_1_c) = cond_de_ex)
-        ))) then
-      -- jump taken
-      branch_outcome <= '1';
-      if (pred_taken_de_ex = '1') then
-        br_shadow <='0';
+    if(ex_ctrl(ctrl_is_branch_c) = '1') then
+        if 
+          (
+           (    (ex_ctrl(ctrl_branch_cond_1_c downto ctrl_branch_cond_0_c) /= br_unconditional)
+            and (ex_ctrl(ctrl_branch_cond_1_c) = cond_de_ex)
+          )) then
+        -- jump taken
+        branch_outcome <= '1';
+        if (pred_taken_de_ex = '1') then
+          br_shadow <='0';
+        else
+          br_shadow <='1';
+        end if;
       else
-        br_shadow <='1';
+        branch_outcome <= '0';
+        -- jump not taken
+        if (pred_taken_de_ex = '1') then
+          br_shadow <='1';
+        else
+          br_shadow <='0';
+        end if;
       end if;
     else
-      branch_outcome <= '0';
-      -- jump not taken
-      if (pred_taken_de_ex = '1') then
-        br_shadow <='1';
-      else
-        br_shadow <='0';
-      end if;
+      -- not a branch
+      br_shadow <='0';
     end if;
   end process compute_br_shadow;  
   
@@ -195,7 +201,7 @@ begin
           inst_addr_fe        <= ins_addr;
           pred_taken_fe_de    <= branch_taken;
           if(br_shadow = '0') then
-            if(branch_taken = '1') then
+            if(branch_taken = '1' and is_branch = '1') then
               ins_addr   <= pred_adr;
               inst_pc_o  <= pred_adr;
             else

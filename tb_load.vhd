@@ -18,7 +18,7 @@ ARCHITECTURE testbench OF tb_load IS
 SIGNAL   Rst: 				 std_logic;
 SIGNAL 	 TestClk: 		 std_logic := '0';
 CONSTANT ClkPeriod: 	 TIME := 10 ns;
-constant numberCycles: natural := 65;
+constant numberCycles: natural := 62;
 
 		constant c_p0: std_logic_vector := x"000A";
 		constant c_p1: std_logic_vector := x"0001";
