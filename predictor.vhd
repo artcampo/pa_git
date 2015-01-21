@@ -5,12 +5,12 @@ use IEEE.numeric_std.all;
 -----------------------------------------------------
 
 entity predictor is
-generic(k: natural:=1; bitsPc: natural:= 1 );
+generic(k: natural:=2; bitsPc: natural:= 4; hrt_size: natural := 2; pt_size: natural := 4);
 port(	
-	PC_predict:						in  std_logic_vector(bitsPc - 1 downto 0);
-	PC_update:						in  std_logic_vector(bitsPc - 1 downto 0);
+	PC_predict:					in  std_logic_vector(bitsPc - 1 downto 0);
+	PC_update:					in  std_logic_vector(bitsPc - 1 downto 0);
 	update:							in  std_logic;
-	branch_outcome:				in  std_logic;
+	branch_outcome:			in  std_logic;
 	clock:							in  std_logic;
 	reset:							in  std_logic;
 	-- output
@@ -24,16 +24,16 @@ architecture Structure of predictor is
 
 component satIn is
 	port(	
-		counter: 		in  std_logic_vector(1 downto 0);	
-		prediction:		out std_logic
+		counter: 		in   std_logic_vector(1 downto 0);	
+		prediction:	out  std_logic
 	);
 end component;
 
 component satOut is
 	port(	
-		counter: 		in  std_logic_vector(1 downto 0);	
-		increment:		in  std_logic;	
-		newCounter: 	out  std_logic_vector(1 downto 0)	
+		counter: 		in   std_logic_vector(1 downto 0);	
+		increment:	in   std_logic;	
+		newCounter: out  std_logic_vector(1 downto 0)	
 	);
 end component;
 
@@ -41,25 +41,17 @@ end component;
 
    -- define the states of FSM model
 
-	type HRT_t is array ((2**(bitsPc)) - 1 downto 0 ) of std_logic_vector (k - 1 downto 0);
-	type PT_t  is array ((2**     (k)) - 1 downto 0 ) of std_logic_vector (1 	  downto 0);
+	type HRT_t is array ((hrt_size - 1) downto 0 ) of std_logic_vector (k - 1 downto 0);
+	type PT_t  is array ((pt_size  - 1) downto 0 ) of std_logic_vector (1 	  downto 0);
 	signal HRT: HRT_t := (others => (others => '0'));
 	signal PT:   PT_t := (others => (others => '0'));
 	
-	signal HR: 					std_logic_vector (k  - 1 downto 0) := (others => '0');
-	signal counter: 			std_logic_vector (1 downto 0) := (others => '0');
-	signal setCounterPred:	std_logic:='1';		
-
-	
-	signal HR_new: 				 std_logic_vector (k - 1 downto 0) := (others => '0');
-	
-	signal HR_updt: 				 std_logic_vector (k - 1 downto 0) := (others => '0');
-	signal counter_updt_in: 	 std_logic_vector (1 downto 0) := (others => '0');
-	signal counter_updt_out: 	 std_logic_vector (1 downto 0) := (others => '0');
-	
-	signal PC_predict_synch:			std_logic_vector(bitsPc - 1 downto 0) := (others => '0');
-	signal PC_update_synch:			std_logic_vector(bitsPc - 1 downto 0) := (others => '0');	
-	signal branch_outcome_synch:	std_logic := '0';	
+	signal HR: 					    std_logic_vector (k - 1 downto 0) := (others => '0');
+	signal counter: 			  std_logic_vector (1     downto 0) := (others => '0');
+	signal HR_new: 				  std_logic_vector (k - 1 downto 0) := (others => '0');
+	signal HR_updt: 				std_logic_vector (k - 1 downto 0) := (others => '0');
+	signal counter_updt_in: std_logic_vector (1     downto 0) := (others => '0');
+	signal counter_updt_out:std_logic_vector (1     downto 0) := (others => '0');
 	
 	
 -----------------------------------------------------	
@@ -70,18 +62,18 @@ begin
 												prediction 	=> taken
 												);
 												
-	satCounterUpdt : satOut port map(increment	=> branch_outcome_synch, 												
+	satCounterUpdt : satOut port map(increment	=> branch_outcome, 												
 												counter 		=> counter_updt_in,												
 												newCounter 	=> counter_updt_out
 												);																	
 
-	HR 					<= HRT(to_integer(unsigned(PC_predict_synch)));			
+	HR 					    <= HRT(to_integer(unsigned(PC_predict)));			
 	counter 				<= PT (to_integer(unsigned(HR)));				 	
 	
 	HR_updt 				<= HRT(to_integer(unsigned(PC_update)));	
 	counter_updt_in	<= PT (to_integer(unsigned(HR_updt)));			
 
-	HR_new		 		<= HR_updt(k - 2 downto 0) & branch_outcome;
+	HR_new		 		  <= HR_updt(k - 2 downto 0) & branch_outcome;
 	
 		
 -- Apply reset

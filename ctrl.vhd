@@ -95,8 +95,8 @@ begin
 
   branch_predictor: predictor
     port map (
-      PC_predict      => inst_addr_fe(3 DOWNTO 0),
-      PC_update       => pred_inst_addr_de_ex(3 DOWNTO 0),
+      PC_predict      => inst_addr_fe(1 DOWNTO 0),
+      PC_update       => pred_inst_addr_de_ex(1 DOWNTO 0),
       update          => pred_updt,
       branch_outcome  => branch_outcome,
       clock           => clock_i,

@@ -318,12 +318,12 @@ component pred_dec
 end component;
 
 component predictor is
-generic(k: natural:=3; bitsPc: natural:= 4 );
+generic(k: natural:=2; bitsPc: natural:= 2; hrt_size: natural := 4; pt_size: natural := 4);
 port(	
-	PC_predict:						in  std_logic_vector(bitsPc - 1 downto 0);
-	PC_update:						in  std_logic_vector(bitsPc - 1 downto 0);
+	PC_predict:					in  std_logic_vector(bitsPc - 1 downto 0);
+	PC_update:					in  std_logic_vector(bitsPc - 1 downto 0);
 	update:							in  std_logic;
-	branch_outcome:				in  std_logic;
+	branch_outcome:			in  std_logic;
 	clock:							in  std_logic;
 	reset:							in  std_logic;
 	-- output
