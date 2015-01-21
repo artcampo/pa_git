@@ -8,7 +8,7 @@ package proc_package is
 ----------------------------------------------------------------------------------------------
 constant data_width_c      : natural := 16;
 constant num_registers	   : natural := 8;
-constant ctrl_width_c      : natural := 24; -- TODO: reduce this when processor finished
+constant ctrl_width_c      : natural := 26; -- TODO: reduce this when processor finished
 
 -- alu
 constant alu_op_bits	     : natural := 2;
@@ -53,6 +53,11 @@ constant ctrl_rb_imm_c      : natural := 6; -- operand register B is an immediat
 constant ctrl_rb_c          : natural := 7; -- is 1 for not using B, 0 for using B
 constant ctrl_rb_0_c        : natural := 8; -- operand register B adr bit 0
 constant ctrl_rb_2_c        : natural := 10; -- operand register B adr bit 2
+
+-- Operand C
+constant ctrl_rc_c          : natural := 22; -- is 1 for not using B, 0 for using B
+constant ctrl_rc_0_c        : natural := 23; -- operand register B adr bit 0
+constant ctrl_rc_2_c        : natural := 25; -- operand register B adr bit 2
 
 -- Destiantion Register
 constant ctrl_rd_wb_c       : natural := 11;	 -- enable write back
@@ -234,9 +239,11 @@ component fwd
 		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
     ma_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
 		ra_i         : in  std_logic_vector(data_width_c-1 downto 0);
-    rb_i         : in  std_logic_vector(data_width_c-1 downto 0);    
+    rb_i         : in  std_logic_vector(data_width_c-1 downto 0); 
+    rc_i         : in  std_logic_vector(data_width_c-1 downto 0);   
 		ra_o         : out std_logic_vector(data_width_c-1 downto 0);
-    rb_o         : out std_logic_vector(data_width_c-1 downto 0)
+    rb_o         : out std_logic_vector(data_width_c-1 downto 0);
+    rc_o         : out std_logic_vector(data_width_c-1 downto 0)
     );
 end component;
 

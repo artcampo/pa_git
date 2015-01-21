@@ -16,9 +16,10 @@ entity fwd is
 		ma_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
 		ra_i         : in  std_logic_vector(data_width_c-1 downto 0);
     rb_i         : in  std_logic_vector(data_width_c-1 downto 0);    
-		
+		rc_i         : in  std_logic_vector(data_width_c-1 downto 0);  
 		ra_o         : out std_logic_vector(data_width_c-1 downto 0);
-    rb_o         : out std_logic_vector(data_width_c-1 downto 0)
+    rb_o         : out std_logic_vector(data_width_c-1 downto 0);
+    rc_o         : out std_logic_vector(data_width_c-1 downto 0)
 	);
 end fwd;
 
@@ -80,6 +81,23 @@ begin
     rb_o <= rb_i;
     mb2 <= '0';
     wb2 <= '0';
+  end if;
+
+    -- rd provider vs rc consumer
+  if ( ma_ctrl_i(ctrl_rd_c)                      = '1'    and 
+       ex_ctrl_i(ctrl_rc_c)                      = '1'    and
+       ma_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rc_2_c downto ctrl_rc_0_c)
+      ) 
+    then  
+      rc_o <= ma_data_i;
+  elsif ( wb_ctrl_i(ctrl_rd_c) = '1' and 
+          ex_ctrl_i(ctrl_rc_c) = '1' and 
+          wb_ctrl_i(ctrl_rd_2_c downto ctrl_rd_0_c) = ex_ctrl_i(ctrl_rc_2_c downto ctrl_rc_0_c) 
+        ) 
+    then
+      rc_o <= wb_data_i;
+  else 
+    rc_o <= rc_i;
   end if;
 
    

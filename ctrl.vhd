@@ -66,7 +66,8 @@ architecture ctrl_structure of ctrl is
   -- signals affecting whole pipeline
   signal stall         : std_logic;
   signal br_shadow     : std_logic;
-  
+  signal stall_load    : std_logic;
+  signal stall_store   : std_logic;  
   
   -- predictor signals
 	signal branch_taken         : std_logic;
@@ -105,15 +106,29 @@ begin
 
   compute_stall: process (de_ctrl, ex_ctrl)
   begin    
-    if( (     (de_ctrl(ctrl_ra_c) = '1' and unsigned(de_ctrl(ctrl_ra_2_c downto ctrl_ra_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
-           or (de_ctrl(ctrl_rb_c) = '1' and unsigned(de_ctrl(ctrl_rb_2_c downto ctrl_rb_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
+    if( (     (de_ctrl(ctrl_ra_c) = '1' and (unsigned(de_ctrl(ctrl_ra_2_c downto ctrl_ra_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c)))) 
+           or (de_ctrl(ctrl_rb_c) = '1' and (unsigned(de_ctrl(ctrl_rb_2_c downto ctrl_rb_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c)))) 
+           or (de_ctrl(ctrl_rc_c) = '1' and (unsigned(de_ctrl(ctrl_rc_2_c downto ctrl_rc_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c)))) 
            ) 
            and (ex_ctrl(ctrl_use_mem_c) = '1' and ex_ctrl(ctrl_rd_c) = '1')) then
-      stall <='1';
+      stall_load <='1';
     else
-      stall <= '0';
+      stall_load <= '0';
     end if;
   end process compute_stall;
+  
+  compute_stall_store: process (de_ctrl, ex_ctrl)
+  begin    
+    if( de_ctrl(ctrl_rc_c) = '1' 
+        and (unsigned(de_ctrl(ctrl_rc_2_c downto ctrl_rc_0_c)) = unsigned(ex_ctrl(ctrl_rd_2_c downto ctrl_rd_0_c))) 
+        and (de_ctrl(ctrl_use_mem_c) = '1' and ex_ctrl(ctrl_rd_c) = '1')) then
+      stall_store <='1';
+    else
+      stall_store <= '0';
+    end if;
+  end process compute_stall_store;
+
+  stall <= stall_load or stall_store;
   
   compute_br_shadow: process (ex_ctrl, cond_de_ex)
   begin    
@@ -244,28 +259,20 @@ begin
       if (reset_i = '1') then
         ex_ctrl	 <= (0 => '1', others => '0');
       else
-        if (stall = '0') then
-          if(br_shadow = '0') then
-            ex_ctrl     <= de_ctrl;
-          else
-            ex_ctrl     <= (0 => '1', others => '0');
-          end if;
-          if(ex_ctrl(ctrl_nop_c) = '0') then
-            rd_ex_ma_o  <= rd_ex;
-            rd_ex_ma    <= rd_ex;
-            rc_ex_ma    <= rc_de_ex;
-          else
-            rd_ex_ma_o  <= (others => '0');   -- nop explicit datapath info
-            rd_ex_ma    <= (others => '0');   -- nop explicit datapath info
-            rc_ex_ma    <= (others => '0');   -- nop explicit datapath info
-          end if;
+        if(br_shadow = '0') then
+          ex_ctrl     <= de_ctrl;
         else
-            -- stall: insert nop
-            ex_ctrl	 <= (0 => '1', others => '0');
-            rd_ex_ma_o  <= (others => '0');   -- nop explicit datapath info
-            rd_ex_ma    <= (others => '0');   -- nop explicit datapath info
-            rc_ex_ma    <= (others => '0');   -- nop explicit datapath info
-        end if;        
+          ex_ctrl     <= (0 => '1', others => '0');
+        end if;
+        if(ex_ctrl(ctrl_nop_c) = '0') then
+          rd_ex_ma_o  <= rd_ex;
+          rd_ex_ma    <= rd_ex;
+          rc_ex_ma    <= rc_de_ex;
+        else
+          rd_ex_ma_o  <= (others => '0');   -- nop explicit datapath info
+          rd_ex_ma    <= (others => '0');   -- nop explicit datapath info
+          rc_ex_ma    <= (others => '0');   -- nop explicit datapath info
+        end if;    
       end if;
     end if;
   end process ex_stage;
