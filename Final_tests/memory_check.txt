@@ -13,7 +13,7 @@ copy to mem.vhd (l.37):
 
 
 
-copy to mem.vhd (l.81):
+copy to mem.vhd:
 
 		p0  <= mem_data_ram(0);
   		p1  <= mem_data_ram(1);
@@ -27,7 +27,7 @@ copy to tb_load.vhd (l.23):
 		constant c_p2: std_logic_vector := x"0003";
 
 
-copy to tb_load.vhd (l.55):
+copy to tb_load.vhd:
  		 if(p0 /= c_p0) then
 		      write(ErrorMsg, STRING'("p0 Should be: "));
 		      write(ErrorMsg, c_p0);	
