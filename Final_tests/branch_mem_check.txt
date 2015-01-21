@@ -7,38 +7,51 @@ copy to mem.vhd (l.37):
 		000001 => x"6201", -- MOV R1, 1			r0=10, r1=1
 		000002 => x"6402", -- MOV R2, 2			r0=10, r1=1, r2=2
 		000003 => x"6603", -- MOV R3, 3			r0=10, r1=1, r2=2, r3=3
-		000004 => x"6804", -- MOV R4, 4			r0=10, r1=1, r2=2, r3=3, r4=4
-		000005 => x"D204", -- jump if R1 != R0,  pc+4;  jumps
-		000006 => x"65FF", -- MOV R2, 511		
-		000007 => x"67FF", -- MOV R3, 511
-		000008 => x"69FF", -- MOV R4, 511
-		000009 => x"8121", -- ADD R1 +1; 		r0=10, r1=2, r2=2, r3=3, r4=4
-		000010 => x"D204", -- jump if R1 != R0,  pc+4;  jumps
-		000011 => x"65FF", -- MOV R2, 511		
-		000012 => x"67FF", -- MOV R3, 511
-		000013 => x"69FF", -- MOV R4, 511
-		000014 => x"8122", -- ADD R1 +2; 		r0=10, r1=4, r2=2, r3=3, r4=4
-		000015 => x"D204", -- jump if R1 != R0,  pc+4;  jumps
-		000016 => x"65FF", -- MOV R2, 511		
-		000017 => x"67FF", -- MOV R3, 511
-		000018 => x"69FF", -- MOV R4, 511
-		000019 => x"8122", -- ADD R1 +2; 		r0=10, r1=6, r2=2, r3=3, r4=4
+		000004 => x"D204", -- jump if R1 != R0,  pc+4;  jumps
+		000005 => x"65FF", -- MOV R2, 511		
+		000006 => x"67FF", -- MOV R3, 511
+		000007 => x"8121", -- ADD R1 +1; 		r0=10, r1=2, r2=2, r3=3
+		000008 => x"D204", -- jump if R1 != R0,  pc+4;  jumps
+		000009 => x"65FF", -- MOV R2, 511		
+		000010 => x"67FF", -- MOV R3, 511
+		000011 => x"8122", -- ADD R1 +2; 		r0=10, r1=4, r2=2, r3=3, r4=4
+		000012 => x"D204", -- jump if R1 != R0,  pc+4;  jumps
+		000013 => x"65FF", -- MOV R2, 511		
+		000014 => x"67FF", -- MOV R3, 511
+		000015 => x"8122", -- ADD R1 +2; 		r0=10, r1=6, r2=2, r3=3, r4=4
+		000016 => x"D204", -- jump if R1 != R0,  pc+4;  jumps
+		000017 => x"65FF", -- MOV R2, 511		
+		000018 => x"67FF", -- MOV R3, 511
+		000019 => x"8122", -- ADD R1 +2; 		r0=10, r1=8, r2=2, r3=3, r4=4
 		000020 => x"D204", -- jump if R1 != R0,  pc+4;  jumps
 		000021 => x"65FF", -- MOV R2, 511		
 		000022 => x"67FF", -- MOV R3, 511
-		000023 => x"69FF", -- MOV R4, 511
-		000024 => x"8122", -- ADD R1 +2; 		r0=10, r1=8, r2=2, r3=3, r4=4
-		000025 => x"D204", -- jump if R1 != R0,  pc+4;  jumps
-		000026 => x"65FF", -- MOV R2, 511		
-		000027 => x"67FF", -- MOV R3, 511
-		000028 => x"69FF", -- MOV R4, 511
-		000029 => x"8122", -- ADD R1 +2; 		r0=10, r1=10, r2=2, r3=3, r4=4
-		000030 => x"D204", -- jump if R1 != R0,  pc+4;  DON'T JUMP
-		000031 => x"5000", -- ST R0(0) <- R0
-		000032 => x"5041", -- ST R0(1) <- R1
-		000033 => x"5082", -- ST R0(2) <- R2
-		000034 => x"50C3", -- ST R0(3) <- R3
-		000035 => x"5104", -- ST R0(4) <- R4
+		000023 => x"8122", -- ADD R1 +2; 		r0=10, r1=10, r2=2, r3=3
+		000024 => x"D204", -- jump if R1 != R0,  pc+4;  DON'T JUMP
+		000025 => x"6414", -- MOV R2, 20		r0=10, r1=10, r2=20, r3=3		
+		000026 => x"661E", -- MOV R3, 30		r0=10, r1=10, r2=20, r3=30
+		000027 => x"A34C", -- ADD R3 <- R2+R3,	r0=10, r1=10, r2=20, r3=50
+		000028 => x"D204", -- jump if R1 != R0,  pc+4;  DON'T JUMP
+		000029 => x"641E", -- MOV R2, 30		r0=10, r1=10, r2=20, r3=50		
+		000030 => x"6624", -- MOV R3, 40		r0=10, r1=10, r2=30, r3=40
+		000031 => x"A34C", -- ADD R3 <- R2+R3,	r0=10, r1=10, r2=30, r3=70
+		000032 => x"D204", -- jump if R1 != R0,  pc+4;  DON'T JUMP
+		000033 => x"6424", -- MOV R2, 40		r0=10, r1=10, r2=40, r3=70		
+		000034 => x"6632", -- MOV R3, 50		r0=10, r1=10, r2=40, r3=50
+		000035 => x"A34C", -- ADD R3 <- R2+R3,	r0=10, r1=10, r2=40, r3=90
+		000036 => x"D204", -- jump if R1 != R0,  pc+4;  DON'T JUMP
+		000037 => x"6432", -- MOV R2, 50		r0=10, r1=10, r2=50, r3=90		
+		000038 => x"663C", -- MOV R3, 60		r0=10, r1=10, r2=50, r3=60
+		000039 => x"A34C", -- ADD R3 <- R2+R3,	r0=10, r1=10, r2=50, r3=110
+		000040 => x"D204", -- jump if R1 != R0,  pc+4;  DON'T JUMP		
+		000041 => x"643C", -- MOV R2, 60		r0=10, r1=10, r2=60, r3=110		
+		000042 => x"6646", -- MOV R3, 70		r0=10, r1=10, r2=60, r3=70
+		000043 => x"A34C", -- ADD R3 <- R2+R3,	r0=10, r1=10, r2=60, r3=130
+		000044 => x"D204", -- jump if R1 != R0,  pc+4;  DON'T JUMP
+		000045 => x"5000", -- ST R0(0) <- R0
+		000046 => x"5041", -- ST R0(1) <- R1
+		000047 => x"5082", -- ST R0(2) <- R2
+		000048 => x"50C3", -- ST R0(3) <- R3
 		others => x"0000"  -- NOP
 
 
@@ -49,14 +62,13 @@ copy to mem.vhd (l.81):
   		p1  <= mem_data_ram(1);
   		p2  <= mem_data_ram(2);
   		p3  <= mem_data_ram(3);
-  		p4  <= mem_data_ram(4);
 
 copy to tb_load.vhd (l.23):
 		constant c_p0: std_logic_vector := x"000A";
 		constant c_p1: std_logic_vector := x"000A";
-		constant c_p2: std_logic_vector := x"0002";
-		constant c_p3: std_logic_vector := x"0003";
-		constant c_p4: std_logic_vector := x"0004";
+		constant c_p2: std_logic_vector := x"003C";
+		constant c_p3: std_logic_vector := x"0082";
+
 
 copy to tb_load.vhd (l.55):
  		 if(p0 /= c_p0) then
@@ -88,13 +100,5 @@ copy to tb_load.vhd (l.55):
 		      write(ErrorMsg, c_p3);	
 		      write(ErrorMsg, STRING'(" is: "));
 		      write(ErrorMsg, p3);		  
-		      writeline(output, ErrorMsg);
-		  end if;
-
-		  if(p4 /= c_p4) then
-		      write(ErrorMsg, STRING'("p4 Should be: "));
-		      write(ErrorMsg, c_p4);	
-		      write(ErrorMsg, STRING'(" is: "));
-		      write(ErrorMsg, p4);		  
 		      writeline(output, ErrorMsg);
 		  end if;
