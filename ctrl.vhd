@@ -254,28 +254,20 @@ begin
       if (reset_i = '1') then
         ex_ctrl	 <= (0 => '1', others => '0');
       else
-        if (stall = '0') then
-          if(br_shadow = '0') then
-            ex_ctrl     <= de_ctrl;
-          else
-            ex_ctrl     <= (0 => '1', others => '0');
-          end if;
-          if(ex_ctrl(ctrl_nop_c) = '0') then
-            rd_ex_ma_o  <= rd_ex;
-            rd_ex_ma    <= rd_ex;
-            rc_ex_ma    <= rc_de_ex;
-          else
-            rd_ex_ma_o  <= (others => '0');   -- nop explicit datapath info
-            rd_ex_ma    <= (others => '0');   -- nop explicit datapath info
-            rc_ex_ma    <= (others => '0');   -- nop explicit datapath info
-          end if;
+        if(br_shadow = '0') then
+          ex_ctrl     <= de_ctrl;
         else
-            -- stall: insert nop
-            ex_ctrl	 <= (0 => '1', others => '0');
-            rd_ex_ma_o  <= (others => '0');   -- nop explicit datapath info
-            rd_ex_ma    <= (others => '0');   -- nop explicit datapath info
-            rc_ex_ma    <= (others => '0');   -- nop explicit datapath info
-        end if;        
+          ex_ctrl     <= (0 => '1', others => '0');
+        end if;
+        if(ex_ctrl(ctrl_nop_c) = '0') then
+          rd_ex_ma_o  <= rd_ex;
+          rd_ex_ma    <= rd_ex;
+          rc_ex_ma    <= rc_de_ex;
+        else
+          rd_ex_ma_o  <= (others => '0');   -- nop explicit datapath info
+          rd_ex_ma    <= (others => '0');   -- nop explicit datapath info
+          rc_ex_ma    <= (others => '0');   -- nop explicit datapath info
+        end if;    
       end if;
     end if;
   end process ex_stage;
