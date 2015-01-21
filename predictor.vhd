@@ -78,10 +78,10 @@ begin
 	HR 					<= HRT(to_integer(unsigned(PC_predict_synch)));			
 	counter 				<= PT (to_integer(unsigned(HR)));				 	
 	
-	HR_updt 				<= HRT(to_integer(unsigned(PC_update_synch)));	
+	HR_updt 				<= HRT(to_integer(unsigned(PC_update)));	
 	counter_updt_in	<= PT (to_integer(unsigned(HR_updt)));			
 
-	HR_new		 		<= HR_updt(k - 2 downto 0) & branch_outcome_synch;
+	HR_new		 		<= HR_updt(k - 2 downto 0) & branch_outcome;
 	
 		
 -- Apply reset
@@ -93,9 +93,6 @@ process (clock, reset)
 	  elsif (clock'event and clock='1' )  then          
 
 			--taken 					<= taken_out;
-			PC_predict_synch 		<= PC_predict;
-			PC_update_synch 		<= PC_update;				
-			branch_outcome_synch <= branch_outcome;
 			if (update='1') then
 				PT (to_integer(unsigned(HR_updt))) 	<= counter_updt_out;
 				HRT(to_integer(unsigned(PC_update)))<= HR_new;				
