@@ -39,7 +39,9 @@ end ctrl;
 architecture ctrl_structure of ctrl is
 
   signal ins_addr       : std_logic_vector(data_width_c-1 downto 0); -- pc
+  signal inst_addr_fe   : std_logic_vector(data_width_c-1 downto 0); -- pc
 
+  
   -- pipeline register --
   signal de_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
   signal ex_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
@@ -150,7 +152,7 @@ begin
       end if;
   end process compute_pred_updt;
  
-  compute_mispredict_target: process(branch_taken, ins_addr)
+  compute_mispredict_target: process(branch_taken, ins_addr, pred_adr)
   begin
     if (branch_taken = '1') then				
       pred_othr_addr <= std_logic_vector(unsigned(ins_addr) + 1); -- word increment
@@ -169,11 +171,13 @@ begin
         instr_fe      <= (others => '0');
         inst_pc_o     <= (others => '0');
         instr_fe_o    <= (others => '0');
+        inst_addr_fe  <= (others => '0');
       else
-        if(stall = '0') then
+        if(stall = '0') then    
           instr_fe            <= instr_mem_i;
-          pred_inst_addr_fe_de<= ins_addr;
+          pred_inst_addr_fe_de<= inst_addr_fe;
           pred_othr_addr_fe_de<= pred_othr_addr;
+          inst_addr_fe        <= ins_addr;
           pred_taken_fe_de    <= branch_taken;
           if(br_shadow = '0') then
             if(branch_taken = '1') then
@@ -185,8 +189,8 @@ begin
             end if;
           else
             -- we had a branch / misprediction
-            ins_addr   <= rd_ex;
-            inst_pc_o  <= rd_ex;
+            ins_addr   <= pred_othr_addr_de_ex;
+            inst_pc_o  <= pred_othr_addr_de_ex;
           end if;
           instr_fe_o <= instr_mem_i;
         end if;
