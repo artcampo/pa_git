@@ -102,7 +102,7 @@ begin
       branch_outcome  => branch_outcome,
       clock           => clock_i,
       reset           => reset_i,
-      taken           => branch_taken2
+      taken           => branch_taken
       );			 
 
   compute_stall: process (de_ctrl, ex_ctrl)
