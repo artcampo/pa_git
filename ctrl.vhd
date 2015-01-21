@@ -84,7 +84,7 @@ begin
 
   prediction_decoder: pred_dec
     port map (
-       instr_i         => instr_mem_i,
+       instr_i         => instr_fe,
        instr_adr_i     => ins_addr,
        is_branch_o     => is_branch,
        pred_adr_o      => pred_adr
@@ -172,7 +172,7 @@ begin
       else
         if(stall = '0') then
           instr_fe            <= instr_mem_i;
-          pred_inst_addr_fe_de<= instr_mem_i;
+          pred_inst_addr_fe_de<= ins_addr;
           pred_othr_addr_fe_de<= pred_othr_addr;
           pred_taken_fe_de    <= branch_taken;
           if(br_shadow = '0') then

@@ -18,12 +18,12 @@ ARCHITECTURE testbench OF tb_load IS
 SIGNAL   Rst: 				 std_logic;
 SIGNAL 	 TestClk: 		 std_logic := '0';
 CONSTANT ClkPeriod: 	 TIME := 10 ns;
-constant numberCycles: natural := 25;
+constant numberCycles: natural := 45;
 
-constant c_p0: std_logic_vector := x"0003";
-constant c_p1: std_logic_vector := x"0002";
-constant c_p2: std_logic_vector := x"0001";
-constant c_p3: std_logic_vector := x"DEAF";
+		constant c_p0: std_logic_vector := x"000A";
+		constant c_p1: std_logic_vector := x"000A";
+		constant c_p2: std_logic_vector := x"003C";
+		constant c_p3: std_logic_vector := x"0082";
 
 
 BEGIN
@@ -54,36 +54,37 @@ BEGIN
   
   --Check here
   if(p0 /= c_p0) then
-      write(ErrorMsg, STRING'("p0 Should be: "));
-      write(ErrorMsg, c_p0);	
-      write(ErrorMsg, STRING'(" is: "));
-      write(ErrorMsg, p0);		  
-      writeline(output, ErrorMsg);
-  end if;
-  
-  if(p1 /= c_p1) then
-      write(ErrorMsg, STRING'("p1 Should be: "));
-      write(ErrorMsg, c_p1);	
-      write(ErrorMsg, STRING'(" is: "));
-      write(ErrorMsg, p1);		  
-      writeline(output, ErrorMsg);
-  end if;
-  
-  if(p2 /= c_p2) then
-      write(ErrorMsg, STRING'("p2 Should be: "));
-      write(ErrorMsg, c_p2);	
-      write(ErrorMsg, STRING'(" is: "));
-      write(ErrorMsg, p2);		  
-      writeline(output, ErrorMsg);
-  end if;
-  
-  if(p3 /= c_p3) then
-		  write(ErrorMsg, STRING'("p3 Should be: "));
-		  write(ErrorMsg, c_p3);	
-		  write(ErrorMsg, STRING'(" is: "));
-		  write(ErrorMsg, p3);		  
-		  writeline(output, ErrorMsg);
+		      write(ErrorMsg, STRING'("p0 Should be: "));
+		      write(ErrorMsg, c_p0);	
+		      write(ErrorMsg, STRING'(" is: "));
+		      write(ErrorMsg, p0);		  
+		      writeline(output, ErrorMsg);
 		  end if;
+  
+		  if(p1 /= c_p1) then
+		      write(ErrorMsg, STRING'("p1 Should be: "));
+		      write(ErrorMsg, c_p1);	
+		      write(ErrorMsg, STRING'(" is: "));
+		      write(ErrorMsg, p1);		  
+		      writeline(output, ErrorMsg);
+		  end if;
+  
+		  if(p2 /= c_p2) then
+		      write(ErrorMsg, STRING'("p2 Should be: "));
+		      write(ErrorMsg, c_p2);	
+		      write(ErrorMsg, STRING'(" is: "));
+		      write(ErrorMsg, p2);		  
+		      writeline(output, ErrorMsg);
+		  end if;
+
+		  if(p3 /= c_p3) then
+		      write(ErrorMsg, STRING'("p3 Should be: "));
+		      write(ErrorMsg, c_p3);	
+		      write(ErrorMsg, STRING'(" is: "));
+		      write(ErrorMsg, p3);		  
+		      writeline(output, ErrorMsg);
+		  end if;
+
    
 end process;
                         
