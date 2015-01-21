@@ -41,12 +41,13 @@ architecture proc_behaviour of proc is
   
   signal ra_de_ex	          :	std_logic_vector(data_width_c - 1 downto 0);
   signal rb_de_ex	          :	std_logic_vector(data_width_c - 1 downto 0);  
-  
+
   -- signals for ALU
   signal ra  	              :	std_logic_vector(data_width_c - 1 downto 0);
   signal rb  	              :	std_logic_vector(data_width_c - 1 downto 0);
+  signal rc  	              :	std_logic_vector(data_width_c - 1 downto 0);
   signal rd   	            :	std_logic_vector(data_width_c - 1 downto 0);
-  
+
   -- signals for MA
   signal rb_ex_ma           :	std_logic_vector(data_width_c - 1 downto 0);
   signal rd_ex_ma           :	std_logic_vector(data_width_c - 1 downto 0);
@@ -121,7 +122,7 @@ begin
       cond_o       => cond, 
       ra_o         => ra_de,
       rb_o         => rb_de,
-      rc_o         => rc_de
+      rc_o         => rc
       );   
 
   -- fwd: EX ------------------------------------------------------------------------------------
@@ -134,8 +135,10 @@ begin
       ma_data_i    => rd_ex_ma,
       ra_i         => ra_de_ex,
       rb_i         => rb_de_ex,
+      rc_i         => rc,
       ra_o         => ra,
-      rb_o         => rb
+      rb_o         => rb,
+      rc_o         => rc_de
       );  
       
 	-- alu: EX ----------------------------------------------------------------------------------------------------

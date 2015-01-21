@@ -239,9 +239,11 @@ component fwd
 		wb_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
     ma_data_i    : in  std_logic_vector(data_width_c-1 downto 0);
 		ra_i         : in  std_logic_vector(data_width_c-1 downto 0);
-    rb_i         : in  std_logic_vector(data_width_c-1 downto 0);    
+    rb_i         : in  std_logic_vector(data_width_c-1 downto 0); 
+    rc_i         : in  std_logic_vector(data_width_c-1 downto 0);   
 		ra_o         : out std_logic_vector(data_width_c-1 downto 0);
-    rb_o         : out std_logic_vector(data_width_c-1 downto 0)
+    rb_o         : out std_logic_vector(data_width_c-1 downto 0);
+    rc_o         : out std_logic_vector(data_width_c-1 downto 0)
     );
 end component;
 
