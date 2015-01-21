@@ -188,7 +188,8 @@ begin
               inst_pc_o  <= std_logic_vector(unsigned(ins_addr)+1);
             end if;
           else
-            -- we had a branch / misprediction
+            -- we had a branch / mispredictionv
+            instr_fe   <= (others => '0');
             ins_addr   <= pred_othr_addr_de_ex;
             inst_pc_o  <= pred_othr_addr_de_ex;
           end if;

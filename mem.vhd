@@ -24,8 +24,8 @@ entity mem is
 end mem;
 
 architecture mem_structure of mem is	
-	constant mem_size     	: natural := 256*10;
-	constant log2_mem_size 	: natural := 8;
+	constant mem_size     	: natural := 1024;
+	constant log2_mem_size 	: natural := 10;
 
 
 	type mem_ram_t is array (0 to (mem_size/2)-1) of std_logic_vector(data_width_c - 1 downto 0);
@@ -79,10 +79,11 @@ architecture mem_structure of mem is
 		000042 => x"6646", -- MOV R3, 70		r0=10, r1=10, r2=60, r3=70
 		000043 => x"A34C", -- ADD R3 <- R2+R3,	r0=10, r1=10, r2=60, r3=130
 		000044 => x"E204", -- jump if R1 = R0,  pc+4;  DON'T JUMP
-		000045 => x"5000", -- ST R0(0) <- R0
-		000046 => x"5041", -- ST R0(1) <- R1
-		000047 => x"5082", -- ST R0(2) <- R2
-		000048 => x"50C3", -- ST R0(3) <- R3
+		000045 => x"6000", -- MOV R0, 0		r0=0
+		000046 => x"5000", -- ST R0(0) <- R0
+		000047 => x"5041", -- ST R0(1) <- R1
+		000048 => x"5082", -- ST R0(2) <- R2
+		000049 => x"50C3", -- ST R0(3) <- R3
 		others => x"0000"  -- NOP  
 		);
     
