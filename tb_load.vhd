@@ -20,10 +20,11 @@ SIGNAL 	 TestClk: 		 std_logic := '0';
 CONSTANT ClkPeriod: 	 TIME := 10 ns;
 constant numberCycles: natural := 62;
 
-		constant c_p0: std_logic_vector := x"000A";
-		constant c_p1: std_logic_vector := x"0001";
-		constant c_p2: std_logic_vector := x"003C";
-		constant c_p3: std_logic_vector := x"0082";
+		constant c_p0: std_logic_vector := x"0003";
+		constant c_p1: std_logic_vector := x"0002";
+		constant c_p2: std_logic_vector := x"0001";
+		constant c_p3: std_logic_vector := x"DEAF";
+
 
 
 BEGIN
@@ -53,7 +54,7 @@ BEGIN
   SEVERITY NOTE;
   
   --Check here
-  if(p0 /= c_p0) then
+ 		 if(p0 /= c_p0) then
 		      write(ErrorMsg, STRING'("p0 Should be: "));
 		      write(ErrorMsg, c_p0);	
 		      write(ErrorMsg, STRING'(" is: "));
@@ -84,8 +85,7 @@ BEGIN
 		      write(ErrorMsg, p3);		  
 		      writeline(output, ErrorMsg);
 		  end if;
-
-   
+  
 end process;
                         
 END testbench;
