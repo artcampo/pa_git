@@ -186,11 +186,11 @@ begin
         instr_fe_de_o <= (others => '0');
       else
         if(stall = '0') then    
-          instr_fe_de_o        <= instr_mem_i;
           pred_inst_addr_fe_de <= ins_addr;
           pred_othr_addr_fe_de <= pred_othr_addr;
           pred_taken_fe_de     <= branch_taken;
           if(br_shadow = '0') then
+            instr_fe_de_o        <= instr_mem_i;
             if(branch_taken = '1' and is_branch = '1') then
               ins_addr    <= pred_adr;
             else
@@ -198,7 +198,8 @@ begin
             end if;
           else
             -- we had a branch / mispredictionv
-            ins_addr   <= pred_othr_addr_de_ex;
+            instr_fe_de_o <= (others => '0');
+            ins_addr      <= pred_othr_addr_de_ex;
           end if;
 
         end if;
@@ -215,12 +216,7 @@ begin
   begin
     if rising_edge(clock_i) then
       if (stall = '0' and reset_i = '0') then
-        if(reset_i = '1' or br_shadow = '1') then
-          de_ctrl   <= (0 => '1', others => '0');
-        else
-          de_ctrl   <= de_ctrl_i ;
-        end if;
-        if(de_ctrl(ctrl_nop_c) = '0' ) then
+        if(de_ctrl_i(ctrl_nop_c) = '0' ) then
           ra_de_ex_o            <= ra_de_i;
           rb_de_ex_o            <= rb_de_i;
           rc_de_ex              <= rc_de_i;
@@ -239,6 +235,22 @@ begin
   end process de_stage;
   
   de_ctrl_o <= de_ctrl;
+  
+  de_update: process (de_ctrl_i, stall, reset_i, br_shadow)
+  begin
+    if (reset_i = '1') then
+      de_ctrl   <= (0 => '1', others => '0');
+    else 
+      if (stall = '0' and reset_i = '0') then
+        if(br_shadow = '1') then
+          de_ctrl   <= (0 => '1', others => '0');
+        else
+          de_ctrl   <= de_ctrl_i ;
+        end if;      
+      end if;
+    end if;
+  end process de_update;
+
    
  -- Stage 3: Execution ----------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
