@@ -29,7 +29,7 @@ ARCHITECTURE PRED_DEC_STRUCTURE OF PRED_DEC IS
 	
 BEGIN
 
-decoder: process(instr_i)
+decoder: process(instr_i, instr_adr_i)
   begin
       
     case (instr_i(isa_op1_c downto isa_op2_c)) is
