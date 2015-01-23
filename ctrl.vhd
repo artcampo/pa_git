@@ -21,7 +21,6 @@ entity ctrl is
     data_ma_i         : in  std_logic_vector(data_width_c-1 downto 0);
 
     inst_pc_o         : out std_logic_vector(data_width_c-1 downto 0);
-    instr_fe_o        : out std_logic_vector(data_width_c-1 downto 0); -- instruction fetched
     instr_fe_de_o     : out std_logic_vector(data_width_c-1 downto 0);
     de_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- de stage control
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- ex stage control
@@ -39,7 +38,6 @@ end ctrl;
 architecture ctrl_structure of ctrl is
 
   signal ins_addr       : std_logic_vector(data_width_c-1 downto 0); -- pc
-  signal inst_addr_fe   : std_logic_vector(data_width_c-1 downto 0); -- pc
 
   
   -- pipeline register --
@@ -49,14 +47,10 @@ architecture ctrl_structure of ctrl is
   signal wb_ctrl       : std_logic_vector(ctrl_width_c-1 downto 0);
 
   
-  signal instr_fe      : std_logic_vector(data_width_c-1 downto 0);
   signal cond_de_ex    : std_logic;
   signal rc_ex_ma      : std_logic_vector(data_width_c-1 downto 0);
   signal rc_de_ex      : std_logic_vector(data_width_c-1 downto 0);
   signal rd_ex_ma      : std_logic_vector(data_width_c-1 downto 0);
-  
-
-  
   
   -- system enable/start-up control --
   signal sys_enable    : std_logic;
@@ -88,15 +82,15 @@ begin
 
   prediction_decoder: pred_dec
     port map (
-       instr_i         => instr_fe,
-       instr_adr_i     => inst_addr_fe,
+       instr_i         => instr_mem_i,
+       instr_adr_i     => ins_addr,
        is_branch_o     => is_branch,
        pred_adr_o      => pred_adr
        );
 
   branch_predictor: predictor
     port map (
-      PC_predict      => inst_addr_fe(1 DOWNTO 0),
+      PC_predict      => ins_addr(1 DOWNTO 0),
       PC_update       => pred_inst_addr_de_ex(1 DOWNTO 0),
       update          => pred_updt,
       branch_outcome  => branch_outcome,
@@ -189,74 +183,63 @@ begin
     if rising_edge(clock_i) then
       if (reset_i = '1') then
         ins_addr      <= (others => '0');
-        instr_fe      <= (others => '0');
-        inst_pc_o     <= (others => '0');
-        instr_fe_o    <= (others => '0');
-        inst_addr_fe  <= (others => '0');
+        instr_fe_de_o <= (others => '0');
       else
         if(stall = '0') then    
-          instr_fe            <= instr_mem_i;
-          pred_inst_addr_fe_de<= inst_addr_fe;
-          pred_othr_addr_fe_de<= pred_othr_addr;
-          inst_addr_fe        <= ins_addr;
-          pred_taken_fe_de    <= branch_taken;
+          instr_fe_de_o        <= instr_mem_i;
+          pred_inst_addr_fe_de <= ins_addr;
+          pred_othr_addr_fe_de <= pred_othr_addr;
+          pred_taken_fe_de     <= branch_taken;
           if(br_shadow = '0') then
             if(branch_taken = '1' and is_branch = '1') then
-              ins_addr   <= pred_adr;
-              inst_pc_o  <= pred_adr;
+              ins_addr    <= pred_adr;
             else
               ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
-              inst_pc_o  <= std_logic_vector(unsigned(ins_addr)+1);
             end if;
           else
             -- we had a branch / mispredictionv
-            instr_fe   <= (others => '0');
             ins_addr   <= pred_othr_addr_de_ex;
-            inst_pc_o  <= pred_othr_addr_de_ex;
           end if;
-          instr_fe_o <= instr_mem_i;
+
         end if;
       end if;
     end if;
   end process fe_stage;
 
+  inst_pc_o   <= ins_addr; 
+         
   
  -- Stage 2: decode/ operand fetch ------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
   de_stage: process (clock_i)
   begin
     if rising_edge(clock_i) then
-      if (reset_i = '1') then
-        instr_fe_de_o <= (others => '0');
-      else
-        if (stall = '0') then
-          if(br_shadow = '0') then
-            instr_fe_de_o <= instr_fe;
-            pc_fe_de_o    <= ins_addr;
-          else
-            instr_fe_de_o <= (others => '0');
-          end if;
-          if(de_ctrl(ctrl_nop_c) = '0' ) then
-            ra_de_ex_o            <= ra_de_i;
-            rb_de_ex_o            <= rb_de_i;
-            rc_de_ex              <= rc_de_i;
-            cond_de_ex            <= cond_de_i;
-            pred_inst_addr_de_ex  <= pred_inst_addr_fe_de;
-            pred_othr_addr_de_ex  <= pred_othr_addr_fe_de;
-            pred_taken_de_ex      <= pred_taken_fe_de;
-          else
-            ra_de_ex_o  <= (others => '0');   -- nop explicit datapath info
-            rb_de_ex_o  <= (others => '0');   -- nop explicit datapath info
-            rc_de_ex    <= (others => '0');   -- nop explicit datapath info        
-            cond_de_ex  <= '0';               -- nop explicit datapath info  
-          end if;
+      if (stall = '0' and reset_i = '0') then
+        if(reset_i = '1' or br_shadow = '1') then
+          de_ctrl   <= (0 => '1', others => '0');
+        else
+          de_ctrl   <= de_ctrl_i ;
+        end if;
+        if(de_ctrl(ctrl_nop_c) = '0' ) then
+          ra_de_ex_o            <= ra_de_i;
+          rb_de_ex_o            <= rb_de_i;
+          rc_de_ex              <= rc_de_i;
+          cond_de_ex            <= cond_de_i;
+          pred_inst_addr_de_ex  <= pred_inst_addr_fe_de;
+          pred_othr_addr_de_ex  <= pred_othr_addr_fe_de;
+          pred_taken_de_ex      <= pred_taken_fe_de;
+        else
+          ra_de_ex_o  <= (others => '0');   -- nop explicit datapath info
+          rb_de_ex_o  <= (others => '0');   -- nop explicit datapath info
+          rc_de_ex    <= (others => '0');   -- nop explicit datapath info        
+          cond_de_ex  <= '0';               -- nop explicit datapath info  
         end if;
       end if;
     end if;
   end process de_stage;
+  
   de_ctrl_o <= de_ctrl;
-  de_ctrl     <= de_ctrl_i;
-	 
+   
  -- Stage 3: Execution ----------------------------------------------------------------------------------
  -- --------------------------------------------------------------------------------------------------------
   ex_stage: process (clock_i)

@@ -25,7 +25,6 @@ architecture proc_behaviour of proc is
   
   -- signals for Fetch
 	signal ins_addr           : std_logic_vector(data_width_c - 1 downto 0);	
-  signal instr_fe           : std_logic_vector(data_width_c - 1 downto 0); -- to fetch
   signal ins_data_mem       : std_logic_vector(data_width_c - 1 downto 0); -- from memory	
 	signal ins_enab           : std_logic := '1';	
 
@@ -82,7 +81,6 @@ begin
       data_ma_i       => rd_ma,
       
       inst_pc_o       => ins_addr,
-      instr_fe_o      => instr_fe,
       instr_fe_de_o   => instr_fe_de,
       de_ctrl_o       => de_ctrl,
       ex_ctrl_o       => ex_ctrl,

@@ -178,7 +178,6 @@ component ctrl
     data_ma_i         : in  std_logic_vector(data_width_c-1 downto 0);
   
     inst_pc_o         : out std_logic_vector(data_width_c-1 downto 0);
-    instr_fe_o        : out std_logic_vector(data_width_c-1 downto 0); -- instruction fetched
     instr_fe_de_o     : out std_logic_vector(data_width_c-1 downto 0);
     de_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); -- de stage control
     ex_ctrl_o         : out std_logic_vector(ctrl_width_c-1 downto 0); 
