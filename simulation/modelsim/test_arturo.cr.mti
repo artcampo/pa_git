@@ -133,17 +133,6 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Compiling entity pred_dec
 -- Compiling architecture PRED_DEC_STRUCTURE of PRED_DEC
 
-} {} {}} C:/Users/bscuser/Desktop/pa_git/tb_ALU.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/tb_ALU.vhd
-Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package std_logic_textio
--- Loading package proc_package
--- Loading package tb_package
--- Compiling entity tb_ALU
--- Compiling architecture testbench of tb_ALU
-
 } {} {}} C:/Users/bscuser/Desktop/pa_git/mem.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/mem.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package STANDARD
@@ -155,6 +144,17 @@ Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
 -- Loading package tb_load_signals
 -- Compiling entity mem
 -- Compiling architecture mem_structure of mem
+
+} {} {}} C:/Users/bscuser/Desktop/pa_git/tb_ALU.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/tb_ALU.vhd
+Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_textio
+-- Loading package proc_package
+-- Loading package tb_package
+-- Compiling entity tb_ALU
+-- Compiling architecture testbench of tb_ALU
 
 } {} {}} C:/Users/bscuser/Desktop/pa_git/satOut.vhd {1 {vcom -work work -2002 -explicit C:/Users/bscuser/Desktop/pa_git/satOut.vhd
 Model Technology ModelSim ALTERA vcom 10.1e Compiler 2013.06 Jun 12 2013
