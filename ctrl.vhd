@@ -193,13 +193,16 @@ begin
             instr_fe_de_o        <= instr_mem_i;
             if(branch_taken = '1' and is_branch = '1') then
               ins_addr    <= pred_adr;
+              pc_fe_de_o  <= pred_adr;
             else
               ins_addr   <= std_logic_vector(unsigned(ins_addr)+1);
+              pc_fe_de_o  <= std_logic_vector(unsigned(ins_addr)+1);
             end if;
           else
             -- we had a branch / mispredictionv
             instr_fe_de_o <= (others => '0');
             ins_addr      <= pred_othr_addr_de_ex;
+            pc_fe_de_o    <= pred_othr_addr_de_ex;
           end if;
 
         end if;
@@ -233,6 +236,7 @@ begin
       end if;
     end if;
   end process de_stage;
+  
   
   de_ctrl_o <= de_ctrl;
   

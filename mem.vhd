@@ -38,7 +38,7 @@ architecture mem_structure of mem is
 		000001 => x"6201", -- MOV R1, 1			r0=10, r1=1
 		000002 => x"6402", -- MOV R2, 2			r0=10, r1=1, r2=2
 		000003 => x"6603", -- MOV R3, 3			r0=10, r1=1, r2=2, r3=3
-		000004 => x"D204", -- jump if R1 != R0,  pc+4;  jumps
+		000004 => x"D3FC", -- jump if R1 != R0,  pc-4;  jumps
 		000005 => x"65FF", -- MOV R2, 511		
 		000006 => x"67FF", -- MOV R3, 511
 		000007 => x"8121", -- ADD R1 +1; 		r0=10, r1=2, r2=2, r3=3

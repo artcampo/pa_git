@@ -109,13 +109,17 @@ decoder: process(instr_i)
             when op_branch_jmp_c => -- JMP
               imm_o   		<= "0000" & instr_i(isa_jmp_imm_11_c downto isa_jmp_imm_0_c); 
             when op_branch_jne_c => -- JNE
-              imm_o   		                             <= "0000000" & instr_i(isa_br_imm_8_c downto isa_br_imm_0_c);
+              --imm_o   		                             <= "0000000" & instr_i(isa_br_imm_8_c downto isa_br_imm_0_c);
+              imm_o(15 downto isa_br_imm_8_c +1 ) <=  (others => instr_i(isa_br_imm_8_c));
+              imm_o(isa_br_imm_8_c downto isa_br_imm_0_c)<=  instr_i(isa_br_imm_8_c downto isa_br_imm_0_c);
               ctrl_o(ctrl_ra_c) 							         <= '1';
               ctrl_o(ctrl_rb_c) 							         <= '1'; 
               ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <= instr_i(isa_br_ra_2_c downto isa_br_ra_0_c);
               ctrl_o(ctrl_rb_2_c   downto ctrl_rb_0_c) <= (OTHERS=>'0');
             when op_branch_je_c => -- JE
-              imm_o   		                             <= "0000000" & instr_i(isa_br_imm_8_c downto isa_br_imm_0_c);
+              --imm_o   		                             <= "0000000" & instr_i(isa_br_imm_8_c downto isa_br_imm_0_c);
+              imm_o(15 downto isa_br_imm_8_c +1 ) <=  (others => instr_i(isa_br_imm_8_c));
+              imm_o(isa_br_imm_8_c downto isa_br_imm_0_c)<= instr_i(isa_br_imm_8_c downto isa_br_imm_0_c);
               ctrl_o(ctrl_ra_c) 							         <= '1';
               ctrl_o(ctrl_rb_c) 							         <= '1'; 
               ctrl_o(ctrl_ra_2_c   downto ctrl_ra_0_c) <= instr_i(isa_br_ra_2_c downto isa_br_ra_0_c);
