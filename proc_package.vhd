@@ -311,7 +311,7 @@ component pred_dec
   port	(
         instr_i         : in  std_logic_vector(data_width_c-1 downto 0); -- instruction input
         instr_adr_i     : in  std_logic_vector(data_width_c-1 downto 0); -- corresponding address
-		  is_branch_o     : out std_logic; 
+		    is_branch_o     : out std_logic; 
         pred_adr_o      : out std_logic_vector(data_width_c-1 downto 0)
       );
 end component;
@@ -319,8 +319,8 @@ end component;
 component predictor is
 generic(k: natural:=2; bitsPc: natural:= 2; hrt_size: natural := 4; pt_size: natural := 4);
 port(	
-	PC_predict:					in  std_logic_vector(bitsPc - 1 downto 0);
-	PC_update:					in  std_logic_vector(bitsPc - 1 downto 0);
+	PC_predict:					in  std_logic_vector(data_width_c - 1 downto 0);
+	PC_update:					in  std_logic_vector(data_width_c - 1 downto 0);
 	update:							in  std_logic;
 	branch_outcome:			in  std_logic;
 	clock:							in  std_logic;
